@@ -5,12 +5,12 @@
 <title>Gridsplit</title>
 
 <script type='text/javascript' src='./bower_components/underscore/underscore-min.js'></script>
-<link rel="stylesheet" type="text/css" href="./css/normalize.css">      
-<link rel="stylesheet" type="text/css" href="./css/jquery.gridsplit.css">      
+<link rel="stylesheet" type="text/css" href="./src/css/normalize.css">      
+<link rel="stylesheet" type="text/css" href="./src/css/jquery.gridsplit.css">      
 <script type='text/javascript' src="./bower_components/jquery/dist/jquery.js"></script>
 <script type='text/javascript' src="./bower_components/jquery-ui/jquery-ui.js"></script>
 <script type='text/javascript' src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script type='text/javascript' src="./jquery.gridsplit.js"></script>
+<script type='text/javascript' src="./dist/jquery.gridsplit.min.js"></script>
 
 </head>
 <body>
@@ -23,43 +23,50 @@
 
     $(function() {
         // Make a complex grid using the splitting function
-        window.acGrid = $('#grid').gridsplit();
-        acGrid.splitAt(0);
-        // Split the first cell - adding a grid to it.
-        window.split1 = acGrid.splitAt(0, 0, true);
-        split1.splitAt(0, 0);
-        split1.splitAt(0, 0);
-        split1.splitAt(1, 0);
-        split1.splitAt(1, 0);
-        split1.splitAt(1);
-        split1.splitAt(2, 0);
-        window.split2 = split1.splitAt(0, 0, true);
-        split2.splitAt(0, 0);
-        acGrid.splitAt(0, 0);
-        acGrid.splitAt(0);
-        acGrid.addColumn(0);
-        acGrid.addCell(3, 0);
-        acGrid.splitAt(3);
-        acGrid.splitAt(3, 0);
-        acGrid.splitAt(3, 0);
-        acGrid.splitAt(4, 0);
-        acGrid.splitAt(0, 0);
-        acGrid.splitAt(1);
-        acGrid.splitAt(1, 0);
-        window.another = acGrid.splitAt(1, 1, true);
-        another.splitAt(0, 0)
-        window.newsplit = acGrid.splitAt(5, 1, true);
-        newsplit.splitAt(1, 0);
-       
+
+        // window.acGrid = $('#grid').gridsplit();
+        // acGrid.splitAt(0);
+        // // Split the first cell - adding a grid to it.
+        // window.split1 = acGrid.splitAt(0, 0, true);
+        // split1.splitAt(0, 0);
+        // split1.splitAt(0, 0);
+        // split1.splitAt(1, 0);
+        // split1.splitAt(1, 0);
+        // split1.splitAt(1);
+        // split1.splitAt(2, 0);
+        // window.split2 = split1.splitAt(0, 0, true);
+        // split2.splitAt(0, 0);
+        // acGrid.splitAt(0, 0);
+        // acGrid.splitAt(0);
+        // acGrid.addColumn(0);
+        // acGrid.addCell(3, 0);
+        // acGrid.splitAt(3);
+        // acGrid.splitAt(3, 0);
+        // acGrid.splitAt(3, 0);
+        // acGrid.splitAt(4, 0);
+        // acGrid.splitAt(0, 0);
+        // acGrid.splitAt(1);
+        // acGrid.splitAt(1, 0);
+        // window.another = acGrid.splitAt(1, 1, true);
+        // another.splitAt(0, 0)
+        // window.newsplit = acGrid.splitAt(5, 1, true);
+        // newsplit.splitAt(1, 0);
+
+        // equivalent to (but quicker);
+        window.acGrid = $('#grid').gridsplit({
+            data: {"0":{"0":{"0":{"0":{"0":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"51%"}},"1":{"c":{"w":"49%"}}},"1":{"h":"33.333333333333336%"},"2":{"h":"33.333333333333336%"},"c":{"w":"51%"}},"1":{"0":{"h":"33.333333333333336%"},"1":{"h":"33.333333333333336%"},"2":{"h":"33.333333333333336%"},"c":{"w":"24%"}},"2":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"25%"}},"h":"33.333333333333336%"},"1":{"h":"33.333333333333336%"},"2":{"h":"33.333333333333336%"},"c":{"w":"12%"}},"1":{"0":{"h":"50%"},"1":{"0":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"50%"}},"1":{"c":{"w":"50%"}}},"c":{"w":"6%"}},"2":{"c":{"w":"6%"}},"3":{"c":{"w":"26%"}},"4":{"0":{"h":"25%"},"1":{"h":"25%"},"2":{"h":"25%"},"3":{"h":"25%"},"c":{"w":"24%"}},"5":{"0":{"h":"50%"},"1":{"0":{"c":{"w":"51%"}},"1":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"49%"}}},"c":{"w":"26%"}}}
+        });
+
         // make the same grid using the output from acGrid.returnMeta();
-        setTimeout(function(){
+        // setTimeout(function(){
             window.acGrid2 = $('#grid2').gridsplit({
                 data: JSON.parse(acGrid.returnMeta()) 
             });
             window.acGrid3 = $('#grid3').gridsplit({
-                data: JSON.parse(acGrid2.returnMeta()) 
+                data: JSON.parse(acGrid2.returnMeta()),
+                resizable: false
             });
-        });
+        //  });
         /*
         // Two different 4 cell grids
         // HTML.
