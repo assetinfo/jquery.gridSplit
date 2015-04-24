@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Gridsplit</title>
+
+<script type='text/javascript' src='./bower_components/underscore/underscore-min.js'></script>
+<link rel="stylesheet" type="text/css" href="./css/normalize.css">      
+<link rel="stylesheet" type="text/css" href="./css/jquery.gridsplit.css">      
+<script type='text/javascript' src="./bower_components/jquery/dist/jquery.js"></script>
+<script type='text/javascript' src="./bower_components/jquery-ui/jquery-ui.js"></script>
+<script type='text/javascript' src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type='text/javascript' src="./jquery.gridsplit.js"></script>
+
+</head>
+<body>
+
+<div id="grid" class="grid"></div>
+<div id="grid2" class="grid"></div>
+<div id="grid3" class="grid"></div>
+
+<script type='text/javascript'>
+
+    $(function() {
+        // Make a complex grid using the splitting function
+        window.acGrid = $('#grid').gridsplit();
+        acGrid.splitAt(0);
+        // Split the first cell - adding a grid to it.
+        window.split1 = acGrid.splitAt(0, 0, true);
+        split1.splitAt(0, 0);
+        split1.splitAt(0, 0);
+        split1.splitAt(1, 0);
+        split1.splitAt(1, 0);
+        split1.splitAt(1);
+        split1.splitAt(2, 0);
+        window.split2 = split1.splitAt(0, 0, true);
+        split2.splitAt(0, 0);
+        acGrid.splitAt(0, 0);
+        acGrid.splitAt(0);
+        acGrid.addColumn(0);
+        acGrid.addCell(3, 0);
+        acGrid.splitAt(3);
+        acGrid.splitAt(3, 0);
+        acGrid.splitAt(3, 0);
+        acGrid.splitAt(4, 0);
+        acGrid.splitAt(0, 0);
+        acGrid.splitAt(1);
+        acGrid.splitAt(1, 0);
+        window.another = acGrid.splitAt(1, 1, true);
+        another.splitAt(0, 0)
+        window.newsplit = acGrid.splitAt(5, 1, true);
+        newsplit.splitAt(1, 0);
+       
+        // make the same grid using the output from acGrid.returnMeta();
+        setTimeout(function(){
+            window.acGrid2 = $('#grid2').gridsplit({
+                data: JSON.parse(acGrid.returnMeta()) 
+            });
+            window.acGrid3 = $('#grid3').gridsplit({
+                data: JSON.parse(acGrid2.returnMeta()) 
+            });
+        });
+        /*
+        // Two different 4 cell grids
+        // HTML.
+        // <div id="grid" class="grid"></div>
+        // <div id="grid2" class="grid"></div>
+        // Make the first grid. [ -|- ]
+        window.acGrid = $('#grid').gridsplit();
+        acGrid.splitAt(0, 0);
+        var test = acGrid.splitAt(0, 0, true);
+        var test1 = acGrid.splitAt(0, 1, true);
+        // ----
+        // test
+        // test1
+        //  -- is equivalent to --
+        // acGrid.returnCells()[0][0].data("grid");
+        // acGrid.returnCells()[0][1].data("grid");
+        // ----
+        // Make a second grid. [ - | - ]
+        window.acGrid2 = $('#grid2').gridsplit();
+        acGrid2.splitAt(0);
+        acGrid2.splitAt(0, 0);
+        acGrid2.splitAt(1, 0);
+        */
+    });
+</script>
+</body>
+</html>

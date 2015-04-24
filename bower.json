@@ -1,0 +1,30 @@
+{
+  "name": "GridSplit",
+  "version": "0.0.0",
+   "authors": [
+    "Graham Dixon <gdixon@assetinfo.co.uk>"
+  ],
+  "description": "A jQuery grid system designed so that each cell can be 'split' either horizontally or vertically.",
+  "main": "jquery.gridsplit.js",
+  "keywords": [
+    "jQuery",
+    "Grid",
+    "Split",
+    "GridSplit"
+  ],
+  "license": "MIT",
+  "homepage": "gridsplit.js.org",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "jquery": "~2.1.3",
+    "jquery-ui": "~1.11.4",
+    "underscore": "~1.8.3"
+  }
+}
