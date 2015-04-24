@@ -663,12 +663,16 @@
             return per + "%";
         }
         grid.perOfHeightEls = function(els) {
-            var no = els.length;
-            var per = (100 / no);
+            var no = els.length,
+                per = (100 / no),
+                searchEl;
             //start from first in series then move to parent and find all others in one DOM hit.
-            $(els[0]).parent().find(
-                ( this.settings.splitCellInColumn == true ) ? "." + this.settings.useInsideCell : "." + this.settings.gridCell + ":not(." + this.settings.insideCell + ")"
-            ).css("height", per + "%");
+            if( this.settings.splitCellInColumn == true ){
+                searchEl = "." + this.settings.useInsideCell;
+            }else{
+                searchEl = "." + this.settings.gridCell + ":not(." + this.settings.insideCell + ")";
+            } 
+            $(els[0]).parent().find(searchEl).css("height", per + "%");
             return per;
         }
         grid.equalPers = function(arr, target, vh) {
