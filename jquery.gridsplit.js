@@ -667,7 +667,7 @@
             var per = (100 / no);
             //start from first in series then move to parent and find all others in one DOM hit.
             $(els[0]).parent().find(
-                ( this.settings.splitCellInColumn == true ) ? '.' + this.settings.useInsideCell : '.' + this.settings.gridCell + ':not(.' + this.settings.insideCell + ')'
+                ( this.settings.splitCellInColumn == true ) ? "." + this.settings.useInsideCell : "." + this.settings.gridCell + ":not(." + this.settings.insideCell + ")"
             ).css("height", per + "%");
             return per;
         }
