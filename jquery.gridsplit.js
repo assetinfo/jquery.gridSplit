@@ -670,7 +670,7 @@
             if( this.settings.splitCellInColumn == true ){
                 searchEl = "." + this.settings.useInsideCell;
             }else{
-                searchEl = "." + this.settings.gridCell + ":not(." + this.settings.insideCell + ")";
+                searchEl = "." + this.settings.gridCell;
             } 
             $(els[0]).parent().find(searchEl).css("height", per + "%");
             return per;
