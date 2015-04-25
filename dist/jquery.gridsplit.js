@@ -1,11 +1,12 @@
 // Author: Graham Dixon
 // Contact: gdixon@assetinfo.co.uk
+// Copyright (c) 2015 Graham Dixon (assetinfo(MML))
 // Script: jquery.gridsplit.js - v.0.0.1
 // Licensed: MIT
 ;(function(factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module depending on jQuery.
-        define(['jquery', 'underscore'], factory);
+        define(['../bower_components/jquery/src/jquery', '../bower_components/underscore/underscore'], factory);
     } else {
         // No AMD. Register plugin with global jQuery object.
         factory(jQuery, _);
@@ -40,19 +41,20 @@
     var gridsplit = function(el, options) {
         var grid = this;
         var defaults = {
-            gridCol: 'column',
-            gridCell: 'gridCell',
-            innerGrid: 'inner-grid',
-            insideCell: 'insideCell',
-            hasChildren: 'hasChildren',
-            resizable: true,
-            dragging: 'dragging',
-            nestedIn: '',
             horizRail: $('<div/>').addClass("horizrail"),
             vertRail: $('<div/>').addClass("vertrail"),
+            gridColClass: 'column',
+            gridCellClass: 'gridCell',
+            innerGridClass: 'inner-grid',
+            insideCellClass: 'insideCell',
+            hasChildrenClass: 'hasChildren',
+            resizableClass: 'isResizable',
+            draggingClass: 'dragging',
+            data: '',
+            nestedIn: '',
+            resizable: true,
             horizMin: 5,
             vertMin: 2,
-            data: '',
             hideBorder: {
                 "border": "0px solid #000"
             }
@@ -71,10 +73,10 @@
             this.gridsStructure = [];
             this.metaAt = {};
             // remove inner-grid to avoid multiple instances when setting data
-            $("#" + this.id + " ." + this.settings.innerGrid).remove();
-            this.elInner = $('<div />').addClass(this.settings.innerGrid).appendTo(this.$el);
+            $("#" + this.id + " ." + this.settings.innerGridClass).remove();
+            this.elInner = $('<div />').addClass(this.settings.innerGridClass).appendTo(this.$el);
             if (this.settings.splitCellInColumn == true) {
-                this.settings.useInsideCell = this.settings.insideCell + '' + this.settings.nestedIn;
+                this.settings.useInsideCell = this.settings.insideCellClass + '' + this.settings.nestedIn;
             }
             if (this.settings.data == '') {
                 // to force the addCol/addCell function to go straight to setting these values.
@@ -116,7 +118,7 @@
                                 oThis.addCell(x, y);
                                 // console.log("cellData:" + cell);
                                 if (typeof cell[0] === "object") {
-                                    oThis.gridsCells[x][y].addClass(oThis.settings.hasChildren);
+                                    oThis.gridsCells[x][y].addClass(oThis.settings.hasChildrenClass);
                                     var el = oThis.splitCellInColumn(oThis.gridsCells[x][y], x, y, cell);
                                 }
                             }
@@ -185,7 +187,7 @@
             // otherwise delete reference to the attempt and split the last in the object
             if (this.gridsStructure[x][y] == "need to set") {
                 // inserting the actual cell
-                el = $('<div class="' + this.settings.gridCell + ' ' + (this.settings.splitCellInColumn == true ? this.settings.insideCell + ' ' + this.settings.useInsideCell : '') + '" ></div>')
+                el = $('<div class="' + this.settings.gridCellClass + ' ' + (this.settings.splitCellInColumn == true ? this.settings.insideCellClass + ' ' + this.settings.useInsideCell : '') + '" ></div>')
                 if (typeof after !== "undefined") {
                     el.insertAfter(after);
                 } else {
@@ -218,7 +220,7 @@
             // otherwise delete reference to the attempt and split the last in the object
             if (this.gridsStructure[x] == "need to set") {
                 // inserting the actual cell
-                var el = $('<div class="' + this.settings.gridCol + '" ></div>')
+                var el = $('<div class="' + this.settings.gridColClass + '" ></div>')
                 if (typeof after !== "undefined") {
                     el.insertAfter(after);
                 } else {
@@ -323,9 +325,12 @@
         grid.addRail = function(to, x, y) {
             // est type
             var oThis = this;
+            if(this.settings.resizable == true){
+                to.addClass(this.settings.resizableClass);
+            }
             if ($(to).data("tpe") == "c") {
                 if (x !== 0) {
-                    var w = this.settings.gridCol;
+                    var w = this.settings.gridColClass;
                     var rail = this.settings.vertRail;
                     var rRail = rail.clone();
                     rRail.appendTo(to);
@@ -334,14 +339,14 @@
                         containment: to.parent(),
                         start: function(event, ui) {
                             // x value might change after init so let it calculate it from the number of previous columns
-                            var x = $(this).closest('.' + oThis.settings.gridCol).prevAll('.' + oThis.settings.gridCol).length;
+                            var x = $(this).closest('.' + oThis.settings.gridColClass).prevAll('.' + oThis.settings.gridColClass).length;
                             if (typeof oThis.gridsColumns[x] !== "undefined" && x !== 0) {
                                 rRail.data("x", x);
                                 var railReferstoRightOf = oThis.gridsColumns[x - 1];
                                 rRail.origRight = oThis.gridsColumns[x].offset().left - oThis.$el.offset().left;
                                 rRail.origLeft = oThis.gridsColumns[x - 1].offset().left - oThis.$el.offset().left;
                                 rRail.origWidth = rRail.origRight - rRail.origLeft;
-                                $(this).addClass(oThis.settings.dragging);
+                                $(this).addClass(oThis.settings.draggingClass);
                             } else {
                                 rRail.remove();
                             }
@@ -372,7 +377,7 @@
                 }
             } else {
                 if (y !== 0) {
-                    var w = this.settings.gridCell;
+                    var w = this.settings.gridCellClass;
                     var rail = this.settings.horizRail;
                     var rRail = rail.clone();
                     rRail.appendTo(to);
@@ -381,17 +386,13 @@
                         containment: to.parent(),
                         axis: 'y',
                         start: function(event, ui) {
-                            var y = $(this).closest('.' + oThis.settings.gridCell).prevAll('.' + oThis.settings.gridCell).length;
-                            var x = $(this).closest('.' + oThis.settings.gridCol).prevAll('.' + oThis.settings.gridCol).length;
-                            console.log($(this).prevAll());
+                            var y = $(this).closest('.' + oThis.settings.gridCellClass).prevAll('.' + oThis.settings.gridCellClass).length;
+                            var x = $(this).closest('.' + oThis.settings.gridColClass).prevAll('.' + oThis.settings.gridColClass).length;
                             // cant move a rail at 0.0                      
-                            if (y == 0) {
-                                y = y + 1;
-                            }
                             if (typeof oThis.gridsCells[x][y] !== "undefined" && y !== 0) {
                                 rRail.data("x", x);
                                 rRail.data("y", y);
-                                $(this).addClass(oThis.settings.dragging);
+                                $(this).addClass(oThis.settings.draggingClass);
                             } else {
                                 rRail.remove();
                             }
@@ -473,15 +474,17 @@
             // add a control set.   
             // est type
             if ($(to).data("tpe") == "c") {
-                var w = this.settings.gridCol;
+                var w = this.settings.gridColClass;
                 var tpe = "c";
                 var ctrls = [];
                 // add the rail
                 if (x !== 0) {
-                    this.addRail(to, x, y);
+                    if( this.settings.resizable == true){
+                        this.addRail(to, x, y);
+                    }
                 }
             } else {
-                var w = this.settings.gridCell;
+                var w = this.settings.gridCellClass;
                 var tpe = "r";
                 var ctrls = [];
                 if (y !== 0) {
@@ -507,7 +510,7 @@
             if (typeof y !== "undefined") {
                 // split cell across chunk.
                 if (typeof cell !== "undefined") {
-                    this.gridsCells[x][y].addClass(this.settings.hasChildren);
+                    this.gridsCells[x][y].addClass(this.settings.hasChildrenClass);
                     return this.splitCellInColumn(this.gridsCells[x][y], x, y);
                 }
                 if ((y + 1) == this.gridsStructure[x].length) {
@@ -582,7 +585,7 @@
                 var first = this.gridsColumns[x];
                 var second = this.gridsColumns[(x + 1)];
                 var width = this.gridsColumns[x].width();
-                var setWid = this.halfOf(first, second, width, "w", this);
+                var setWid = this.halfOf(first, second, width, "w");
                 this.resizeColumn(x, setWid);
                 this.resizeColumn((x + 1), setWid);
                 // column needs a cell, tell it that it needs to set.
@@ -597,7 +600,8 @@
                 el.attr("id", (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id) + '-' + x + '' + y).css(this.settings.hideBorder).off("click").gridsplit({
                     "splitCellInColumn": true,
                     "nestedIn": (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id),
-                    "data": (typeof data !== "undefined") ? data : ""
+                    "data": (typeof data !== "undefined") ? data : "",
+                    "resizable": this.settings.resizable
                 });
                 if (typeof(this.gridsStructure[x][y] == "undefined")) {
                     this.gridsStructure[x][y] = {};
@@ -651,7 +655,7 @@
         grid.perOfWidthEls = function(grid) {
             // grid is a grid instance (so we can target others from here.)
             // start from first in series then move to parent and find all others in one DOM hit.
-            var els = grid.$el.find('.' + grid.settings.innerGrid).first().children("." + grid.settings.gridCol);
+            var els = grid.$el.find('.' + grid.settings.innerGridClass).first().children("." + grid.settings.gridColClass);
             var no = els.length;
             var per = (100 / no);
             // set width and float the column left;
@@ -675,7 +679,7 @@
             }else{
             	var andNot = ":not(.";
             	var closeNot = ")";
-                searchEl = "." + this.settings.gridCell + andNot + this.settings.insideCell + closeNot;
+                searchEl = "." + this.settings.gridCellClass + andNot + this.settings.insideCellClass + closeNot;
             } 
             $(els[0]).parent().find(searchEl).css("height", per + "%");
             return per;
@@ -769,7 +773,7 @@
             // if the percentages go haywire, make sure the grid sits centered in .grid
             setTimeout(function() {
                 var realTwidth = 0;
-                oThis.elInner.children('.' + oThis.settings.gridCol).each(function() {
+                oThis.elInner.children('.' + oThis.settings.gridColClass).each(function() {
                     realTwidth += $(this).outerWidth(true);
                 });
                 if (realTwidth < oThis.elInner.width()) {
