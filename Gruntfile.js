@@ -7,9 +7,10 @@ module.exports = function(grunt) {
       options: {
         banner: '// Author: Graham Dixon \n'+
                 '// Contact: gdixon@assetinfo.co.uk \n'+
-                '// Copyright (c) 2015 Graham Dixon (assetinfo(MML))\n'+
-                '// Script: jquery.<%= pkg.name %>.min.js - v.0.0.1 \n'+
-                '// Licensed: MIT \n'
+                '// Copyright: (c) 2015 Graham Dixon (assetinfo(MML))\n'+
+                '// Script: jquery.gridsplit.min.js - v.0.0.1 \n'+
+                '// Licensed: MIT \n'+
+                '// Depends on: jQuery && jQuery-ui, underscore, bootstrap 3.*'
       },
       min: {
         options: {
@@ -17,7 +18,7 @@ module.exports = function(grunt) {
           mangle: true
         },
         files: {
-          'dist/jquery.<%= pkg.name %>.min.js': ['src/jquery.<%= pkg.name %>.js']
+          'dist/jquery.<%= pkg.name %>.min.js': ['src/js/jquery.<%= pkg.name %>.js']
         }
       }
     },
