@@ -22,6 +22,15 @@ module.exports = function(grunt) {
         files: {
           'dist/jquery.gridsplit.min.js': ['src/js/jquery.gridsplit.js']
         }
+      },
+      dist: {
+        options: {
+          beautify: true,
+          mangle: false
+        },
+        files: {
+          'dist/jquery.gridsplit.js': ['src/js/jquery.gridsplit.js']
+        }
       }
     },
     requirejs: {
