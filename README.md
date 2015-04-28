@@ -8,7 +8,7 @@ Firstly, we need to include the required packages in our page:
 
 ```html
 <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css">
-<link rel="stylesheet" href="./dist/jquery.gridsplit.css">
+<link rel="stylesheet" href="./src/css/jquery.gridsplit.css">
 <script src="./bower_components/jquery/dist/jquery.js"></script>
 <script src="./bower_components/jquery-ui/jquery-ui.js"></script>
 <script src='./bower_components/underscore/underscore-min.js'></script>
