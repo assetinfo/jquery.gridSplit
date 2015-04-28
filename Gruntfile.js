@@ -51,7 +51,7 @@ module.exports = function(grunt) {
                 src: ['src/js/*.js', 'README.md'],
                 options: {
                     destination: 'docs',
-                    configure: './node_modules/jsdoc-oblivion/config/conf.json',
+                    configure: './docsConf.json',
                     template: './node_modules/jsdoc-oblivion/template'
                 }
             }
