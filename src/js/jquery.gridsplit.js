@@ -894,7 +894,7 @@
          * @param {string} full the size of the first element 
          * @param {string} type the target element type [cell|column]
          * @param {object} obj [this|column] passed in when this.settings.splitMethod* = "half"
-         * @return {object} ret the new width|height as percentage 
+         * @return {string} ret the new width|height as percentage 
          * @memberOf gridSplit
          */ 
         grid.halfOf = function(first, second, full, type, obj) {
@@ -932,7 +932,7 @@
          * 
          * @function gridSplit.perOfWidth
          * @param {int} pixels elements width
-         * @return {object} per
+         * @return {string} per
          * @memberOf gridSplit
          */ 
         grid.perOfWidth = function(pixels) {
@@ -944,7 +944,7 @@
          * 
          * @function gridSplit.perOfWidthEls
          * @param {object} grid pass in the grid instance
-         * @return {object} per
+         * @return {string} per
          * @memberOf gridSplit
          */ 
         grid.perOfWidthEls = function(grid) {
@@ -965,7 +965,7 @@
          * 
          * @function gridSplit.perOfHeight
          * @param {int} pixels elements height
-         * @return {object} per
+         * @return {string} per
          * @memberOf gridSplit
          */
         grid.perOfHeight = function(pixels, elHeight) {
@@ -977,7 +977,7 @@
          * 
          * @function gridSplit.perOfHeightEls
          * @param {object} grid pass in the grids column
-         * @return {object} per
+         * @return {string} per
          * @memberOf gridSplit
          */ 
         grid.perOfHeightEls = function(els) {
