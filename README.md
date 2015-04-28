@@ -4,7 +4,7 @@ A jQuery grid system designed so that each cell can be "split" either horizontal
 
 --------
 
-Firstly, we to include the required packages in our page:
+Firstly, we need to include the required packages in our page:
 
 ```html
 <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css">
