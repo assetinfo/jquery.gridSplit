@@ -5,12 +5,14 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
       options: {
-        banner: '// Author: Graham Dixon \n'+
-                '// Contact: gdixon@assetinfo.co.uk \n'+
-                '// Copyright: (c) 2015 Graham Dixon (assetinfo(MML))\n'+
-                '// Script: jquery.gridsplit.min.js - v.0.0.1 \n'+
-                '// Licensed: MIT \n'+
-                '// Depends on: jQuery && jQuery-ui, underscore, bootstrap 3.*'
+        banner: '/*! \n'+
+                '* Author: Graham Dixon \n'+
+                '* Contact: gdixon@assetinfo.co.uk \n'+
+                '* Copyright: (c) 2015 Graham Dixon (assetinfo(MML))\n'+
+                '* Script: jquery.gridsplit.min.js - v.0.0.1 \n'+
+                '* Licensed: MIT \n'+
+                '* Depends on: jQuery && jQuery-ui, underscore, bootstrap 3.*\n'+
+                '*/\n'
       },
       min: {
         options: {
@@ -18,7 +20,38 @@ module.exports = function(grunt) {
           mangle: true
         },
         files: {
-          'dist/jquery.<%= pkg.name %>.min.js': ['src/js/jquery.<%= pkg.name %>.js']
+          'dist/jquery.gridsplit.min.js': ['src/js/jquery.gridsplit.js']
+        }
+      }
+    },
+    requirejs: {
+      compile: {
+        options: {
+          baseUrl: "",
+          name : "src/js/jquery.gridsplit",
+          mainConfigFile: "config.js",
+          out: "dist/jquery.gridsplit.optimised.js"
+        }
+      }
+    },
+    cssmin: {
+      options: {
+          shorthandCompacting: false,
+          roundingPrecision: -1
+        },
+        target: {
+          files: {
+            'dist/jquery.gridsplit.optimised.css': ['./bower_components/bootstrap/dist/css/bootstrap.css', './src/css/jquery.gridsplit.css']
+          }
+        }
+    },
+    jsdoc : {
+      dist : {
+        src: ['src/js/*.js', 'README.md'],
+        options: {
+            destination: 'doc',
+            configure: './node_modules/jsdoc-oblivion/config/conf.json',
+            template: './node_modules/jsdoc-oblivion/template'
         }
       }
     },
@@ -42,11 +75,20 @@ module.exports = function(grunt) {
 
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  // Load the plugin that optimises AMD loads.
+  grunt.loadNpmTasks('grunt-contrib-requirejs'); 
+  // Load the plugin that optimises CSS.
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+
+  grunt.loadNpmTasks('grunt-jsdoc');
+
   // Default task(s).
-  grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('default', ['uglify', 'requirejs', 'cssmin', 'jsdoc']);
 
   // Load the plugin that provides testing.
   grunt.loadNpmTasks("grunt-contrib-jasmine");
   grunt.registerTask('test', ['jasmine']);
+
+  grunt.registerTask('docs', ['jsdoc']);
 
 };

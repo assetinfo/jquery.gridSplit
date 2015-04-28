@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Gridsplit Main Example</title>
+    <link rel="stylesheet" href="./dist/jquery.gridsplit.optimised.css">
+  </head>
+  <body>
+
+    <script src="./bower_components/requirejs/require.js"></script>
+    <script>
+      require(['config'], function(){
+        require(['main'])
+      });
+    </script>
+
+    <div id="grid" class="grid"></div>
+    <div id="grid2" class="grid"></div>
+    <div id="grid3" class="grid"></div>
+
+  </body>
+</html>

@@ -1,18 +1,21 @@
-// Author: Graham Dixon
-// Contact: gdixon@assetinfo.co.uk
-// Copyright: (c) 2015 Graham Dixon (assetinfo(MML))
-// Script: jquery.gridsplit.js - v.0.0.1
-// Licensed: MIT
-// Requires: jQuery && jQuery-ui, underscore, bootstrap 3.* (only css)
+/*! 
+* Author: Graham Dixon 
+* Contact: gdixon@assetinfo.co.uk 
+* Copyright: (c) 2015 Graham Dixon (assetinfo(MML))
+* Script: jquery.gridsplit.min.js - v.0.0.1 
+* Licensed: MIT 
+* Depends on: jQuery && jQuery-ui, underscore, bootstrap 3.*
+*/
 ;(function(factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module depending on jQuery and underscore.
-        define(['../bower_components/jquery/src/jquery', '../bower_components/underscore/underscore'], factory);
+        // shim ../bower_components/jquery-ui/jquery-ui(draggable) to ../bower_components/jquery/src/jquery as jquery
+        define(['jquery', 'jqueryui', 'underscore'], factory);
     } else {
         // No AMD. Register plugin with global jQuery and underscore objects.
-        factory(jQuery, _);
+        factory(jQuery, jQuery, _);
     }
-}(function($, _) {
+}(function($, jui, _) {
     $.fn.gridsplit = (function(options) {
         var grid,
             init = function(that) {
@@ -37,8 +40,8 @@
                 }
             };
         init(this);
-        // return this if you want chaining then access grid using .data('grid')
-        // -----------        
+        // --------       
+        // return grid to enable chaining of gridsplit functions;
         return grid;
     });
     var gridsplit = function(el, options) {
@@ -180,12 +183,12 @@
             if (typeof x == "undefined" || typeof y == "undefined") {
                 return this;
             }
-            // set the structure;
+            // set to structure length if x is less so can add to last using addCell(99999,99999);
             if ((this.gridsStructure.length - 1) < x) {
                 x = this.gridsStructure.length - 1;
             }
             // if needs to set, already been through this.splitAt()
-            // if cell exists then do a split at location instead.
+            // if cell exists then do a split at location
             // otherwise delete reference to the attempt and split the last in the object
             if (this.gridsStructure[x][y] == "need to set") {
                 // inserting the actual cell
@@ -250,11 +253,12 @@
             return this;
         }
         grid.splitAt = function(x, y, cell) {
-            // split the column([x] - vertically) or the cell ([x][y] - horizontally) or split the cell ([x][y] - vertically)
+            // split the column([x] - vertically)[ .splitAt(0)] 
+            // split the cell ([x][y] - horizontally)[ .splitAt(0,0)]
+            // split the cell ([x][y] - vertically)[ .splitAt(0,0,true)]
             var oThis = this;
             // spliting the cell horizontally
             if (typeof y !== "undefined") {
-                // split cell across chunk.
                 if (typeof cell !== "undefined") {
                     this.gridsCells[x][y].addClass(this.settings.hasChildrenClass);
                     return this.splitCellInColumn(this.gridsCells[x][y], x, y);
@@ -264,11 +268,11 @@
                     this.gridsStructure[x][(y + 1)] = "need to set";
                     this.addCell(x, (y + 1));
                 } else {
-                    // shift everything after y in x right;
+                    // shift everything after y in x right to make space;
                     var reEx = [];
                     var reExm = {};
                     var reExs = [];
-                    //need to keep a tab on col width.
+                    // need to keep reference to col width.
                     reExm['c'] = oThis.metaAt[x]['c'];
                     _.each(this.gridsCells[x], function(acY, ly) {
                         if (ly >= (y + 1)) {
@@ -348,7 +352,7 @@
         grid.splitCellInColumn = function(el, x, y, data) {
             // add an ID to the cell so that a new grid can be initialised on it.
             if (this.splitCellInColumn !== true) {
-                // use .data("grid") here to reference inner grid. Keep it this way to allow chaining in the $.fn.
+                // use .data("grid") here to reference inner grid.
                 el.attr("id", (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id) + '-' + x + '' + y)
                 .css(this.settings.hideBorder)
                 .off("click")
@@ -365,7 +369,7 @@
                     this.gridsStructure[x][y] = {};
                 }
                 // connect structure and meta to parent grid, let em bubble to the top grid instance
-                // access cells $el by using .data("grid") on the cell ( .returnCells()[x][y] )
+                // access cells grid by using .data("grid") on the cell ( .returnCells()[x][y] )
                 this.gridsStructure[x][y] = el.data("grid").gridsStructure;
                 if (typeof this.metaAt[x] === "undefined") {
                     this.metaAt[x] = {};
@@ -386,7 +390,7 @@
                 if (typeof this.gridsCells[x][y] !== "undefined") {
                     if (this.gridsColumns.length > 0) {
                         if (this.gridsCells[x].length > 1) {
-                            // set the column deffinition for the cells parent.
+                            // keep reference to the column deffinition
                             reExm['c'] = oThis.metaAt[x]['c'];
                             _.each(this.gridsCells[x], function(acY, ly) {
                                 if (ly > y) {
@@ -461,6 +465,7 @@
                 to.addClass(this.settings.resizableClass);
             }
             if ($(to).data("tpe") == "c") {
+                // column == vertical
                 if (x !== 0) {
                     var w = this.settings.gridColClass;
                     var rail = this.settings.vertRail;
@@ -470,11 +475,11 @@
                         axis: 'x',
                         containment: to.parent(),
                         start: function(event, ui) {
-                            // x value might change after init so let it calculate it from the number of previous columns
+                            // x value might change after init so check the number of previous columns
                             var x = $(this).closest('.' + oThis.settings.gridColClass).prevAll('.' + oThis.settings.gridColClass).length;
                             if (typeof oThis.gridsColumns[x] !== "undefined" && x !== 0) {
                                 rRail.data("x", x);
-                                //rail sits inside the cell under it refers to.
+                                // rail sits inside the cell to the right of the cell it will reference
                                 var railReferstoRightOf = oThis.gridsColumns[x - 1];
                                 // measure between the two elements that we know exist, x and x-1; 
                                 // take away grids offset to compensate on nested grids.
@@ -549,13 +554,14 @@
                                 x = $(this).data("x"),
                                 newBottom = $(this).offset().top,
                                 newHeight = oThis.gridsCells[x][(y - 1)].outerHeight() + moved;
-                            // get the outer height of the element being altered (gridsCells[x][y-1])
+                            // get the outer height of the element being altered (gridsCells[x][y-1] - first box below the rail)
                             var gridHeight = oThis.gridsColumns[x].outerHeight();
-                            // correct the height on the element being altered (first box below the rail)
+                            // correct the height on the element being altered
                             // get the real % height using the newHeight against the gridHeight
                             var rHeight = oThis.perOfHeight(newHeight, gridHeight);
+                            // set the new height to the elememt
                             oThis.gridsCells[x][(y - 1)].css("height", rHeight);
-                            // then the box above the rail, all others should go un-affected
+                            // then do similar (newHeight - moved) to the box above the rail, all others should go un-altertered
                             newHeight = oThis.gridsCells[x][y].outerHeight() - moved;
                             rHeight = oThis.perOfHeight(newHeight, gridHeight)
                             oThis.gridsCells[x][y].css("height", rHeight);
@@ -679,7 +685,7 @@
             return per + "%";
         }
         grid.perOfWidthEls = function(grid) {
-            // grid is a grid instance (so we can target others from here.)
+            // grid is a gridsplit instance (so we can target other instances from here.)
             // start from first in series then move to parent and find all others in one DOM hit.
             var els = grid.$el.find('.' + grid.settings.innerGridClass).first().children("." + grid.settings.gridColClass);
             var no = els.length;
@@ -699,14 +705,14 @@
             var no = els.length,
                 per = (100 / no),
                 searchEl;
-            // start from first in series then move to parent and find all others in one DOM hit.
+            // start from first in series then move to $.parent and find all others in one hit.
             if( this.settings.splitCellInColumn == true ){
                 searchEl = "." + this.settings.useInsideCell;
             }else{
                 // this screwed up the formatting on github when it was in one line,
                 // so I moved it into vars, no idea why this breaks things.
-            	var andNot = ":not(.";
-            	var closeNot = ")";
+                var andNot = ":not(.";
+                var closeNot = ")";
                 searchEl = "." + this.settings.gridCellClass + andNot + this.settings.insideCellClass + closeNot;
             } 
             $(els[0]).parent().find(searchEl).css("height", per + "%");
@@ -718,8 +724,8 @@
                 min = 0;
             // place mins and total arr
             while (i--) {
-                min = (vh == 0 ? this.settings.vertMin : this.settings.horizMin);
                 // use settings.horizMin && settings.vertMin as min
+                min = (vh == 0 ? this.settings.vertMin : this.settings.horizMin);
                 if (arr[i] < min) {
                     arr[i] = min;
                 }
@@ -806,7 +812,7 @@
             });
         }
         grid.forcePerWidth = function() {
-            // all cell wids should need to total 100.
+            // all cell widths need to total 100.
             var wids = [];
             var oThis = this;
             _.each(this.gridsColumns, function(col, key) {

@@ -3,13 +3,8 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <title>Gridsplit Main Example</title>
-        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css">
-        <link rel="stylesheet" href="./src/css/jquery.gridsplit.css">
-        <script src="./bower_components/jquery/dist/jquery.js"></script>
-        <script src="./bower_components/jquery-ui/jquery-ui.js"></script>
-        <script src='./bower_components/underscore/underscore-min.js'></script>
-        <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="./src/js/jquery.gridsplit.js"></script>
+        <link rel="stylesheet" href="./dist/jquery.gridsplit.optimised.css">
+        <script src="./dist/jquery.gridsplit.optimised.js"></script>
     </head>
     <body>
         <div id="grid" class="grid"></div>
@@ -54,7 +49,7 @@
                                 .splitAt(1, 0).splitAt(1, 0).splitAt(1).splitAt(2, 0)
                                 .splitAt(0, 0, true).splitAt(0, 0).parent().parent()
                                 .splitAt(0, 0).splitAt(0).addColumn(0).addCell(3, 0)
-                                .splitAt(3).splitAt(3, 0).splitAt(3, 0).splitAt(4, 0)
+                                .splitAt(3).splitAt(3, 0).splitAt(3, 0).splitAt(3, 3).splitAt(4, 0)
                                 .splitAt(0, 0).splitAt(1).splitAt(1, 0).splitAt(1, 1, true)
                                 .splitAt(0, 0).parent().splitAt(5, 1, true)
                                 .splitAt(1, 0).parent();
