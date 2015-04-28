@@ -66,7 +66,7 @@ module.exports = function(grunt) {
     },
     jasmine: {
       full: {
-        src: "src/**/*.js",
+        src: "dist/jquery.gridsplit.js",
         options: {
           specs: "spec/*[S|s]pec.js",
           vendor: [

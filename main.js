@@ -31,7 +31,7 @@ require(['gridsplit'], function(Gridsplit){
 	    // chaining the result of each task (always a gridsplit instance)
 	    // using .parent() to move to the grid above
 	    // ends with a .parent() so that acGrid is the top grid instance.
-	    window.acGrid = $('#grid').gridsplit()
+	    window.acGrid = $('#grid').gridSplit()
 	                    .splitAt(0).splitAt(0, 0, true).splitAt(0, 0).splitAt(0, 0)
 	                    .splitAt(1, 0).splitAt(1, 0).splitAt(1).splitAt(2, 0)
 	                    .splitAt(0, 0, true).splitAt(0, 0).parent().parent()
@@ -43,13 +43,13 @@ require(['gridsplit'], function(Gridsplit){
 	    // make the same grid using the output from acGrid.returnMeta();
 	    // setTimeout to make sure the first grid is fully rendered before copying
 	    setTimeout(function(){
-	        window.acGrid2 = $('#grid2').gridsplit({
+	        window.acGrid2 = $('#grid2').gridSplit({
 	            data: JSON.parse(acGrid.returnMeta())
 	        });
 	    });
 	    // this is the returned meta that will be used to form the grids above;
 	    // (This is a much quicker method as it avoids timeouts)
-	    window.acGrid3 = $('#grid3').gridsplit({
+	    window.acGrid3 = $('#grid3').gridSplit({
 	        data: {"0":{"0":{"0":{"0":{"0":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"51%"}},"1":{"c":{"w":"49%"}}},"1":{"h":"33.333333333333336%"},"2":{"h":"33.333333333333336%"},"c":{"w":"51%"}},"1":{"0":{"h":"33.333333333333336%"},"1":{"h":"33.333333333333336%"},"2":{"h":"33.333333333333336%"},"c":{"w":"24%"}},"2":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"25%"}},"h":"33.333333333333336%"},"1":{"h":"33.333333333333336%"},"2":{"h":"33.333333333333336%"},"c":{"w":"12%"}},"1":{"0":{"h":"50%"},"1":{"0":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"50%"}},"1":{"c":{"w":"50%"}}},"c":{"w":"6%"}},"2":{"c":{"w":"6%"}},"3":{"c":{"w":"26%"}},"4":{"0":{"h":"25%"},"1":{"h":"25%"},"2":{"h":"25%"},"3":{"h":"25%"},"c":{"w":"24%"}},"5":{"0":{"h":"50%"},"1":{"0":{"c":{"w":"51%"}},"1":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"49%"}}},"c":{"w":"26%"}}}
 	    });
 	    /*
@@ -58,7 +58,7 @@ require(['gridsplit'], function(Gridsplit){
 	    // <div id="grid" class="grid"></div>
 	    // <div id="grid2" class="grid"></div>
 	    // First example has a horizontal resize bar stretching full width, plus two vertical resize bars
-	    window.acGrid = $('#grid').gridsplit();
+	    window.acGrid = $('#grid').gridSplit();
 	    acGrid.splitAt(0, 0);
 	    var test = acGrid.splitAt(0, 0, true);
 	    var test1 = acGrid.splitAt(0, 1, true);
@@ -70,7 +70,7 @@ require(['gridsplit'], function(Gridsplit){
 	    // acGrid.returnCells()[0][1].data("grid");
 	    // ----
 	    // Second example has a vertical resize bar stretching full height, plus two horizontal resize bars
-	    window.acGrid2 = $('#grid2').gridsplit();
+	    window.acGrid2 = $('#grid2').gridSplit();
 	    acGrid2.splitAt(0);
 	    acGrid2.splitAt(0, 0);
 	    acGrid2.splitAt(1, 0);
