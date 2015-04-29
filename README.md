@@ -68,7 +68,7 @@ We only have the one example at the moment, but its fairly comprehensive. [githu
   ```html
    var grid = $('#grid').gridSplit({resizable:false});
   ```
-* A grid can be split using x/y co-ordinates using several methods that can be called in similar ways:
+* A grid can be split with x/y co-ordinates using several methods that can be called in similar ways:
 <br/>
 
   ```html
@@ -85,6 +85,12 @@ We only have the one example at the moment, but its fairly comprehensive. [githu
 
   ```html
    var grid2 = grid.splitAt(1,0,true);
+  ``` 
+* If you want to chain spiltting actions then you might need .parent():
+<br/>
+
+  ```html
+   var grid = grid.splitAt(1,0,true).parent().splitAt(1,0).splitAt(1,1,true).parent(); // grid is still #grids gridSplit instance
   ``` 
 * .returnMeta() will provide an array that represents the grid:
 <br/>
@@ -103,8 +109,8 @@ We only have the one example at the moment, but its fairly comprehensive. [githu
 <br/>
 
   ```html
-    var el00 = grid3.gridsCells[0][0];
-    var el10_00 = grid3.gridsCells[1][0].data("grid").gridsCells[0][0];
+    var $el00 = grid3.gridsCells[0][0];
+    var $el10_00 = grid3.gridsCells[1][0].data("grid").gridsCells[0][0];
   ```
 
 * To destroy the grid and any reference it adds:
