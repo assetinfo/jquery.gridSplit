@@ -13,7 +13,7 @@
     "default": {
       "outputSourceFiles": true
     },
-    "systemName"      : "Assetinfo",
+    "systemName"      : "jquery.gridSplit",
     "footer"          : "",
     "copyright"       : "Copyright © 2015 Graham Dixon, MML LTD - Assetinfo.</a>",
     "navType"         : "vertical",
