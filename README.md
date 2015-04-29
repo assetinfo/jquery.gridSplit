@@ -49,7 +49,6 @@ We only have the one example at the moment, but its fairly comprehensive. [githu
 [Documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) has been generated using [jsDocs2.2](https://github.com/jsdoc3/jsdoc)
 
 # Quick Reference 
-<br/>
 
 * A grid is initialised against a div that must have an id and a class of .grid.
 <br/>
