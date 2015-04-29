@@ -20,8 +20,8 @@
     *
     * @param {object} el the $el this grid is being applied to [assumed when initialised via $.fn]
     * @param {object} options the settings being applied to this $el
-    * @param {String} options.horizRail - horizontal rail $el to be cloned
-    * @param {String} options.vertRail - vertical rail $el to be cloned
+    * @param {object} options.horizRail - horizontal rail $el to be cloned
+    * @param {object} options.vertRail - vertical rail $el to be cloned
     * @param {String} options.gridColClass - Column class
     * @param {String} options.gridCellClass - Cell class
     * @param {String} options.innerGridClass - Inner grid class
@@ -106,8 +106,8 @@
          * @function gridSplit.init
          * @param {object} el the $element we are applying the grid to.
          * @param {object} options the options being passed through to init from $(el).gridSplit(options) or new gridSplit(options).
-         * @param {String} options.horizRail - horizontal rail $el to be cloned
-         * @param {String} options.vertRail - vertical rail $el to be cloned
+         * @param {object} options.horizRail - horizontal rail $el to be cloned
+         * @param {object} options.vertRail - vertical rail $el to be cloned
          * @param {String} options.gridColClass - Column class
          * @param {String} options.gridCellClass - Cell class
          * @param {String} options.innerGridClass - Inner grid class
