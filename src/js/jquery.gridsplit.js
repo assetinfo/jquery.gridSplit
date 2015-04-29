@@ -7,14 +7,14 @@
 ;
 (function(factory) {
     if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module depending on jQuery and underscore.
+        // AMD. Register as an anonymous module depending on jQuery.
         // shim ../bower_components/jquery-ui/jquery-ui(draggable) to ../bower_components/jquery/src/jquery as jquery
-        define(['jquery', 'jqueryui', 'underscore'], factory);
+        define(['jquery', 'jqueryui-draggable'], factory);
     } else {
-        // No AMD. Register plugin with global jQuery and underscore objects.
-        factory(jQuery, jQuery, _);
+        // No AMD. Register plugin with global jQuery objects.
+        factory(jQuery, jQuery);
     }
-}(function($, jui, _) {
+}(function($, jui) {
     /**
      * $.fn.gridSplit - calls - new gridSplit(el, options) - using this as el.
      *
@@ -188,7 +188,7 @@
             var oThis = this;
             // each column
             oThis.buildingGrid = true;
-            _.each(data, function(column, x) {
+            $.each(data, function(x, column) {
                 if (!isNaN(x)) {
                     oThis.gridsStructure[x] = "need to set";
                     oThis.addColumn(x, undefined, true);
@@ -196,7 +196,7 @@
                     // console.log("add Column " + x);
                     // each cell
                     if (oThis.countCells(column) > 0) {
-                        _.each(column, function(cell, y) {
+                        $.each(column, function(y, cell) {
                             if (!isNaN(y)) {
                                 // console.log("adding Cell " + x);
                                 oThis.addCell(x, y);
@@ -226,7 +226,7 @@
          */
         grid.setMeta = function(data) {
             var oThis = this;
-            _.each(data, function(column, x) {
+            $.each(data, function(x, column) {
                 if (!isNaN(x)) {
                     if (typeof column['c'] !== "undefined") {
                         var wid = column['c']['w'];
@@ -234,7 +234,7 @@
                         oThis.resizeColumn(x, wid);
                     }
                     if (oThis.countCells(column) > 0) {
-                        _.each(column, function(cell, y) {
+                        $.each(column, function(y, cell) {
                             //console.log("x id: "+ x +", y is: "+ y)
                             if (!isNaN(y)) {
                                 if (typeof oThis.gridsCells[x][y] !== "undefined") {
@@ -257,7 +257,7 @@
         grid.countCells = function(arr) {
             // data is array not object so no .length
             var t = 0;
-            _.each(arr, function(arrr, k) {
+            $.each(arr, function(k, arrr) {
                 if (!isNaN(k)) {
                     t++;
                 }
@@ -390,7 +390,7 @@
                     var reExs = [];
                     // need to keep reference to col width.
                     reExm['c'] = oThis.metaAt[x]['c'];
-                    _.each(oThis.gridsCells[x], function(acY, ly) {
+                    $.each(oThis.gridsCells[x], function(ly, acY) {
                         if (ly >= (y + 1)) {
                             reEx[(ly + 1)] = oThis.gridsCells[x][ly];
                             reExm[(ly + 1)] = oThis.metaAt[x][ly];
@@ -424,7 +424,7 @@
                 } else {
                     var setHeight = this.halfOf(first, second, 0, "h", oThis.gridsCells[x]);
                     // set all of the heights in the column by this value
-                    _.each(this.gridsCells[x], function(acY, ly) {
+                    $.each(this.gridsCells[x], function(ly, acY) {
                         oThis.resizeCell(x, ly, setHeight);
                     });
                 }
@@ -441,7 +441,7 @@
                     var reExm = {};
                     var reExc = [];
                     var reExs = [];
-                    _.each(oThis.gridsColumns, function(acX, lx) {
+                    $.each(oThis.gridsColumns, function(lx, acX) {
                         if (lx >= (x + 1)) {
                             reEx[(lx + 1)] = oThis.gridsColumns[lx];
                             reExm[(lx + 1)] = oThis.metaAt[lx];
@@ -546,7 +546,7 @@
                             var el = this.gridsCells[x][y];
                             // keep reference to the column deffinition
                             reExm['c'] = oThis.metaAt[x]['c'];
-                            _.each(this.gridsCells[x], function(acY, ly) {
+                            $.each(this.gridsCells[x], function(ly, acY) {
                                 if (ly > y) {
                                     reEx[(ly - 1)] = oThis.gridsCells[x][ly];
                                     reExm[(ly - 1)] = oThis.metaAt[x][ly];
@@ -589,7 +589,7 @@
             var reExc = [];
             var el = this.gridsColumns[x];
             if (typeof this.gridsColumns[x] !== "undefined") {
-                _.each(this.gridsColumns, function(acX, lx) {
+                $.each(this.gridsColumns, function(lx, acX) {
                     if (lx > x) {
                         reEx[lx - 1] = oThis.gridsCells[lx];
                         reExm[lx - 1] = oThis.metaAt[lx];
@@ -1121,13 +1121,13 @@
         grid.forcePerWidth = function() {
             var wids = [];
             var oThis = this;
-            _.each(this.gridsColumns, function(col, key) {
+            $.each(this.gridsColumns, function(key, col) {
                 wids.push(parseInt(oThis.perOfWidth($(col).width())));
             });
             var newWids = this.equalPers(wids, 100, 0);
             // console.log(wids);
             // console.log(newWids);
-            _.each(this.gridsColumns, function(col, key) {
+            $.each(this.gridsColumns, function(key, col) {
                 $(col).css({
                     "width": newWids[key] + "%",
                 });
@@ -1146,13 +1146,13 @@
             var oThis = this;
             var col = this.gridsColumns[x];
             if (typeof col !== "undefined") {
-                _.each(oThis.gridsCells[x], function(cell, y) {
+                $.each(oThis.gridsCells[x], function(y, cell) {
                     heights.push(parseInt(oThis.perOfHeight($(cell).height(), $(col).height())));
                 });
                 var newHeights = oThis.equalPers(heights, 100, 1);
                 // console.log(heights);
                 // console.log(newHeights);
-                _.each(oThis.gridsCells[x], function(cell, y) {
+                $.each(oThis.gridsCells[x], function(y, cell) {
                     $(cell).css({
                         "height": newHeights[y] + "%",
                     });

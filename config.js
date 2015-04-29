@@ -1,12 +1,14 @@
 require.config({
   "paths": {
     "jquery": "bower_components/jquery/dist/jquery",
-    "jqueryui": "bower_components/jquery-ui/jquery-ui",
-    "underscore": "bower_components/underscore/underscore-min",
+    "core": "bower_components/jquery-ui/ui/core",
+    "mouse": "bower_components/jquery-ui/ui/mouse",
+    "widget": "bower_components/jquery-ui/ui/widget",
+    "jqueryui-draggable": "bower_components/jquery-ui/ui/draggable",
     "gridsplit": "src/js/jquery.gridsplit"
   },
   "shim": {
     "jquery":        { "exports": "$" },
-    "jqueryui":     ["jquery"]
+    "jqueryui-draggable":     ["jquery", "core", "mouse", "widget"]
   } 
 });

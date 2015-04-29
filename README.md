@@ -28,14 +28,15 @@ require.config({
   "deps": ["main"],
   "paths": {
     "jquery": "bower_components/jquery/dist/jquery",
-    "jqueryui": "bower_components/jquery-ui/jquery-ui",
-    "underscore": "bower_components/underscore/underscore-min",
+    "core": "bower_components/jquery-ui/ui/core",
+    "mouse": "bower_components/jquery-ui/ui/mouse",
+    "widget": "bower_components/jquery-ui/ui/widget",
+    "jqueryui-draggable": "bower_components/jquery-ui/ui/draggable",
     "gridsplit": "src/js/jquery.gridsplit"
   },
   "shim": {
-    "jquery": { "exports": "$" },
-    "jqueryui": ["jquery"]
-  } 
+    "jquery":        { "exports": "$" },
+    "jqueryui-draggable":     ["jquery", "core", "mouse", "widget"]
 });
 ```
 Now you're ready to build grids (see [example.html](https://github.com/assetinfo/jquery.gridSplit/blob/master/example.html) OR [example.amd.html](https://github.com/assetinfo/jquery.gridSplit/blob/master/example.amd.html) and [main.js](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) for initialisation methods)
