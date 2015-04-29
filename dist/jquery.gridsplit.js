@@ -7,12 +7,11 @@
 * Depends on: jQuery && jQuery-ui, underscore, bootstrap 3.*
 */
 !function(factory) {
-    "function" == typeof define && define.amd ? define([ "jquery", "jqueryui", "underscore" ], factory) : factory(jQuery, jQuery, _);
-}(function($, jui, _) {
+    "function" == typeof define && define.amd ? define([ "jquery", "jqueryui-draggable" ], factory) : factory(jQuery, jQuery);
+}(function($, jui) {
     $.fn.gridSplit = function(options) {
         var grid, init = function(that) {
-            void 0 == $(that).data("grid") ? (grid = new gridSplit(that, options), $(that).data("grid", grid)) : "undefined" != typeof options ? "undefined" != typeof options.data ? grid = that.data("grid").init(that, options) : "undefined" != typeof options.setMeta ? (grid = that.data("grid"), 
-            grid.setMeta(options.setMeta, !1)) : grid = that.data("grid") : grid = that.data("grid");
+            void 0 == $(that).data("grid") ? (grid = new gridSplit(that, options), $(that).data("grid", grid)) : grid = "undefined" != typeof options ? "undefined" != typeof options.data ? that.data("grid").init(that, options) : "undefined" != typeof options.setMeta ? that.data("grid").setMeta(options.setMeta, !1) : that.data("grid") : that.data("grid");
         };
         return init(this), grid;
     };
@@ -53,9 +52,9 @@
             }), this;
         }, grid.buildGrid = function(data, undefined) {
             var oThis = this;
-            oThis.buildingGrid = !0, _.each(data, function(column, x) {
+            return oThis.buildingGrid = !0, $.each(data, function(x, column) {
                 isNaN(x) || (oThis.gridsStructure[x] = "need to set", oThis.addColumn(x, undefined, !0), 
-                oThis.gridsColumns[x].css("float", "left"), oThis.countCells(column) > 0 ? _.each(column, function(cell, y) {
+                oThis.gridsColumns[x].css("float", "left"), oThis.countCells(column) > 0 ? $.each(column, function(y, cell) {
                     if (!isNaN(y) && (oThis.addCell(x, y), "object" == typeof cell[0])) {
                         oThis.gridsCells[x][y].addClass(oThis.settings.hasChildrenClass);
                         {
@@ -66,13 +65,13 @@
             }), oThis.setMeta(data);
         }, grid.setMeta = function(data) {
             var oThis = this;
-            return _.each(data, function(column, x) {
+            return $.each(data, function(x, column) {
                 if (!isNaN(x)) {
                     if ("undefined" != typeof column.c) {
                         var wid = column.c.w;
                         oThis.gridsColumns[x].css("width", wid), oThis.resizeColumn(x, wid);
                     }
-                    oThis.countCells(column) > 0 && _.each(column, function(cell, y) {
+                    oThis.countCells(column) > 0 && $.each(column, function(y, cell) {
                         isNaN(y) || "undefined" != typeof oThis.gridsCells[x][y] && (oThis.gridsCells[x][y].css("height", cell.h), 
                         oThis.resizeCell(x, y, cell.h)), "object" == typeof cell[0] && "undefined" != typeof oThis.gridsCells[x][y] && oThis.gridsCells[x][y].data("grid").setMeta(cell);
                     });
@@ -80,7 +79,7 @@
             }), oThis.buildingGrid = !1, this;
         }, grid.countCells = function(arr) {
             var t = 0;
-            return _.each(arr, function(arrr, k) {
+            return $.each(arr, function(k, arrr) {
                 isNaN(k) || t++;
             }), t;
         }, grid.addCell = function(x, y, after) {
@@ -111,7 +110,7 @@
                 if (y + 1 == oThis.gridsStructure[x].length) oThis.gridsStructure[x][y + 1] = "need to set", 
                 oThis.addCell(x, y + 1); else {
                     var reEx = [], reExm = {}, reExs = [];
-                    reExm.c = oThis.metaAt[x].c, _.each(oThis.gridsCells[x], function(acY, ly) {
+                    reExm.c = oThis.metaAt[x].c, $.each(oThis.gridsCells[x], function(ly, acY) {
                         ly >= y + 1 ? (reEx[ly + 1] = oThis.gridsCells[x][ly], reExm[ly + 1] = oThis.metaAt[x][ly], 
                         reExs[ly + 1] = oThis.gridsStructure[x][ly]) : (reEx[ly] = oThis.gridsCells[x][ly], 
                         reExm[ly] = oThis.metaAt[x][ly], reExs[ly] = oThis.gridsStructure[x][ly]);
@@ -130,7 +129,7 @@
                     });
                 } else {
                     var setHeight = this.halfOf(first, second, 0, "h", oThis.gridsCells[x]);
-                    _.each(this.gridsCells[x], function(acY, ly) {
+                    $.each(this.gridsCells[x], function(ly, acY) {
                         oThis.resizeCell(x, ly, setHeight);
                     });
                 }
@@ -138,7 +137,7 @@
                 if (x + 1 == oThis.gridsStructure.length) oThis.gridsStructure[x + 1] = "need to set", 
                 oThis.addColumn(x + 1); else {
                     var reEx = [], reExm = {}, reExc = [], reExs = [];
-                    _.each(oThis.gridsColumns, function(acX, lx) {
+                    $.each(oThis.gridsColumns, function(lx, acX) {
                         lx >= x + 1 ? (reEx[lx + 1] = oThis.gridsColumns[lx], reExm[lx + 1] = oThis.metaAt[lx], 
                         reExc[lx + 1] = oThis.gridsCells[lx], reExs[lx + 1] = oThis.gridsStructure[lx]) : (reEx[lx] = oThis.gridsColumns[lx], 
                         reExm[lx] = oThis.metaAt[lx], reExc[lx] = oThis.gridsCells[lx], reExs[lx] = oThis.gridsStructure[lx]);
@@ -168,17 +167,20 @@
             } else this.metaAt[x][y] = el.data("grid").metaAt;
             return el.data("grid");
         }, grid.delCell = function(x, y) {
-            var oThis = this, reEx = [], reExm = {}, reExs = [], el = this.gridsCells[x][y];
-            return "undefined" != typeof this.gridsColumns[x] && "undefined" != typeof this.gridsCells[x][y] && this.gridsColumns.length > 0 && (this.gridsCells[x].length > 1 ? (reExm.c = oThis.metaAt[x].c, 
-            _.each(this.gridsCells[x], function(acY, ly) {
-                ly > y ? (reEx[ly - 1] = oThis.gridsCells[x][ly], reExm[ly - 1] = oThis.metaAt[x][ly], 
-                reExs[ly - 1] = oThis.gridsStructure[x][ly]) : ly !== y && (reEx[ly] = oThis.gridsCells[x][ly], 
-                reExm[ly] = oThis.metaAt[x][ly], reExs[ly] = oThis.gridsStructure[x][ly]);
-            }), $(el).remove(), this.gridsCells[x] = reEx, this.metaAt[x] = reExm, this.gridsStructure[x] = reExs, 
-            this.forcePerHeight(x)) : this.delColumn(x)), this;
+            var oThis = this, reEx = [], reExm = {}, reExs = [];
+            if ("undefined" != typeof this.gridsColumns[x] && "undefined" != typeof this.gridsCells[x][y] && this.gridsColumns.length > 0) if (this.gridsCells[x].length > 1) {
+                var el = this.gridsCells[x][y];
+                reExm.c = oThis.metaAt[x].c, $.each(this.gridsCells[x], function(ly, acY) {
+                    ly > y ? (reEx[ly - 1] = oThis.gridsCells[x][ly], reExm[ly - 1] = oThis.metaAt[x][ly], 
+                    reExs[ly - 1] = oThis.gridsStructure[x][ly]) : ly !== y && (reEx[ly] = oThis.gridsCells[x][ly], 
+                    reExm[ly] = oThis.metaAt[x][ly], reExs[ly] = oThis.gridsStructure[x][ly]);
+                }), $(el).remove(), this.gridsCells[x] = reEx, this.metaAt[x] = reExm, this.gridsStructure[x] = reExs, 
+                this.forcePerHeight(x);
+            } else this.delColumn(x);
+            return this;
         }, grid.delColumn = function(x) {
             var oThis = this, reEx = [], reExm = {}, reExs = [], reExc = [], el = this.gridsColumns[x];
-            return "undefined" != typeof this.gridsColumns[x] && (_.each(this.gridsColumns, function(acX, lx) {
+            return "undefined" != typeof this.gridsColumns[x] && ($.each(this.gridsColumns, function(lx, acX) {
                 lx > x ? (reEx[lx - 1] = oThis.gridsCells[lx], reExm[lx - 1] = oThis.metaAt[lx], 
                 reExs[lx - 1] = oThis.gridsStructure[lx], reExc[lx - 1] = oThis.gridsColumns[lx]) : lx !== x && (reEx[lx] = oThis.gridsCells[lx], 
                 reExm[lx] = oThis.metaAt[lx], reExs[lx] = oThis.gridsStructure[lx], reExc[lx] = oThis.gridsColumns[lx]);
@@ -351,11 +353,11 @@
             });
         }, grid.forcePerWidth = function() {
             var wids = [], oThis = this;
-            _.each(this.gridsColumns, function(col, key) {
+            $.each(this.gridsColumns, function(key, col) {
                 wids.push(parseInt(oThis.perOfWidth($(col).width())));
             });
             var newWids = this.equalPers(wids, 100, 0);
-            _.each(this.gridsColumns, function(col, key) {
+            $.each(this.gridsColumns, function(key, col) {
                 $(col).css({
                     width: newWids[key] + "%"
                 }), oThis.resizeColumn(key, newWids[key] + "%");
@@ -363,12 +365,12 @@
         }, grid.forcePerHeight = function(x) {
             var heights = [], oThis = this, col = this.gridsColumns[x];
             if ("undefined" != typeof col) {
-                _.each(oThis.gridsCells[x], function(Cell, y) {
-                    heights.push(parseInt(oThis.perOfHeight($(Cell).height(), col.height())));
+                $.each(oThis.gridsCells[x], function(y, cell) {
+                    heights.push(parseInt(oThis.perOfHeight($(cell).height(), $(col).height())));
                 });
                 var newHeights = oThis.equalPers(heights, 100, 1);
-                _.each(oThis.gridsCells[x], function(Cell, y) {
-                    $(Cell).css({
+                $.each(oThis.gridsCells[x], function(y, cell) {
+                    $(cell).css({
                         height: newHeights[y] + "%"
                     }), oThis.resizeCell(x, y, newHeights[y] + "%");
                 });
