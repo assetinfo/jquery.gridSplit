@@ -11,8 +11,7 @@
 }(function($, jui, _) {
     $.fn.gridSplit = function(options) {
         var grid, init = function(that) {
-            void 0 == $(that).data("grid") ? (grid = new gridSplit(that, options), $(that).data("grid", grid)) : "undefined" != typeof options ? "undefined" != typeof options.data ? grid = that.data("grid").init(that, options) : "undefined" != typeof options.setMeta ? (grid = that.data("grid"), 
-            grid.setMeta(options.setMeta, !1)) : grid = that.data("grid") : grid = that.data("grid");
+            void 0 == $(that).data("grid") ? (grid = new gridSplit(that, options), $(that).data("grid", grid)) : grid = "undefined" != typeof options ? "undefined" != typeof options.data ? that.data("grid").init(that, options) : "undefined" != typeof options.setMeta ? that.data("grid").setMeta(options.setMeta, !1) : that.data("grid") : that.data("grid");
         };
         return init(this), grid;
     };
@@ -53,7 +52,7 @@
             }), this;
         }, grid.buildGrid = function(data, undefined) {
             var oThis = this;
-            oThis.buildingGrid = !0, _.each(data, function(column, x) {
+            return oThis.buildingGrid = !0, _.each(data, function(column, x) {
                 isNaN(x) || (oThis.gridsStructure[x] = "need to set", oThis.addColumn(x, undefined, !0), 
                 oThis.gridsColumns[x].css("float", "left"), oThis.countCells(column) > 0 ? _.each(column, function(cell, y) {
                     if (!isNaN(y) && (oThis.addCell(x, y), "object" == typeof cell[0])) {
