@@ -32,11 +32,11 @@
     * @param {String} options.setMeta - Meta to bet set against the current grid
     * @param {String} options.parentGrid - The parent of the current grid
     * @param {String} options.nestedIn - The ID of the grid this grid is nested in
-    * @param {String} options.resizable - Is resizable?
+    * @param {bool} options.resizable - Is resizable?
     * @param {String} options.splitMethodH - Method to use when splitting cells horizontally ["half"|""]
     * @param {String} options.splitMethodV -  Method to use when splitting columns vertically ["half"|""]
-    * @param {String} options.horizMin - Minimum cell height
-    * @param {String} options.vertMin - Minimum column width
+    * @param {int} options.horizMin - Minimum cell height
+    * @param {int} options.vertMin - Minimum column width
     * @param {Object} options.hideBorder - CSS obj to hide the border
     * @class $.fn.gridSplit
     * @memberOf! $.fn
@@ -118,11 +118,11 @@
          * @param {String} options.setMeta - Meta to bet set against the current grid
          * @param {String} options.parentGrid - The parent of the current grid
          * @param {String} options.nestedIn - The ID of the grid this grid is nested in
-         * @param {String} options.resizable - Is resizable?
+         * @param {bool} options.resizable - Is resizable?
          * @param {String} options.splitMethodH - Method to use when splitting cells horizontally ["half"|""]
          * @param {String} options.splitMethodV -  Method to use when splitting columns vertically ["half"|""]
-         * @param {String} options.horizMin - Minimum cell height
-         * @param {String} options.vertMin - Minimum column width
+         * @param {int} options.horizMin - Minimum cell height
+         * @param {int} options.vertMin - Minimum column width
          * @param {Object} options.hideBorder - CSS obj to hide the border
          * @return {object} this
          * @property {object} this.settings - object of settings extended by options
