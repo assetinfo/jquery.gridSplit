@@ -95,17 +95,17 @@
         <article><h1>jquery.gridSplit         <a href="https://travis-ci.org/assetinfo/jquery.gridSplit"><img src="https://travis-ci.org/assetinfo/jquery.gridSplit.png" alt="Build Status"></a></h1>
 <p>A jQuery grid system designed so that each cell can be &quot;split&quot; either horizontally or vertically. It is intended to be used as part of a larger system allowing the user free control of their widget environment. </p>
 <hr>
-<p>Firstly, we need to include the required packages in our page:</p>
+<p>Firstly, download or clone this repo, then run 'bower install' and include the required packages in your page:</p>
 <pre><code class="lang-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;./bower_components/bootstrap/dist/css/bootstrap.css&quot;&gt;
 &lt;link rel=&quot;stylesheet&quot; href=&quot;./src/css/jquery.gridsplit.css&quot;&gt;
 &lt;script src=&quot;./bower_components/jquery/dist/jquery.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./bower_components/jquery-ui/jquery-ui.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./bower_components/underscore/underscore-min.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./dist/jquery.gridsplit.min.js&quot;&gt;&lt;/script&gt;</code></pre>
-<p>OR we can include an optimised version of the above:</p>
+<p>OR include the optimised versions in ./dist/ dir that you can build using &quot;grunt&quot; (after doing &quot;npm install&quot;):</p>
 <pre><code class="lang-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;./dist/jquery.gridsplit.optimised.css&quot;&gt;
 &lt;script src=&quot;./dist/jquery.gridsplit.optimised.js&quot;&gt;&lt;/script&gt;</code></pre>
-<p>We can do something similar to this in our require.config if we are using an AMD:</p>
+<p>Alternatively include the required packages and the plugin via requirejs in your <a href="https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js">module</a> with a config similar to:</p>
 <pre><code class="lang-html">require.config({
   &quot;deps&quot;: [&quot;main&quot;],
   &quot;paths&quot;: {
@@ -115,36 +115,61 @@
     &quot;gridsplit&quot;: &quot;src/js/jquery.gridsplit&quot;
   },
   &quot;shim&quot;: {
-    &quot;jquery&quot;:        { &quot;exports&quot;: &quot;$&quot; },
-    &quot;jqueryui&quot;:     [&quot;jquery&quot;]
+    &quot;jquery&quot;: { &quot;exports&quot;: &quot;$&quot; },
+    &quot;jqueryui&quot;: [&quot;jquery&quot;]
   } 
 });</code></pre>
-<p>Now were ready to build grids (see <a href="https://github.com/assetinfo/jquery.gridSplit/blob/master/example.html">example.html</a> OR <a href="https://github.com/assetinfo/jquery.gridSplit/blob/master/example.amd.html">example.amd.html</a> and <a href="https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js">main.js</a> for initialisation methods)</p>
-<hr>
-<h1>Demo</h1>
+<p>Now you're ready to build grids (see <a href="https://github.com/assetinfo/jquery.gridSplit/blob/master/example.html">example.html</a> OR <a href="https://github.com/assetinfo/jquery.gridSplit/blob/master/example.amd.html">example.amd.html</a> and <a href="https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js">main.js</a> for initialisation methods)</p>
+<h2>Demo</h2>
 <p>We only have the one example at the moment, but its fairly comprehensive. <a href="https://assetinfo.github.io/jquery.gridSplit">github.io</a> and <a href="http://jsfiddle.net/graydixon/bupjuntd/">jsfiddle</a></p>
-<hr>
-<h1>Generated Documentation</h1>
+<h2>Generated Documentation</h2>
 <p><a href="https://assetinfo.github.io/jquery.gridSplit/docs/">Documentation</a> has been generated using <a href="https://github.com/jsdoc3/jsdoc">jsDocs2.2</a></p>
-<hr>
-<h1>Quick Reference</h1>
-<p><br/></p>
+<h2>Quick Reference</h2>
 <ul>
-<li>A grid is initialised against a div that must have an id and a class of .grid.<pre><code class="lang-html">&lt;div id=&quot;grid&quot; class=&quot;grid&quot;&gt;&lt;/div&gt;</code></pre>
+<li><p>A grid is initialised against a div that must have an id and a class of .grid.
+<br/></p>
+<pre><code class="lang-html">&lt;div id=&quot;grid&quot; class=&quot;grid&quot;&gt;&lt;/div&gt;</code></pre>
 </li>
-<li>The simplest grid (one cell) would be initialised like so:<pre><code class="lang-html">var grid = $('#grid').gridSplit();</code></pre>
+<li><p>The simplest grid (one cell) would be initialised like so:
+<br/></p>
+<pre><code class="lang-html">var grid = $('#grid').gridSplit();</code></pre>
 </li>
-<li>You can set various options at initialisation, for more detail see the <a href="https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html">documentation</a>:<pre><code class="lang-html"> var grid = $('#grid').gridSplit({resizable:false});</code></pre>
+<li><p>You can set various options at initialisation, for more detail see the <a href="https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html">documentation</a>:
+<br/></p>
+<pre><code class="lang-html"> var grid = $('#grid').gridSplit({resizable:false});</code></pre>
 </li>
-<li>A grid can be split using x/y co-ordinates using several methods that can be called in similar ways:<pre><code class="lang-html"> grid.splitAt(0).splitAt(1,0).splitAt(0).addColumn(1).addCell(0,0).splitAt(1,0);</code></pre>
+<li><p>A grid can be split with x/y co-ordinates using several methods that can be called in similar ways:
+<br/></p>
+<pre><code class="lang-html"> grid.splitAt(0).splitAt(1,0).splitAt(0).addColumn(1).addCell(0,0).splitAt(1,0);</code></pre>
 </li>
-<li>Cells can also be deleted using x/y co-ordinates:<pre><code class="lang-html"> grid.delCell(1,0).delAt(0,0).delColumn(1).delAt(0);</code></pre>
+<li><p>Cells can also be deleted using x/y co-ordinates:
+<br/></p>
+<pre><code class="lang-html"> grid.delCell(1,0).delAt(0,0).delColumn(1).delAt(0);</code></pre>
 </li>
-<li>This adds a grid to the cell and splits that new cell/grid vertically into two columns:<pre><code class="lang-html"> var grid2 = grid.splitAt(1,0,true);</code></pre>
+<li><p>This adds a grid to the cell and splits that new cell/grid vertically into two columns:
+<br/></p>
+<pre><code class="lang-html"> var grid2 = grid.splitAt(1,0,true);</code></pre>
 </li>
-<li>.returnMeta() will provide an array that represents the grid:<pre><code class="lang-html"> var meta = grid.returnMeta(); // &quot;{&quot;0&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;19%&quot;}},&quot;1&quot;:{&quot;0&quot;:{&quot;0&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;50%&quot;}},&quot;1&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;50%&quot;}},&quot;h&quot;:&quot;50%&quot;},&quot;1&quot;:{&quot;h&quot;:&quot;50%&quot;},&quot;c&quot;:{&quot;w&quot;:&quot;81%&quot;}}}&quot;</code></pre>
+<li><p>If you want to chain spiltting actions then you might need .parent():
+<br/></p>
+<pre><code class="lang-html"> var grid = grid.splitAt(1,0,true).parent().splitAt(1,0).splitAt(1,1,true).parent(); // grid is still #grids gridSplit instance</code></pre>
 </li>
-<li>This data can be used to duplicate or recreate the grid:<pre><code class="lang-html">  var grid3 = $('#grid-clone').gridSplit({data:JSON.parse(meta)});</code></pre>
+<li><p>.returnMeta() will provide an array that represents the grid:
+<br/></p>
+<pre><code class="lang-html"> var meta = grid.returnMeta(); // &quot;{&quot;0&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;19%&quot;}},&quot;1&quot;:{&quot;0&quot;:{&quot;0&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;50%&quot;}},&quot;1&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;50%&quot;}},&quot;h&quot;:&quot;50%&quot;},&quot;1&quot;:{&quot;h&quot;:&quot;50%&quot;},&quot;c&quot;:{&quot;w&quot;:&quot;81%&quot;}}}&quot;</code></pre>
+</li>
+<li><p>This data can be used to duplicate or recreate the grid:
+<br/></p>
+<pre><code class="lang-html">  var grid3 = $('#grid-clone').gridSplit({data:JSON.parse(meta)});</code></pre>
+</li>
+<li><p>The grids $elements can be accessed using grids.gridsCells:
+<br/></p>
+<pre><code class="lang-html">  var $el00 = grid3.gridsCells[0][0];
+  var $el10_00 = grid3.gridsCells[1][0].data(&quot;grid&quot;).gridsCells[0][0];</code></pre>
+</li>
+<li><p>To destroy the grid and any reference it adds:
+<br/></p>
+<pre><code class="lang-html">  grid3 = grid3.destroy(); // this does not remove the element</code></pre>
 </li>
 </ul>
 <hr></article>
@@ -169,7 +194,7 @@
           
     <span class="jsdoc-message">
     Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.2.2</a>
-    on 2015-04-29T03:00:36+01:00
+    on 2015-04-29T04:02:51+01:00
     </span>
         </footer>
       </div>
