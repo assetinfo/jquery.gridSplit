@@ -37,7 +37,7 @@
     * @param {String} options.splitMethodV -  Method to use when splitting columns vertically ["half"|""]
     * @param {String} options.horizMin - Minimum cell height
     * @param {String} options.vertMin - Minimum column width
-    * @param {String} options.hideBorder - CSS obj to hide the border
+    * @param {Object} options.hideBorder - CSS obj to hide the border
     * @class $.fn.gridSplit
     * @memberOf! $.fn
     */
@@ -123,7 +123,7 @@
          * @param {String} options.splitMethodV -  Method to use when splitting columns vertically ["half"|""]
          * @param {String} options.horizMin - Minimum cell height
          * @param {String} options.vertMin - Minimum column width
-         * @param {String} options.hideBorder - CSS obj to hide the border
+         * @param {Object} options.hideBorder - CSS obj to hide the border
          * @return {object} this
          * @property {object} this.settings - object of settings extended by options
          * @property {String} this.id - the grid elements ID 

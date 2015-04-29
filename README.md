@@ -4,7 +4,7 @@ A jQuery grid system designed so that each cell can be "split" either horizontal
 
 --------
 
-Firstly, we need to include the required packages in our page:
+Firstly, download or clone this repo, then run 'bower install' and include the required packages in your page:
 
 ```html
 <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css">
@@ -14,14 +14,14 @@ Firstly, we need to include the required packages in our page:
 <script src="./bower_components/underscore/underscore-min.js"></script>
 <script src="./dist/jquery.gridsplit.min.js"></script>
 ```
-OR we can include an optimised version of the above:
+OR include the optimised versions in ./dist/ dir that you can build using "grunt" (after doing npm install):
 
 ```html
 <link rel="stylesheet" href="./dist/jquery.gridsplit.optimised.css">
 <script src="./dist/jquery.gridsplit.optimised.js"></script>
 ```
 
-We can do something similar to this in our require.config if we are using an AMD:
+If you use AMD then you can do something similar to this in your require.config and load the plugin like in [main.js](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js):
 
 ```html
 require.config({
@@ -33,22 +33,22 @@ require.config({
     "gridsplit": "src/js/jquery.gridsplit"
   },
   "shim": {
-    "jquery":        { "exports": "$" },
-    "jqueryui":     ["jquery"]
+    "jquery": { "exports": "$" },
+    "jqueryui": ["jquery"]
   } 
 });
 ```
 Now were ready to build grids (see [example.html](https://github.com/assetinfo/jquery.gridSplit/blob/master/example.html) OR [example.amd.html](https://github.com/assetinfo/jquery.gridSplit/blob/master/example.amd.html) and [main.js](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) for initialisation methods)
 
-# Demo
+## Demo
 
 We only have the one example at the moment, but its fairly comprehensive. [github.io](https://assetinfo.github.io/jquery.gridSplit) and [jsfiddle](http://jsfiddle.net/graydixon/bupjuntd/)
 
-# Generated Documentation
+## Generated Documentation
 
 [Documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) has been generated using [jsDocs2.2](https://github.com/jsdoc3/jsdoc)
 
-# Quick Reference 
+## Quick Reference 
 
 * A grid is initialised against a div that must have an id and a class of .grid.
 <br/>
