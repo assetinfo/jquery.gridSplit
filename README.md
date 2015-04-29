@@ -14,14 +14,14 @@ Firstly, download or clone this repo, then run 'bower install' and include the r
 <script src="./bower_components/underscore/underscore-min.js"></script>
 <script src="./dist/jquery.gridsplit.min.js"></script>
 ```
-OR include the optimised versions in ./dist/ dir that you can build using "grunt" (after doing npm install):
+OR include the optimised versions in ./dist/ dir that you can build using "grunt" (after doing "npm install"):
 
 ```html
 <link rel="stylesheet" href="./dist/jquery.gridsplit.optimised.css">
 <script src="./dist/jquery.gridsplit.optimised.js"></script>
 ```
 
-Alternatively include jQuery and the plugin via requirejs in your [module](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) with a config similar to:
+Alternatively include the required packages and the plugin via requirejs in your [module](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) with a config similar to:
 
 ```html
 require.config({
@@ -38,7 +38,7 @@ require.config({
   } 
 });
 ```
-Now were ready to build grids (see [example.html](https://github.com/assetinfo/jquery.gridSplit/blob/master/example.html) OR [example.amd.html](https://github.com/assetinfo/jquery.gridSplit/blob/master/example.amd.html) and [main.js](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) for initialisation methods)
+Now you're ready to build grids (see [example.html](https://github.com/assetinfo/jquery.gridSplit/blob/master/example.html) OR [example.amd.html](https://github.com/assetinfo/jquery.gridSplit/blob/master/example.amd.html) and [main.js](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) for initialisation methods)
 
 ## Demo
 
