@@ -46,7 +46,7 @@ We only have the one example at the moment, but its fairly comprehensive. [githu
 
 ## Generated Documentation
 
-[Documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) has been generated using [jsDocs2.2](https://github.com/jsdoc3/jsdoc)
+[Documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) has been generated using [jsDocs 3.2.2](https://github.com/jsdoc3/jsdoc)
 
 ## Quick Reference 
 
