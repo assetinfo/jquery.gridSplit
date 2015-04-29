@@ -11,7 +11,6 @@ Firstly, download or clone this repo, then run 'bower install' and include the r
 <link rel="stylesheet" href="./src/css/jquery.gridsplit.css">
 <script src="./bower_components/jquery/dist/jquery.js"></script>
 <script src="./bower_components/jquery-ui/jquery-ui.js"></script>
-<script src="./bower_components/underscore/underscore-min.js"></script>
 <script src="./dist/jquery.gridsplit.min.js"></script>
 ```
 OR include the optimised versions in ./dist/ dir that you can build using "grunt" (after doing "npm install"):
