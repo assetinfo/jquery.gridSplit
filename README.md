@@ -98,4 +98,19 @@ We only have the one example at the moment, but its fairly comprehensive. [githu
   ```html
     var grid3 = $('#grid-clone').gridSplit({data:JSON.parse(meta)});
   ``` 
+
+* The grids $elements can be accessed using grids.gridsCells:
+<br/>
+
+  ```html
+    var el00 = grid3.gridsCells[0][0];
+    var el10-00 = grid3.gridsCells[1][0].data("grid").gridsCells[0][0];
+  ```
+
+  * To destroy the grid and any reference it adds:
+<br/>
+
+  ```html
+    grid3 = grid3.destroy(); // this does not remove the element
+  ```  
 --------
