@@ -107,7 +107,7 @@ We only have the one example at the moment, but its fairly comprehensive. [githu
     var el10-00 = grid3.gridsCells[1][0].data("grid").gridsCells[0][0];
   ```
 
-  * To destroy the grid and any reference it adds:
+* To destroy the grid and any reference it adds:
 <br/>
 
   ```html
