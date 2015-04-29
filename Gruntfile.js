@@ -58,10 +58,10 @@ module.exports = function(grunt) {
         },
         jasmine: {
             full: {
-                src: "dist/jquery.gridsplit.js",
+                src: "dist/jquery.gridsplit.optimised.js",
                 options: {
                     specs: "spec/*[S|s]pec.js",
-                    vendor: ["spec/lib/matchers.js", "spec/lib/jasmine-species/jasmine-grammar.js", "spec/lib/setup.js", "bower_components/jquery/dist/jquery.js", "bower_components/underscore/underscore.js"]
+                    vendor: ["spec/lib/matchers.js", "spec/lib/jasmine-species/jasmine-grammar.js", "spec/lib/setup.js"]
                 }
             }
         }

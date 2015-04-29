@@ -168,14 +168,17 @@
             } else this.metaAt[x][y] = el.data("grid").metaAt;
             return el.data("grid");
         }, grid.delCell = function(x, y) {
-            var oThis = this, reEx = [], reExm = {}, reExs = [], el = this.gridsCells[x][y];
-            return "undefined" != typeof this.gridsColumns[x] && "undefined" != typeof this.gridsCells[x][y] && this.gridsColumns.length > 0 && (this.gridsCells[x].length > 1 ? (reExm.c = oThis.metaAt[x].c, 
-            _.each(this.gridsCells[x], function(acY, ly) {
-                ly > y ? (reEx[ly - 1] = oThis.gridsCells[x][ly], reExm[ly - 1] = oThis.metaAt[x][ly], 
-                reExs[ly - 1] = oThis.gridsStructure[x][ly]) : ly !== y && (reEx[ly] = oThis.gridsCells[x][ly], 
-                reExm[ly] = oThis.metaAt[x][ly], reExs[ly] = oThis.gridsStructure[x][ly]);
-            }), $(el).remove(), this.gridsCells[x] = reEx, this.metaAt[x] = reExm, this.gridsStructure[x] = reExs, 
-            this.forcePerHeight(x)) : this.delColumn(x)), this;
+            var oThis = this, reEx = [], reExm = {}, reExs = [];
+            if ("undefined" != typeof this.gridsColumns[x] && "undefined" != typeof this.gridsCells[x][y] && this.gridsColumns.length > 0) if (this.gridsCells[x].length > 1) {
+                var el = this.gridsCells[x][y];
+                reExm.c = oThis.metaAt[x].c, _.each(this.gridsCells[x], function(acY, ly) {
+                    ly > y ? (reEx[ly - 1] = oThis.gridsCells[x][ly], reExm[ly - 1] = oThis.metaAt[x][ly], 
+                    reExs[ly - 1] = oThis.gridsStructure[x][ly]) : ly !== y && (reEx[ly] = oThis.gridsCells[x][ly], 
+                    reExm[ly] = oThis.metaAt[x][ly], reExs[ly] = oThis.gridsStructure[x][ly]);
+                }), $(el).remove(), this.gridsCells[x] = reEx, this.metaAt[x] = reExm, this.gridsStructure[x] = reExs, 
+                this.forcePerHeight(x);
+            } else this.delColumn(x);
+            return this;
         }, grid.delColumn = function(x) {
             var oThis = this, reEx = [], reExm = {}, reExs = [], reExc = [], el = this.gridsColumns[x];
             return "undefined" != typeof this.gridsColumns[x] && (_.each(this.gridsColumns, function(acX, lx) {
@@ -363,12 +366,12 @@
         }, grid.forcePerHeight = function(x) {
             var heights = [], oThis = this, col = this.gridsColumns[x];
             if ("undefined" != typeof col) {
-                _.each(oThis.gridsCells[x], function(Cell, y) {
-                    heights.push(parseInt(oThis.perOfHeight($(Cell).height(), col.height())));
+                _.each(oThis.gridsCells[x], function(cell, y) {
+                    heights.push(parseInt(oThis.perOfHeight($(cell).height(), $(col).height())));
                 });
                 var newHeights = oThis.equalPers(heights, 100, 1);
-                _.each(oThis.gridsCells[x], function(Cell, y) {
-                    $(Cell).css({
+                _.each(oThis.gridsCells[x], function(cell, y) {
+                    $(cell).css({
                         height: newHeights[y] + "%"
                     }), oThis.resizeCell(x, y, newHeights[y] + "%");
                 });

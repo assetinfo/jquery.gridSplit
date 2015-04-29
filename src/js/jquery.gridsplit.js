@@ -544,18 +544,18 @@
             var reEx = [];
             var reExm = {};
             var reExs = [];
-            var el = this.gridsCells[x][y];
             if (typeof this.gridsColumns[x] !== "undefined") {
                 if (typeof this.gridsCells[x][y] !== "undefined") {
                     if (this.gridsColumns.length > 0) {
                         if (this.gridsCells[x].length > 1) {
+                            var el = this.gridsCells[x][y];
                             // keep reference to the column deffinition
                             reExm['c'] = oThis.metaAt[x]['c'];
                             _.each(this.gridsCells[x], function(acY, ly) {
                                 if (ly > y) {
-                                    reEx[ly - 1] = oThis.gridsCells[x][ly];
-                                    reExm[ly - 1] = oThis.metaAt[x][ly];
-                                    reExs[ly - 1] = oThis.gridsStructure[x][ly];
+                                    reEx[(ly - 1)] = oThis.gridsCells[x][ly];
+                                    reExm[(ly - 1)] = oThis.metaAt[x][ly];
+                                    reExs[(ly - 1)] = oThis.gridsStructure[x][ly];
                                 } else {
                                     if (ly !== y) {
                                         reEx[ly] = oThis.gridsCells[x][ly];
@@ -1150,14 +1150,14 @@
             var oThis = this;
             var col = this.gridsColumns[x];
             if (typeof col !== "undefined") {
-                _.each(oThis.gridsCells[x], function(Cell, y) {
-                    heights.push(parseInt(oThis.perOfHeight($(Cell).height(), col.height())));
+                _.each(oThis.gridsCells[x], function(cell, y) {
+                    heights.push(parseInt(oThis.perOfHeight($(cell).height(), $(col).height())));
                 });
                 var newHeights = oThis.equalPers(heights, 100, 1);
                 // console.log(heights);
                 // console.log(newHeights);
-                _.each(oThis.gridsCells[x], function(Cell, y) {
-                    $(Cell).css({
+                _.each(oThis.gridsCells[x], function(cell, y) {
+                    $(cell).css({
                         "height": newHeights[y] + "%",
                     });
                     oThis.resizeCell(x, y, (newHeights[y] + "%"));
