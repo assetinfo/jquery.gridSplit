@@ -21,7 +21,7 @@ OR include the optimised versions in ./dist/ dir that you can build using "grunt
 <script src="./dist/jquery.gridsplit.optimised.js"></script>
 ```
 
-If you use AMD then you can do something similar to this in your require.config and load the plugin like in [main.js](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js):
+Alternatively include jQuery and the plugin via requirejs in your [module](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) with a config similar to:
 
 ```html
 require.config({
