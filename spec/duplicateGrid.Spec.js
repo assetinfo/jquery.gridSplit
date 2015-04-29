@@ -8,7 +8,7 @@ feature("Testing set data and setMeta (setMeta is implied to be working id data 
 	        expect(gridLen).toBe(3);
 	    });
 	    it("appending #grid2 and running .gridsplit({data:a.returnMeta()})", function() {
-		    $('body').append('<div class="grid" id="grid2" ></div>');
+            $('body').append('<div class="grid" id="grid2" ></div>');
 	        b = $('#grid2').gridSplit({data:JSON.parse(a.returnMeta())});
 	        //grids match if both return the same meta.
 	        var gridsMatch = (a.returnMeta() == b.returnMeta()); 
