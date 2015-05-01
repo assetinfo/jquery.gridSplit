@@ -4,7 +4,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         uglify: {
             options: {
-                banner: '/*! \n' + '* Author: Graham Dixon \n' + '* Contact: gdixon@assetinfo.co.uk \n' + '* Copyright: (c) 2015 Graham Dixon (assetinfo(MML))\n' + '* Script: jquery.gridsplit.min.js - v.0.0.1 \n' + '* Licensed: MIT \n' + '* Depends on: jQuery && jQuery-ui, underscore, bootstrap 3.*\n' + '*/\n'
+                banner: '/*! \n' + '* Author: Graham Dixon \n' + '* Contact: gdixon@assetinfo.co.uk \n' + '* Copyright: (c) 2015 Graham Dixon (assetinfo(MML))\n' + '* Script: jquery.gridsplit.min.js - v.0.0.1 \n' + '* Licensed: MIT \n' + '* Depends on: jQuery && jQuery-ui-draggable, bootstrap 3.*\n' + '*/\n'
             },
             min: {
                 options: {

@@ -2,7 +2,7 @@
  * Script: jquery.gridSplit.min.js - v.0.0.1
  * Copyright: (c) 2015 Graham Dixon (assetinfo(MML))
  * Licensed: MIT
- * Depends on: jQuery && jQuery-ui, underscore, bootstrap 3.*
+ * Depends on: jQuery && jQuery-ui, bootstrap 3.*
  */
 ;
 (function(factory) {
