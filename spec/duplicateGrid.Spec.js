@@ -1,4 +1,4 @@
-feature("Testing set data and setMeta (setMeta is implied to be working id data is)",function(){
+feature("Testing initialise with meta",function(){
 	describe("Initialise a grid with meta and duplicate it", function() {
 		var a, b;
 	    it("appending #grid and running .gridsplit({data:meta})", function() {
