@@ -147,6 +147,7 @@
          * @property {String} this.id - the grid elements ID
          * @property {object} this.$el - the grid $el
          * @property {object} this.el - the grid document node
+         * @property {string} this.focusGrid - reference to ID
          * @property {object} this.gridsColumns - object of columns (only relevent to this grid)
          * @property {object} this.gridsCells - object of cells (only relevent to this grid)
          * @property {object} this.gridsStructure - object representing the simplified structure (all nested grid)
@@ -161,6 +162,7 @@
             this.id = el.attr("id");
             this.$el = $('#' + this.id);
             this.el = this.$el[0];
+            this.focusGrid = this.id;
             this.gridsColumns = [];
             this.gridsCells = [];
             this.gridsStructure = [];
