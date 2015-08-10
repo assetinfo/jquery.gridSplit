@@ -7,7 +7,6 @@ A jQuery grid system designed so that each cell can be "split" either horizontal
 Firstly, download or clone this repo, then run 'bower install' and include the required packages in your page:
 
 ```html
-<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" href="./src/css/jquery.gridsplit.css">
 <script src="./bower_components/jquery/dist/jquery.js"></script>
 <script src="./bower_components/jquery-ui/jquery-ui.js"></script>
