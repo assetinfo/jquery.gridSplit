@@ -4,7 +4,7 @@
 * Copyright: (c) 2015 Graham Dixon (assetinfo(MML))
 * Script: jquery.gridsplit.min.js - v.0.0.1 
 * Licensed: MIT 
-* Depends on: jQuery && jQuery-ui-draggable, bootstrap 3.*
+* Depends on: jQuery && jQuery-ui-draggable
 */
 !function(factory) {
     "function" == typeof define && define.amd ? define([ "jquery", "jqueryui-draggable" ], factory) : factory(jQuery, jQuery);
