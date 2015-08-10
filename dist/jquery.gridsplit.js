@@ -99,7 +99,7 @@
             var oThis = this;
             if ("undefined" == typeof x || "undefined" == typeof y) return this;
             if (this.gridsStructure.length - 1 < x && (x = this.gridsStructure.length - 1), 
-            "null" === this.gridsStructure[x][y]) {
+            "null" == this.gridsStructure[x][y]) {
                 if (el = $('<div class="' + this.settings.gridCellClass + " " + (1 == this.settings.splitCellInColumn ? this.settings.insideCellClass + " " + this.settings.useInsideCell : "") + '" ></div>'), 
                 "undefined" != typeof after ? el.insertAfter(after) : el.appendTo(this.gridsColumns[x]), 
                 this.gridsStructure[x][y] = !0, this.gridsCells[x][y] = el, "undefined" == typeof this.metaAt[x][y] && (this.metaAt[x][y] = {}), 
@@ -115,7 +115,7 @@
         }, grid.addColumn = function(x, after, skip) {
             var oThis = this;
             if ("undefined" != typeof x) {
-                if ("null" === this.gridsStructure[x]) {
+                if ("null" == this.gridsStructure[x]) {
                     var el = $('<div class="' + this.settings.gridColClass + '" ></div>');
                     if ("undefined" != typeof after ? el.insertAfter(after) : el.appendTo(this.elInner), 
                     this.gridsStructure[x] = [], this.gridsCells[x] = [], this.metaAt[x] = {}, this.gridsColumns[x] = el.data("tpe", "c"), 
