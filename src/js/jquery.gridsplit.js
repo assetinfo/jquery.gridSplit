@@ -26,18 +26,18 @@
      * @param {String} options.gridCellClass - Cell class
      * @param {String} options.innerGridClass - Inner grid class
      * @param {String} options.hasChildrenClass - Cell has children class
-     * @param {String} options.resizableClass - Is resizable class
+     * @param {String} options.resizableClass - Add class if resizable
      * @param {String} options.draggingClass - Rail is being dragged class
      * @param {String} options.data - Data to initialise the grid with
-     * @param {String} options.setMeta - Meta to set against the current grid
+     * @param {String} options.setMeta - Meta to be set against the current grid
      * @param {String} options.parentGrid - The parent of the current grid
-     * @param {String} options.nestedIn - The ID of the grid this grid is nested in
-     * @param {bool} options.resizable - Is resizable?
+     * @param {String} options.nestedIn - The ID of the grid this grid is nested within
+     * @param {bool} options.resizable - Is this grid resizable?
      * @param {String} options.splitMethodH - Method to use when splitting cells horizontally ["half"|""]
      * @param {String} options.splitMethodV -  Method to use when splitting columns vertically ["half"|""]
      * @param {int} options.horizMin - Minimum cell height
      * @param {int} options.vertMin - Minimum column width
-     * @param {Object} options.hideBorder - CSS obj to hide the border
+     * @param {Object} options.hideBorder - CSS obj to hide a border
      * @param {function} options.callFocusAndLoad - When reloading a grid this call is attempted on each cell
      * @param {function} options.callResetGrid - This function is attempted once the grid has been rebuilt
      * @param {function} options.callAfterMove - Stack some functions with the cells context / do something with the cells context
@@ -116,26 +116,26 @@
          * Iniatialise the grid and apply the options contained in the passed in object.
          *
          * @function gridSplit.init
-         * @param {object} el the $element we are applying the grid to.
-         * @param {object} options the options being passed through to init from $(el).gridSplit(options) or new gridSplit(options).
+         * @param {object} el the $element we are applying the grid to
+         * @param {object} options the options being passed through to init from $(el).gridSplit(options) or new gridSplit(options)
          * @param {object} options.horizRail - horizontal rail $el to be cloned
          * @param {object} options.vertRail - vertical rail $el to be cloned
          * @param {String} options.gridColClass - Column class
          * @param {String} options.gridCellClass - Cell class
          * @param {String} options.innerGridClass - Inner grid class
          * @param {String} options.hasChildrenClass - Cell has children class
-         * @param {String} options.resizableClass - Is resizable class
          * @param {String} options.draggingClass - Rail is being dragged class
+         * @param {String} options.resizableClass - Add class if resizable
          * @param {String} options.data - Data to initialise the grid with
          * @param {String} options.setMeta - Meta to set against the current grid
          * @param {String} options.parentGrid - The parent of the current grid
-         * @param {String} options.nestedIn - The ID of the grid this grid is nested in
-         * @param {bool} options.resizable - Is resizable?
+         * @param {String} options.nestedIn - The ID of the grid this grid is nested within
+         * @param {bool} options.resizable - Is this grid resizable?
          * @param {String} options.splitMethodH - Method to use when splitting cells horizontally ["half"|""]
          * @param {String} options.splitMethodV -  Method to use when splitting columns vertically ["half"|""]
          * @param {int} options.horizMin - Minimum cell height
          * @param {int} options.vertMin - Minimum column width
-         * @param {Object} options.hideBorder - CSS obj to hide the border
+         * @param {Object} options.hideBorder - CSS obj to hide a border
          * @param {function} options.callFocusAndLoad - When reloading a grid this call is attempted on each cell
          * @param {function} options.callResetGrid - This function is attempted once the grid has been rebuilt
          * @param {function} options.callAfterMove - Stack some functions with the cells context / do something with the cells context
@@ -146,12 +146,12 @@
          * @property {object} this.settings - object of settings extended by options
          * @property {String} this.id - the grid elements ID
          * @property {object} this.$el - the grid $el
-         * @property {object} this.el - the grid document node
+         * @property {object} this.el - the grid documentElement
          * @property {object} this.gridsColumns - object of columns (only relevent to this grid)
          * @property {object} this.gridsCells - object of cells (only relevent to this grid)
          * @property {object} this.gridsStructure - object representing the simplified structure (all nested grids)
          * @property {object} this.timeoutFPH - object to hold timeouts for forcePercentHeight
-         * @property {object} this.metaAt - object of the complete structure and meta (all nested grid)
+         * @property {object} this.metaAt - object of the complete structure and meta (all nested grid) to set against the grid
          * @memberOf gridSplit
          */
         grid.init = function(el, options) {
@@ -174,9 +174,9 @@
             }
             if (this.settings.data == '') {
                 // to force the addCol/addCell function to go straight to setting these values.
-                this.gridsStructure[0] = "need to set";
+                this.gridsStructure[0] = null;
                 this.addColumn(0);
-                this.gridsStructure[0][0] = "need to set";
+                this.gridsStructure[0][0] = null;
                 this.addCell(0, 0);
                 // when where splitting a Cell in a colum we need to split horizontally
                 if (this.settings.splitCellInColumn == true) {
@@ -195,7 +195,7 @@
          * this.buildGrid()<br/><br/>Build the grid when provided with {data:object} via .init(el, object)
          *
          * @function gridSplit.buildGrid
-         * @param {string} data the provided JSON data.
+         * @param {string} data the provided JSON data
          * @param {string} undefined easy reference to an undefined var
          * @return {object} this
          * @memberOf gridSplit
@@ -226,7 +226,7 @@
             data = checkMeta(data);
             $.each(data, function(x, column) {
                 if (!isNaN(x)) {
-                    oThis.gridsStructure[x] = "need to set";
+                    oThis.gridsStructure[x] = null;
                     oThis.addColumn(x, undefined, true);
                     oThis.gridsColumns[x].css("float", "left");
                     // console.log("add Column " + x);
@@ -263,7 +263,7 @@
          * thie.setMeta<br/><br/>Set the widths and height of the columns / cells when provided with an appropriate object.
          *
          * @function gridSplit.setMeta
-         * @param {object} data the data we are applying to the grid.
+         * @param {object} data the data we are applying to the grid
          * @return {object} this
          * @memberOf gridSplit
          */
@@ -322,12 +322,12 @@
             return t;
         }
         /**
-         * this.addCell()<br/><br/>Add a cell at an x, y co-ordinate, append to grid or insertAfter 'after'
+         * this.addCell()<br/><br/>Add a cell at an x,y co-ordinate, append to grid or insertAfter 'after'
          *
          * @function gridSplit.addCell
          * @param {int} x the target column
-         * @param {int} y the target cell.
-         * @param {object} after $element.
+         * @param {int} y the target cell
+         * @param {object} after $element
          * @return {object} this
          * @memberOf gridSplit
          */
@@ -341,10 +341,10 @@
             if ((this.gridsStructure.length - 1) < x) {
                 x = this.gridsStructure.length - 1;
             }
-            // if needs to set, already been through this.splitAt()
+            // if needs to set(null), already been through this.splitAt()
             // if cell exists then do a split at location
             // otherwise delete reference to the attempt and split the last in the object
-            if (this.gridsStructure[x][y] == "need to set") {
+            if (this.gridsStructure[x][y] == null) {
                 // inserting the actual cell
                 el = $('<div class="' + this.settings.gridCellClass + ' ' + (this.settings.splitCellInColumn == true ? this.settings.insideCellClass + ' ' + this.settings.useInsideCell : '') + '" ></div>')
                 if (typeof after !== "undefined") {
@@ -382,12 +382,12 @@
             return this;
         }
         /**
-         * this.addColumn()<br/><br/>Add a column at position, append to grid or insertAfter 'after', skip auto adjust columns?
+         * this.addColumn()<br/><br/>Add a column at position, append to grid or insertAfter 'after'. Use skip->true to avoid auto adjusting column widths.
          *
          * @function gridSplit.addColumn
          * @param {int} x the target column
-         * @param {object} after $element.
-         * @param {bool} skip skip the auto adjust of column width?
+         * @param {object} after $element
+         * @param {bool} skip Use skip->true to avoid auto adjusting column widths
          * @return {object} this
          * @memberOf gridSplit
          */
@@ -400,7 +400,7 @@
             // if === needs to set, already been through this.splitAt()
             // if column exists then do a split at location instead.
             // otherwise delete reference to the attempt and split the last in the object
-            if (this.gridsStructure[x] == "need to set") {
+            if (this.gridsStructure[x] == null) {
                 // inserting the actual cell
                 var el = $('<div class="' + this.settings.gridColClass + '" ></div>')
                 if (typeof after !== "undefined") {
@@ -459,7 +459,7 @@
                 }
                 if ((y + 1) == oThis.gridsStructure[x].length) {
                     // tell cell it needs to set.
-                    oThis.gridsStructure[x][(y + 1)] = "need to set";
+                    oThis.gridsStructure[x][(y + 1)] = null;
                     oThis.addCell(x, (y + 1));
                 } else {
                     // shift everything after y in x right to make space;
@@ -489,7 +489,7 @@
                     oThis.metaAt[x] = reExm;
                     oThis.gridsStructure[x] = reExs;
                     // tell cell it needs to set.
-                    oThis.gridsStructure[x][(y + 1)] = "need to set";
+                    oThis.gridsStructure[x][(y + 1)] = null;
                     oThis.addCell(x, (y + 1), oThis.gridsCells[x][y]);
                     if (typeof oThis.settings.callFinaliseMove === "function") {
                         oThis.settings.callFinaliseMove();
@@ -520,7 +520,7 @@
                 if ((x + 1) == oThis.gridsStructure.length) {
                     // conditions are good get straight to splitting.
                     // tell column it needs to set.
-                    oThis.gridsStructure[(x + 1)] = "need to set";
+                    oThis.gridsStructure[(x + 1)] = null;
                     oThis.addColumn((x + 1));
                 } else {
                     // make space available by shifting everything after x right;
@@ -554,7 +554,7 @@
                     oThis.gridsCells = reExc;
                     oThis.gridsStructure = reExs;
                     // tell column it needs to set.
-                    oThis.gridsStructure[(x + 1)] = "need to set";
+                    oThis.gridsStructure[(x + 1)] = null;
                     oThis.addColumn((x + 1), oThis.gridsColumns[x]);
                     // fix the titles in the page header
                     if (typeof oThis.settings.callFinaliseMove === "function") {
@@ -574,77 +574,75 @@
                 oThis.resizeColumn(x, setWid);
                 oThis.resizeColumn((x + 1), setWid);
                 // column needs a cell, tell it that it needs to set.
-                oThis.gridsStructure[(x + 1)][0] = "need to set";
+                oThis.gridsStructure[(x + 1)][0] = null;
                 oThis.addCell((x + 1), 0);
             }
             return oThis;
         }
         /**
-         * this.splitCellInColumn()<br/><br/> initialises another grid within this grid.
+         * this.splitCellInColumn()<br/><br/> initialises another grid within a grid.
          *
          * @function gridSplit.splitCellInColumn
          * @param {object} el the target gridsCell we will be adding a grid to
          * @param {int} x the target column (if no y provided, columns is split vertically)
          * @param {int} y the target cell (if y is provided, cell is split horizontally)
-         * @param {object} data if the action is being made by buildGrid then data will be passed back in to buildGrid.
+         * @param {object} data if the action is being made by buildGrid then data will be passed back in to buildGrid
          * @return {object} el.data("grid") grid instance
          * @memberOf gridSplit
          */
         grid.splitCellInColumn = function(el, x, y, data) {
-            // add an ID to the cell so that a new grid can be initialised on it.
-            if (this.splitCellInColumn !== true) {
-                // use .data("grid") here to reference inner grid.
-                var content = this.returnContent(el);
-                // save reference to parents height and fA values
-                if (typeof this.metaAt[x][y] !== "undefined") {
-                    var h = this.metaAt[x][y]['h'];
-                    var fA = this.metaAt[x][y]['fA'];
-                }
-                el.attr("id", (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id) + '-' + x + '' + y).css(this.settings.hideBorder).off("click").gridSplit({
-                    "parentGrid": this,
-                    "parentsX": x,
-                    "parentsY": y,
-                    "splitCellInColumn": true,
-                    "callFocusAndLoad": this.settings.callFocusAndLoad,
-                    "callResetGrid": null,
-                    "callAfterMove": this.settings.callAfterMove,
-                    "callFinaliseMove": this.settings.callFinaliseMove,
-                    "callSetFocus": this.settings.callSetFocus,
-                    "callBeforeDestroy": this.settings.callBeforeDestroy,
-                    "nestedIn": (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id),
-                    "data": (typeof data !== "undefined") ? data : "",
-                    "resizable": this.settings.resizable,
-                });
-                if (typeof(this.gridsStructure[x][y] == "undefined")) {
-                    this.gridsStructure[x][y] = {};
-                }
-                // connect structure and meta to parent grid, let em bubble to the top grid instance
-                // access cells grid by using .data("grid") on the cell ( .returnCells()[x][y] )
-                this.gridsStructure[x][y] = el.data("grid").gridsStructure;
-                if (typeof this.metaAt[x] === "undefined") {
-                    this.metaAt[x] = {};
-                    this.metaAt[x]['c'] = {};
-                }
-                // move the widget to the new cell at 0,0
-                if (typeof content !== "undefined") {
-                    el.data("grid").gridsCells[0][0].addClass(this.settings.hasContentClass).append(content);
-                }
-                // set parents meta equal to child.
-                this.metaAt[x][y] = el.data("grid").metaAt;
-                this.metaAt[x][y]["h"] = h;
-                // reset meta
-                el.data("grid").setMetaAt(0, 0, {
-                    "fA": fA,
-                    "h": "100%"
-                });
+            // use .data("grid") here to reference inner grid.
+            var content = this.returnContent(el);
+            // save reference to parents height and fA values
+            if (typeof this.metaAt[x][y] !== "undefined") {
+                var h = this.metaAt[x][y]['h'];
+                var fA = this.metaAt[x][y]['fA'];
             }
+            // add an ID to the cell so that a new grid can be initialised on it.
+            el.attr("id", (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id) + '-' + x + '' + y).css(this.settings.hideBorder).off("click").gridSplit({
+                "parentGrid": this,
+                "parentsX": x,
+                "parentsY": y,
+                "splitCellInColumn": true,
+                "callFocusAndLoad": this.settings.callFocusAndLoad,
+                "callResetGrid": null,
+                "callAfterMove": this.settings.callAfterMove,
+                "callFinaliseMove": this.settings.callFinaliseMove,
+                "callSetFocus": this.settings.callSetFocus,
+                "callBeforeDestroy": this.settings.callBeforeDestroy,
+                "nestedIn": (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id),
+                "data": (typeof data !== "undefined") ? data : "",
+                "resizable": this.settings.resizable,
+            });
+            if (typeof(this.gridsStructure[x][y] == "undefined")) {
+                this.gridsStructure[x][y] = {};
+            }
+            // connect structure and meta to parent grid, let em bubble to the top grid instance
+            // access cells grid by using .data("grid") on the cell ( .returnCells()[x][y] )
+            this.gridsStructure[x][y] = el.data("grid").gridsStructure;
+            if (typeof this.metaAt[x] === "undefined") {
+                this.metaAt[x] = {};
+                this.metaAt[x]['c'] = {};
+            }
+            // move the widget to the new cell at 0,0
+            if (typeof content !== "undefined") {
+                el.data("grid").gridsCells[0][0].addClass(this.settings.hasContentClass).append(content);
+            }
+            // set parents meta equal to child.
+            this.metaAt[x][y] = el.data("grid").metaAt;
+            this.metaAt[x][y]["h"] = h;
+            // reset meta
+            el.data("grid").setMetaAt(0, 0, {
+                "fA": fA,
+                "h": "100%"
+            });
             return el.data("grid");
         }
         /**
-         * this.delCell()<br/><br/> allows for removal of a cell.
+         * this.delCell()<br/><br/> allows for removing a cell.
          *
          * @function gridSplit.delCell
-         * @param {int} x the target cells' column
+         * @param {int} x the target cells column
          * @param {int} y the target cells position in that column
          * @return {object} this
          * @memberOf gridSplit
@@ -685,6 +683,12 @@
                                         reEx[ly] = oThis.gridsCells[x][ly];
                                         reExm[ly] = oThis.metaAt[x][ly];
                                         reExs[ly] = oThis.gridsStructure[x][ly];
+                                    }else {
+                                        // add this height to the cell above.
+                                        if((ly-1) >= 0) {
+                                            oThis.resizeCell(x, ly, (oThis.gridsCells[x][ly].height() + oThis.gridsCells[x][ly-1].height()));
+                                            oThis.gridsCells[x][ly-1].height(oThis.gridsCells[x][ly].height() +  oThis.gridsCells[x][ly-1].height());
+                                        }
                                     }
                                 }
                             });
@@ -715,7 +719,7 @@
             return oThis;
         }
         /**
-         * this.delColumn()<br/><br/> allows for removal of a column.
+         * this.delColumn()<br/><br/> allows for removing a column.
          *
          * @function gridSplit.delColumn
          * @param {int} x the target column
@@ -764,6 +768,12 @@
                                     oThis.settings.callAfterMove(oThis.id + '' + (lx) + '' + y, oThis.id + '' + lx + '' + y, oThis, lx, y);
                                 }
                             }
+                        } else {
+                            // add this width to the col on the left.
+                            if((lx-1) >= 0) {
+                                oThis.resizeColumn(lx-1, (oThis.gridsColumns[lx].outerWidth() + oThis.gridsColumns[lx-1].outerWidth()));
+                                oThis.gridsColumns[lx-1].outerWidth(oThis.gridsColumns[lx].outerWidth() +  oThis.gridsColumns[lx-1].outerWidth());
+                            }
                         }
                     }
                 });
@@ -804,7 +814,7 @@
          * this.delAt()<br/><br/> provides a gateway to delColumn and delCell.
          *
          * @function gridSplit.delAt
-         * @param {int} x the target cells' column
+         * @param {int} x the target cells column
          * @param {int} y the target cells position in that column
          * @return {object} this
          * @memberOf gridSplit
@@ -813,11 +823,11 @@
             return ((typeof y == "undefined" || y == null) ? this.delColumn(x) : this.delCell(x, y));
         }
         /**
-         * this.addRail()<br/><br/> adds rails to cells/columns if this.settings.resizable is true;
+         * this.addRail()<br/><br/> will add rails to cells/columns if this.settings.resizable is true;
          *
          * @function gridSplit.addRail
          * @param {object} to the target element
-         * @param {int} x the target cells' column
+         * @param {int} x the target cells column
          * @param {int} y the target cells position in that column
          * @memberOf gridSplit
          */
@@ -968,7 +978,7 @@
          * this.resizeColumn()<br/><br/> simplify the pass through to this.setMetaAt on width resize;
          *
          * @function gridSplit.resizeColumn
-         * @param {int} x the target cells' column
+         * @param {int} x the target cells column
          * @param {string} to the new width (%)
          * @memberOf gridSplit
          */
@@ -993,7 +1003,7 @@
          * this.resizeCell()<br/><br/> simplify the pass through to this.setMetaAt on height resize;
          *
          * @function gridSplit.resizeCell
-         * @param {int} x the target cells' column
+         * @param {int} x the target cells column
          * @param {int} y the target cells position in that column
          * @param {string} to the new height (%)
          * @memberOf gridSplit
@@ -1028,7 +1038,7 @@
          * this.setMetaAt()<br/><br/> set the obj against this.metaAt[x]([y]);
          *
          * @function gridSplit.setMetaAt
-         * @param {int} x the target cells' column
+         * @param {int} x the target cells column
          * @param {int} y the target cells position in that column
          * @param {object} obj the target element
          * @memberOf gridSplit
@@ -1054,7 +1064,7 @@
          *
          * @function gridSplit.addControls
          * @param {object} to the target element
-         * @param {int} x the target cells' column
+         * @param {int} x the target cells column
          * @param {int} y the target cells position in that column
          * @memberOf gridSplit
          */
@@ -1097,10 +1107,11 @@
          * @memberOf gridSplit
          */
         grid.clickThis = function(to, type, grids) {
-            // handle click event on cell.
+            // just to handle an action against a cell.
             if (type !== "c") {
-                var w = this.gridCol;
-            } else {
+                //     var w = this.gridCol;
+                // } else {
+                // console.log("clicking "+ $(to).data("cell"));
                 var w = this.gridCell;
                 if (typeof grids.settings.callSetFocus === "function") {
                     grids.settings.callSetFocus(JSON.parse($(to).data("cell")), grids);
@@ -1116,7 +1127,7 @@
          * @param {string} full the size of the first element
          * @param {string} type the target element type [cell|column]
          * @param {object} obj [this|column] passed in when this.settings.splitMethod* = "half"
-         * @return {string} the new width|height as percentage
+         * @return {string} ret the new width|height as percentage
          * @memberOf gridSplit
          */
         grid.halfOf = function(first, second, full, type, obj) {
@@ -1340,7 +1351,7 @@
             });
         }
         /**
-         * this.forcePerWidth()<br/><br/> all cell widths need to total 100.
+         * this.forcePerWidth()<br/><br/> all cell widths need to total 100..
          *
          * @function gridSplit.forcePerWidth
          * @memberOf gridSplit
@@ -1446,8 +1457,8 @@
          * @function gridSplit.parent
          * @return {object} parents gridSplit instance.
          * @example
-         * var grid = $('#grid').gridsplit().splitAt(0,0).splitAt(0,1,true); //grid is #grid-01's grid
-         * var grid = $('#grid').gridsplit().splitAt(0,0).splitAt(0,1,true).parent(); //grid is #grid's grid
+         * var grid = $('#grid').gridsplit().splitAt(0,0).splitAt(0,1,true); //grid is instance equiv to $('#grid').gridsplit().gridsCells[0][1].data("grid")
+         * var grid = $('#grid').gridsplit().splitAt(0,0).splitAt(0,1,true).parent(); //grid is instance equiv to $('#grid').gridsplit()
          *
          * @memberOf gridSplit
          */
@@ -1455,8 +1466,8 @@
             return (this.settings.parentGrid === '' ? this : this.settings.parentGrid);
         }
         /**
-         * this.destroy<br/><br/> remove the grid and all associated data<br/><br/>
-         * this.settings.callBeforeDestroy - pass the object through a call prior to destruction (so that the contents of the cells can be cached)
+         * this.destroy<br/><br/> remove the grid and all associated data<br/>
+         * this.settings.callBeforeDestroy - pass the object through a call prior to destruction, so you can save the contents of the cells
          *
          * @function gridSplit.destroy
          * @return {undefined} undefined.
