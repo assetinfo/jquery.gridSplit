@@ -247,6 +247,7 @@
                         // single cell.
                         oThis.addCell(x, 0);
                     }
+                    oThis.forcePerHeight(x);
                 }
             });
             // set widths/heights/foundAt values from meta.
@@ -344,7 +345,7 @@
             // if needs to set(null), already been through this.splitAt()
             // if cell exists then do a split at location
             // otherwise delete reference to the attempt and split the last in the object
-            if (this.gridsStructure[x][y] == null) {
+            if (this.gridsStructure[x][y] === null) {
                 // inserting the actual cell
                 el = $('<div class="' + this.settings.gridCellClass + ' ' + (this.settings.splitCellInColumn == true ? this.settings.insideCellClass + ' ' + this.settings.useInsideCell : '') + '" ></div>')
                 if (typeof after !== "undefined") {
@@ -400,7 +401,7 @@
             // if === needs to set, already been through this.splitAt()
             // if column exists then do a split at location instead.
             // otherwise delete reference to the attempt and split the last in the object
-            if (this.gridsStructure[x] == null) {
+            if (this.gridsStructure[x] === null) {
                 // inserting the actual cell
                 var el = $('<div class="' + this.settings.gridColClass + '" ></div>')
                 if (typeof after !== "undefined") {
