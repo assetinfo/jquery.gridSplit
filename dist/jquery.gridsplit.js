@@ -451,7 +451,7 @@
             var heights = [], oThis = this, col = this.gridsColumns[x];
             if ("undefined" != typeof col) {
                 $.each(oThis.gridsCells[x], function(y, cell) {
-                    heights.push(parseInt(oThis.perOfHeight($(cell).height(), $(col).height())));
+                    heights.push(parseInt(oThis.perOfHeight($(cell).outerHeight(), $(col).outerHeight())));
                 });
                 var newHeights = oThis.equalPers(heights, 100, 1);
                 $.each(oThis.gridsCells[x], function(y, cell) {
