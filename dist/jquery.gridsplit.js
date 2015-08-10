@@ -86,10 +86,9 @@
                         "object" == typeof cell[0] ? "undefined" != typeof oThis.gridsCells[x][y] && "undefined" != typeof oThis.gridsCells[x][y].data("grid") && (oThis.gridsCells[x][y].data("grid").setMeta(cell), 
                         oThis.gridsCells[x][y].css("height", cell.h), oThis.resizeCell(x, y, cell.h)) : "undefined" != typeof cell.fA && (cell.isFullScreen === !0 && (oThis.metaAt[x][y].isFullScreen = !0), 
                         "undefined" != typeof cell.fSID && (oThis.metaAt[x][y].fSID = cell.fSID), "undefined" != typeof oThis.gridsCells[x][y] && (oThis.gridsCells[x][y].css("height", cell.h), 
-                        oThis.resizeCell(x, y, cell.h)), "function" == typeof oThis.settings.callFocusAndLoad && oThis.settings.callFocusAndLoad(oThis, x, y, cell.fA, oThis.metaAt[x][y].isFullScreen));
+                        oThis.resizeCell(x, y, cell.h), console.log("setting h: " + cell.h)), "function" == typeof oThis.settings.callFocusAndLoad && oThis.settings.callFocusAndLoad(oThis, x, y, cell.fA, oThis.metaAt[x][y].isFullScreen));
                     });
                 }
-                oThis.forcePerHeight(x);
             }), oThis.buildingGrid = !1, this;
         }, grid.countCells = function(arr) {
             var t = 0;
