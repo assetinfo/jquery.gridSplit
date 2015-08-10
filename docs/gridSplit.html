@@ -163,7 +163,7 @@
     
     
     <div class="description">
-        this.addCell()<br/><br/>Add a cell at an x, y co-ordinate, append to grid or insertAfter 'after'
+        this.addCell()<br/><br/>Add a cell at an x,y co-ordinate, append to grid or insertAfter 'after'
     </div>
     
 
@@ -695,7 +695,7 @@
     
     
     <div class="description">
-        this.addRail()<br/><br/> adds rails to cells/columns if this.settings.resizable is true;
+        this.addRail()<br/><br/> will add rails to cells/columns if this.settings.resizable is true;
     </div>
     
 
@@ -1019,7 +1019,7 @@
     
     
     <div class="description">
-        this.centerInner()<br/><br/> calculates the padding required to center a grid.
+        this.centerInner()<br/><br/> calculates the padding required to center the grid.
     </div>
     
 
@@ -1069,7 +1069,7 @@
   
               
   
-              <td class="description last">optional so you center an alternative grid</td>
+              <td class="description last">optional, centering an alternative grid</td>
           </tr>
   
     
@@ -1135,7 +1135,7 @@
     
     
     <div class="description">
-        this.clickThis()<br/><br/> handles click against a column or a cell
+        this.clickThis()<br/><br/> handles click against a column or a cell [example]
     </div>
     
 
@@ -1436,7 +1436,7 @@
     
     
     <div class="description">
-        this.delCell()<br/><br/> allows for removal of a cell.
+        this.delCell()<br/><br/> allows for removing a cell.
     </div>
     
 
@@ -1598,7 +1598,7 @@
     
     
     <div class="description">
-        this.delColumn()<br/><br/> allows for removal of a column.
+        this.delColumn()<br/><br/> allows for removing a column.
     </div>
     
 
@@ -1737,7 +1737,7 @@
     
     
     <div class="description">
-        this.destroy<br/><br/> remove the grid and all associated data<br/><br/>this.settings.callBeforeDestroy - pass the object through a call prior to destruction (so that the contents of the cells can be cached)
+        this.destroy<br/><br/> remove the grid and all associated data
     </div>
     
 
@@ -1826,7 +1826,7 @@
     
     
     <div class="description">
-        this.equalPers()<br/><br/> creates percentages that have to total target(100) by weighting the available items;
+        this.equalPers()<br/><br/> creates percentages that have to total target(100);
     </div>
     
 
@@ -2127,7 +2127,7 @@
     
     
     <div class="description">
-        this.forcePerWidth()<br/><br/> all cell widths need to total 100.
+        this.forcePerWidth()<br/><br/> all cell widths need to total 100..
     </div>
     
 
@@ -2390,7 +2390,7 @@
     
             
 <div class="param-desc">
-    the new width|height as percentage
+    ret the new width|height as percentage
 </div>
 
 
@@ -2746,7 +2746,7 @@
   
               
   
-              <td class="description last">Meta to set against the current grid</td>
+              <td class="description last">Meta to bet set against the current grid</td>
           </tr>
   
     
@@ -2934,144 +2934,6 @@
           </tr>
   
     
-  
-          <tr>
-              
-                  <td class="name"><code>callFocusAndLoad</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">function</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">When reloading a grid this call is attempted on each cell</td>
-          </tr>
-  
-    
-  
-          <tr>
-              
-                  <td class="name"><code>callResetGrid</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">function</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">This function is attempted once the grid has been rebuilt</td>
-          </tr>
-  
-    
-  
-          <tr>
-              
-                  <td class="name"><code>callAfterMove</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">function</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">Stack some functions with the cells context / do something with the cells context</td>
-          </tr>
-  
-    
-  
-          <tr>
-              
-                  <td class="name"><code>callFinaliseMove</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">function</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">Invoke the calls you stacked / do something after all moves have finished</td>
-          </tr>
-  
-    
-  
-          <tr>
-              
-                  <td class="name"><code>callSetFocus</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">function</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">Pass the cells context to a function and do something with it</td>
-          </tr>
-  
-    
-  
-          <tr>
-              
-                  <td class="name"><code>callBeforeDestroy</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">function</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">Call attempted when .destroy() is called on a grid</td>
-          </tr>
-  
-    
     </tbody>
   </table>
 </div>
@@ -3208,6 +3070,29 @@
 
         <tr>
             
+                <td class="name"><code>this.focusGrid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">reference to ID</td>
+        </tr>
+
+  
+
+        <tr>
+            
                 <td class="name"><code>this.gridsColumns</code></td>
             
 
@@ -3270,7 +3155,7 @@
 
             
 
-            <td class="description last">object representing the simplified structure (all nested grids)</td>
+            <td class="description last">object representing the simplified structure (all nested grid)</td>
         </tr>
 
   
@@ -3293,7 +3178,7 @@
 
             
 
-            <td class="description last">object to hold timeouts for forcePercentHeight</td>
+            <td class="description last">object to hold timouts for forcePercentHeight</td>
         </tr>
 
   
@@ -4596,95 +4481,6 @@
         
             
 <dt>
-    <h4 class="name" id="returnContent"><span class="type-signature">&lt;static> </span>returnContent<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        this.returnContent()<br/><br/> return content that exists within the cell;
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-  
-
-  
-
-  
-
-  
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    jQuery element
-</div>
-
-
-
-<dl>
-  <dt>
-    Type
-  </dt>
-  <dd>
-    
-<span class="param-type">object</span>
-
-
-  </dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="returnMeta"><span class="type-signature">&lt;static> </span>returnMeta<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
     
     
@@ -5357,7 +5153,7 @@
     
     
     <div class="description">
-        this.splitCellInColumn()<br/><br/> initialises another grid within this grid.
+        this.splitCellInColumn()<br/><br/> initialises another grid within a grid.
     </div>
     
 
@@ -5580,7 +5376,7 @@
           
     <span class="jsdoc-message">
     Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.2.2</a>
-    on 2015-07-29T22:26:12+01:00
+    on 2015-08-10T01:16:45+01:00
     </span>
         </footer>
       </div>
