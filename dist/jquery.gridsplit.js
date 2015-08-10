@@ -71,7 +71,7 @@
                             oThis.splitCellInColumn(oThis.gridsCells[x][y], x, y, cell);
                         }
                     }
-                }) : oThis.addCell(x, 0), oThis.forcePerHeight(x));
+                }) : oThis.addCell(x, 0));
             }), oThis.setMeta(data), oThis == oThis.parent() && "function" == typeof oThis.settings.callResetGrid && oThis.settings.callResetGrid(), 
             oThis;
         }, grid.setMeta = function(data) {
@@ -89,6 +89,7 @@
                         oThis.resizeCell(x, y, cell.h)), "function" == typeof oThis.settings.callFocusAndLoad && oThis.settings.callFocusAndLoad(oThis, x, y, cell.fA, oThis.metaAt[x][y].isFullScreen));
                     });
                 }
+                oThis.forcePerHeight(x);
             }), oThis.buildingGrid = !1, this;
         }, grid.countCells = function(arr) {
             var t = 0;
