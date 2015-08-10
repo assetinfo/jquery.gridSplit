@@ -1,5 +1,9 @@
 body, html {
   height: 100%;
+  margin: 0;
+}
+* , *:after{
+    box-sizing:border-box;
 }
 .grid{
     padding-top:0px;
