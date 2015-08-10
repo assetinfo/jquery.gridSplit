@@ -247,7 +247,6 @@
                         // single cell.
                         oThis.addCell(x, 0);
                     }
-                    oThis.forcePerHeight(x);
                 }
             });
             // set widths/heights/foundAt values from meta.
@@ -284,21 +283,21 @@
                                 if (typeof oThis.gridsCells[x][y] !== "undefined") {
                                     if (typeof oThis.gridsCells[x][y].data("grid") !== "undefined") {
                                         oThis.gridsCells[x][y].data("grid").setMeta(cell);
-                                        oThis.gridsCells[x][y].css("height", cell['h']);
                                         oThis.resizeCell(x, y, cell['h']);
+                                        oThis.gridsCells[x][y].css("height", cell['h']);
                                     }
                                 }
                             } else {
+                                if (typeof oThis.gridsCells[x][y] !== "undefined") {
+                                    oThis.gridsCells[x][y].css("height", cell['h']);
+                                    oThis.resizeCell(x, y, cell['h']);
+                                }
                                 if (typeof cell['fA'] !== "undefined") {
                                     if (cell['isFullScreen'] === true) {
                                         oThis.metaAt[x][y]['isFullScreen'] = true;
                                     }
                                     if (typeof cell['fSID'] !== "undefined") {
                                         oThis.metaAt[x][y]['fSID'] = cell['fSID'];
-                                    }
-                                    if (typeof oThis.gridsCells[x][y] !== "undefined") {
-                                        oThis.gridsCells[x][y].css("height", cell['h']);
-                                        oThis.resizeCell(x, y, cell['h']);
                                     }
                                     if (typeof oThis.settings.callFocusAndLoad === "function") {
                                         oThis.settings.callFocusAndLoad(oThis, x, y, cell['fA'], oThis.metaAt[x][y]['isFullScreen']);
@@ -345,7 +344,7 @@
             // if needs to set(null), already been through this.splitAt()
             // if cell exists then do a split at location
             // otherwise delete reference to the attempt and split the last in the object
-            if (this.gridsStructure[x][y] === null) {
+            if (this.gridsStructure[x][y] == null) {
                 // inserting the actual cell
                 el = $('<div class="' + this.settings.gridCellClass + ' ' + (this.settings.splitCellInColumn == true ? this.settings.insideCellClass + ' ' + this.settings.useInsideCell : '') + '" ></div>')
                 if (typeof after !== "undefined") {
@@ -401,7 +400,7 @@
             // if === needs to set, already been through this.splitAt()
             // if column exists then do a split at location instead.
             // otherwise delete reference to the attempt and split the last in the object
-            if (this.gridsStructure[x] === null) {
+            if (this.gridsStructure[x] == null) {
                 // inserting the actual cell
                 var el = $('<div class="' + this.settings.gridColClass + '" ></div>')
                 if (typeof after !== "undefined") {
@@ -957,10 +956,12 @@
                             // get the real % height using the newHeight against the gridHeight
                             var rHeight = oThis.perOfHeight(newHeight, gridHeight);
                             // set the new height to the elememt
+                            oThis.resizeCell(x, (y-1), rHeight);
                             oThis.gridsCells[x][(y - 1)].css("height", rHeight);
                             // then do similar (newHeight - moved) to the box above the rail, all others should go un-altertered
                             newHeight = oThis.gridsCells[x][y].outerHeight() - moved;
-                            rHeight = oThis.perOfHeight(newHeight, gridHeight)
+                            rHeight = oThis.perOfHeight(newHeight, gridHeight);
+                            oThis.resizeCell(x, y, rHeight);
                             oThis.gridsCells[x][y].css("height", rHeight);
                             // put the rail back to auto default position
                             $(this).css("top", "auto");
@@ -1386,7 +1387,7 @@
             var col = this.gridsColumns[x];
             if (typeof col !== "undefined") {
                 $.each(oThis.gridsCells[x], function(y, cell) {
-                    heights.push(parseInt(oThis.perOfHeight($(cell).height(), $(col).height())));
+                    heights.push(parseInt(oThis.perOfHeight($(cell).outerHeight(), $(col).outerHeight())));
                 });
                 var newHeights = oThis.equalPers(heights, 100, 1);
                 // console.log(heights);

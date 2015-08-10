@@ -71,7 +71,7 @@
                             oThis.splitCellInColumn(oThis.gridsCells[x][y], x, y, cell);
                         }
                     }
-                }) : oThis.addCell(x, 0), oThis.forcePerHeight(x));
+                }) : oThis.addCell(x, 0));
             }), oThis.setMeta(data), oThis == oThis.parent() && "function" == typeof oThis.settings.callResetGrid && oThis.settings.callResetGrid(), 
             oThis;
         }, grid.setMeta = function(data) {
@@ -84,9 +84,9 @@
                     }
                     oThis.countCells(column) > 0 && $.each(column, function(y, cell) {
                         "object" == typeof cell[0] ? "undefined" != typeof oThis.gridsCells[x][y] && "undefined" != typeof oThis.gridsCells[x][y].data("grid") && (oThis.gridsCells[x][y].data("grid").setMeta(cell), 
-                        oThis.gridsCells[x][y].css("height", cell.h), oThis.resizeCell(x, y, cell.h)) : "undefined" != typeof cell.fA && (cell.isFullScreen === !0 && (oThis.metaAt[x][y].isFullScreen = !0), 
-                        "undefined" != typeof cell.fSID && (oThis.metaAt[x][y].fSID = cell.fSID), "undefined" != typeof oThis.gridsCells[x][y] && (oThis.gridsCells[x][y].css("height", cell.h), 
-                        oThis.resizeCell(x, y, cell.h)), "function" == typeof oThis.settings.callFocusAndLoad && oThis.settings.callFocusAndLoad(oThis, x, y, cell.fA, oThis.metaAt[x][y].isFullScreen));
+                        oThis.resizeCell(x, y, cell.h), oThis.gridsCells[x][y].css("height", cell.h)) : ("undefined" != typeof oThis.gridsCells[x][y] && (oThis.gridsCells[x][y].css("height", cell.h), 
+                        oThis.resizeCell(x, y, cell.h)), "undefined" != typeof cell.fA && (cell.isFullScreen === !0 && (oThis.metaAt[x][y].isFullScreen = !0), 
+                        "undefined" != typeof cell.fSID && (oThis.metaAt[x][y].fSID = cell.fSID), "function" == typeof oThis.settings.callFocusAndLoad && oThis.settings.callFocusAndLoad(oThis, x, y, cell.fA, oThis.metaAt[x][y].isFullScreen)));
                     });
                 }
             }), oThis.buildingGrid = !1, this;
@@ -99,7 +99,7 @@
             var oThis = this;
             if ("undefined" == typeof x || "undefined" == typeof y) return this;
             if (this.gridsStructure.length - 1 < x && (x = this.gridsStructure.length - 1), 
-            null === this.gridsStructure[x][y]) {
+            null == this.gridsStructure[x][y]) {
                 if (el = $('<div class="' + this.settings.gridCellClass + " " + (1 == this.settings.splitCellInColumn ? this.settings.insideCellClass + " " + this.settings.useInsideCell : "") + '" ></div>'), 
                 "undefined" != typeof after ? el.insertAfter(after) : el.appendTo(this.gridsColumns[x]), 
                 this.gridsStructure[x][y] = !0, this.gridsCells[x][y] = el, "undefined" == typeof this.metaAt[x][y] && (this.metaAt[x][y] = {}), 
@@ -115,7 +115,7 @@
         }, grid.addColumn = function(x, after, skip) {
             var oThis = this;
             if ("undefined" != typeof x) {
-                if (null === this.gridsStructure[x]) {
+                if (null == this.gridsStructure[x]) {
                     var el = $('<div class="' + this.settings.gridColClass + '" ></div>');
                     if ("undefined" != typeof after ? el.insertAfter(after) : el.appendTo(this.elInner), 
                     this.gridsStructure[x] = [], this.gridsCells[x] = [], this.metaAt[x] = {}, this.gridsColumns[x] = el.data("tpe", "c"), 
@@ -317,8 +317,9 @@
                     stop: function(e, ui) {
                         var moved = ui.position.top - ui.originalPosition.top, y = $(this).data("y"), x = $(this).data("x"), newHeight = ($(this).offset().top, 
                         oThis.gridsCells[x][y - 1].outerHeight() + moved), gridHeight = oThis.gridsColumns[x].outerHeight(), rHeight = oThis.perOfHeight(newHeight, gridHeight);
-                        oThis.gridsCells[x][y - 1].css("height", rHeight), newHeight = oThis.gridsCells[x][y].outerHeight() - moved, 
-                        rHeight = oThis.perOfHeight(newHeight, gridHeight), oThis.gridsCells[x][y].css("height", rHeight), 
+                        oThis.resizeCell(x, y - 1, rHeight), oThis.gridsCells[x][y - 1].css("height", rHeight), 
+                        newHeight = oThis.gridsCells[x][y].outerHeight() - moved, rHeight = oThis.perOfHeight(newHeight, gridHeight), 
+                        oThis.resizeCell(x, y, rHeight), oThis.gridsCells[x][y].css("height", rHeight), 
                         $(this).css("top", "auto"), oThis.forcePerHeight(x), "function" == typeof oThis.settings.callSetHash && oThis.settings.callSetHash();
                     }
                 });
@@ -449,7 +450,7 @@
             var heights = [], oThis = this, col = this.gridsColumns[x];
             if ("undefined" != typeof col) {
                 $.each(oThis.gridsCells[x], function(y, cell) {
-                    heights.push(parseInt(oThis.perOfHeight($(cell).height(), $(col).height())));
+                    heights.push(parseInt(oThis.perOfHeight($(cell).outerHeight(), $(col).outerHeight())));
                 });
                 var newHeights = oThis.equalPers(heights, 100, 1);
                 $.each(oThis.gridsCells[x], function(y, cell) {
