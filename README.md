@@ -12,7 +12,7 @@ First, download or clone this repo, then run 'bower install' and include the req
 <script src="./bower_components/jquery-ui/jquery-ui.js"></script>
 <script src="./dist/jquery.gridsplit.min.js"></script>
 ```
-OR include the optimised versions in ./dist/ dir (you can build these yourself using grunt, the package.json and gruntfile I used are included):
+OR include the optimised versions in ./dist/ dir (you can build these yourself using grunt, the package.json and gruntfile we used are included):
 
 ```html
 <link rel="stylesheet" href="./dist/jquery.gridsplit.optimised.css">
@@ -39,7 +39,7 @@ require.config({
 ```
 ## Demo
 
-We only have the one example but its fairly comprehensive. [github.io](https://assetinfo.github.io/jquery.gridSplit) and [jsfiddle](http://jsfiddle.net/graydixon/bupjuntd/), for more details check our documentation or unit-test.
+We only have the one example but its fairly comprehensive, see [github.io](https://assetinfo.github.io/jquery.gridSplit) or [jsfiddle](http://jsfiddle.net/graydixon/bupjuntd/), for more details check our documentation or unit-test.
 
 ## Generated Documentation
 
