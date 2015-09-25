@@ -2,7 +2,7 @@
  * Script: jquery.gridSplit.min.js - v.0.0.1
  * Copyright: (c) 2015 Graham Dixon (assetinfo(MML))
  * Licensed: MIT
- * Requires: jQuery && jQuery-ui
+ * Requires: jQuery && jQuery-ui, bootstrap 3.*
  */
 ;
 (function(factory) {
@@ -43,6 +43,7 @@
      * @param {function} options.callAfterMove - Stack some functions with the cells context / do something with the cells context
      * @param {function} options.callFinaliseMove - Invoke the calls you stacked / do something after all moves have finished
      * @param {function} options.callSetFocus - Pass the cells context to a function and do something with it
+     * @param {function} options.callAfterResize - Pass the cells context to a function and do something with it
      * @param {function} options.callBeforeDestroy - Call attempted when .destroy() is called on a grid
      * @class $.fn.gridSplit
      * @memberOf! $.fn
@@ -107,6 +108,7 @@
             callAfterMove: null,
             callFinaliseMove: null,
             callSetFocus: null,
+            callAfterResize: null,
             callBeforeDestroy: null,
             hideBorder: {
                 "border": "0px solid #000"
@@ -141,6 +143,7 @@
          * @param {function} options.callAfterMove - Stack some functions with the cells context / do something with the cells context
          * @param {function} options.callFinaliseMove - Invoke the calls you stacked / do something after all moves have finished
          * @param {function} options.callSetFocus - Pass the cells context to a function and do something with it
+         * @param {function} options.callAfterResize - Pass the cells context to a function and do something with it
          * @param {function} options.callBeforeDestroy - Call attempted when .destroy() is called on a grid
          * @return {object} this
          * @property {object} this.settings - object of settings extended by options
@@ -609,6 +612,7 @@
                 "callAfterMove": this.settings.callAfterMove,
                 "callFinaliseMove": this.settings.callFinaliseMove,
                 "callSetFocus": this.settings.callSetFocus,
+                "callAfterResize": this.settings.callAfterResize,
                 "callBeforeDestroy": this.settings.callBeforeDestroy,
                 "nestedIn": (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id),
                 "data": (typeof data !== "undefined") ? data : "",
@@ -683,11 +687,13 @@
                                         reEx[ly] = oThis.gridsCells[x][ly];
                                         reExm[ly] = oThis.metaAt[x][ly];
                                         reExs[ly] = oThis.gridsStructure[x][ly];
-                                    }else {
+                                    } else {
                                         // add this height to the cell above.
-                                        if((ly-1) >= 0) {
-                                            oThis.resizeCell(x, ly, (oThis.gridsCells[x][ly].height() + oThis.gridsCells[x][ly-1].height()));
-                                            oThis.gridsCells[x][ly-1].height(oThis.gridsCells[x][ly].height() +  oThis.gridsCells[x][ly-1].height());
+                                        if((ly-1) >= 0 && oThis.settings.splitMethodH == "half") {
+                                            var newHeight = (oThis.gridsCells[x][ly].height() + oThis.gridsCells[x][ly-1].height());
+                                            oThis.resizeCell(x, ly, newHeight);
+                                            oThis.gridsCells[x][ly-1].height.width(oThis.perOfHeight(newHeight));
+
                                         }
                                     }
                                 }
@@ -770,9 +776,10 @@
                             }
                         } else {
                             // add this width to the col on the left.
-                            if((lx-1) >= 0) {
-                                oThis.resizeColumn(lx-1, (oThis.gridsColumns[lx].outerWidth() + oThis.gridsColumns[lx-1].outerWidth()));
-                                oThis.gridsColumns[lx-1].outerWidth(oThis.gridsColumns[lx].outerWidth() +  oThis.gridsColumns[lx-1].outerWidth());
+                            if((lx-1) >= 0 && oThis.settings.splitMethodV == "half") {
+                                var newWid = (oThis.gridsColumns[lx].outerWidth() + oThis.gridsColumns[lx-1].outerWidth());
+                                oThis.resizeColumn(lx-1, newWid);
+                                oThis.gridsColumns[lx-1].width(oThis.perOfWidth(newWid));
                             }
                         }
                     }
@@ -903,6 +910,9 @@
                             if (typeof oThis.settings.callSetHash == "function") {
                                 oThis.settings.callSetHash();
                             }
+                            if (typeof oThis.settings.callAfterResize == "function") {
+                                oThis.settings.callAfterResize(oThis.gridsCells[$(this).data("x") - 1][0], oThis,  oThis.gridsColumns[$(this).data("x") - 1].data("trueWidth"), oThis.gridsCells[$(this).data("x") - 1][0].data("trueHeight"));
+                            }
                         }
                     });
                 }
@@ -970,6 +980,10 @@
                             // make the current url fit the meta.
                             if (typeof oThis.settings.callSetHash == "function") {
                                 oThis.settings.callSetHash();
+                            }
+                            // fire a function after resize
+                            if (typeof oThis.settings.callAfterResize == "function") {
+                                oThis.settings.callAfterResize(oThis.gridsCells[x][y-1], oThis, oThis.gridsColumns[x].data("trueWidth"), oThis.gridsCells[x][y-1].data("trueHeight"));
                             }
                         }
                     });
@@ -1362,7 +1376,7 @@
             var wids = [];
             var oThis = this;
             $.each(this.gridsColumns, function(key, col) {
-                wids.push(parseInt(oThis.perOfWidth($(col).outerWidth())));
+                wids.push(parseInt(oThis.perOfWidth($(col).width())));
             });
             var newWids = this.equalPers(wids, 100, 0);
             // console.log(wids);

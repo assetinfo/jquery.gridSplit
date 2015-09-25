@@ -40,6 +40,7 @@
             callAfterMove: null,
             callFinaliseMove: null,
             callSetFocus: null,
+            callAfterResize: null,
             callBeforeDestroy: null,
             hideBorder: {
                 border: "0px solid #000"
@@ -195,6 +196,7 @@
                 callAfterMove: this.settings.callAfterMove,
                 callFinaliseMove: this.settings.callFinaliseMove,
                 callSetFocus: this.settings.callSetFocus,
+                callAfterResize: this.settings.callAfterResize,
                 callBeforeDestroy: this.settings.callBeforeDestroy,
                 nestedIn: "" !== this.settings.nestedIn ? this.settings.nestedIn + "-" + this.id : this.id,
                 data: "undefined" != typeof data ? data : "",
@@ -213,12 +215,14 @@
                 if ($("#h1-" + el.data("widgetID")).remove(), $("#h2-" + el.data("widgetID")).remove(), 
                 $(window).off("resize.grid." + $(this.gridsCells[x][y]).data("widgetID")), reExm.c = oThis.metaAt[x].c, 
                 $.each(this.gridsCells[x], function(ly, acY) {
-                    ly > y ? (reEx[ly - 1] = oThis.gridsCells[x][ly], reExm[ly - 1] = oThis.metaAt[x][ly], 
+                    if (ly > y) reEx[ly - 1] = oThis.gridsCells[x][ly], reExm[ly - 1] = oThis.metaAt[x][ly], 
                     reExs[ly - 1] = oThis.gridsStructure[x][ly], reEx[ly - 1].data("cell", '{"x":' + parseInt(x) + ',"y":' + parseInt(ly - 1) + "}"), 
                     "function" == typeof oThis.settings.callAfterMove && oThis.settings.callAfterMove(oThis.id + "" + x + ly, oThis.id + "" + x + (ly - 1), oThis, x, ly - 1), 
-                    "undefined" != typeof reEx[ly - 1] ? $(window).trigger("resize.grid." + $(reEx[ly - 1]).data("widgetID")) : oThis.delCell(x, ly - 1)) : ly != y ? (reEx[ly] = oThis.gridsCells[x][ly], 
-                    reExm[ly] = oThis.metaAt[x][ly], reExs[ly] = oThis.gridsStructure[x][ly]) : ly - 1 >= 0 && (oThis.resizeCell(x, ly, oThis.gridsCells[x][ly].height() + oThis.gridsCells[x][ly - 1].height()), 
-                    oThis.gridsCells[x][ly - 1].height(oThis.gridsCells[x][ly].height() + oThis.gridsCells[x][ly - 1].height()));
+                    "undefined" != typeof reEx[ly - 1] ? $(window).trigger("resize.grid." + $(reEx[ly - 1]).data("widgetID")) : oThis.delCell(x, ly - 1); else if (ly != y) reEx[ly] = oThis.gridsCells[x][ly], 
+                    reExm[ly] = oThis.metaAt[x][ly], reExs[ly] = oThis.gridsStructure[x][ly]; else if (ly - 1 >= 0 && "half" == oThis.settings.splitMethodH) {
+                        var newHeight = oThis.gridsCells[x][ly].height() + oThis.gridsCells[x][ly - 1].height();
+                        oThis.resizeCell(x, ly, newHeight), oThis.gridsCells[x][ly - 1].height.width(oThis.perOfHeight(newHeight));
+                    }
                 }), oThis.gridsCells[x] = reEx, oThis.metaAt[x] = reExm, oThis.gridsStructure[x] = reExs, 
                 oThis.forcePerHeight(x), oThis !== oThis.parent()) {
                     var cell = JSON.parse(oThis.$el.data("cell")), origHeight = oThis.parent().metaAt[cell.x][cell.y].h;
@@ -241,8 +245,10 @@
                     } else if (lx != x) {
                         if (reEx[lx] = oThis.gridsCells[lx], reExm[lx] = oThis.metaAt[lx], reExs[lx] = oThis.gridsStructure[lx], 
                         reExc[lx] = oThis.gridsColumns[lx], "function" == typeof oThis.settings.callAfterMove) for (y = 0; y < reEx[lx].length; y++) oThis.settings.callAfterMove(oThis.id + "" + lx + y, oThis.id + "" + lx + y, oThis, lx, y);
-                    } else lx - 1 >= 0 && (oThis.resizeColumn(lx - 1, oThis.gridsColumns[lx].outerWidth() + oThis.gridsColumns[lx - 1].outerWidth()), 
-                    oThis.gridsColumns[lx - 1].outerWidth(oThis.gridsColumns[lx].outerWidth() + oThis.gridsColumns[lx - 1].outerWidth()));
+                    } else if (lx - 1 >= 0 && "half" == oThis.settings.splitMethodV) {
+                        var newWid = oThis.gridsColumns[lx].outerWidth() + oThis.gridsColumns[lx - 1].outerWidth();
+                        oThis.resizeColumn(lx - 1, newWid), oThis.gridsColumns[lx - 1].width(oThis.perOfWidth(newWid));
+                    }
                 }), $(el).remove(), oThis.gridsCells = reEx, oThis.metaAt = reExm, oThis.gridsStructure = reExs, 
                 oThis.gridsColumns = reExc, oThis !== oThis.parent()) {
                     var cell = JSON.parse(oThis.$el.data("cell")), origHeight = oThis.parent().metaAt[cell.x][cell.y].h;
@@ -294,7 +300,8 @@
                                 }
                                 oThis.forcePerWidth();
                             }
-                            $(this).css("left", "auto"), "function" == typeof oThis.settings.callSetHash && oThis.settings.callSetHash();
+                            $(this).css("left", "auto"), "function" == typeof oThis.settings.callSetHash && oThis.settings.callSetHash(), 
+                            "function" == typeof oThis.settings.callAfterResize && oThis.settings.callAfterResize(oThis.gridsCells[$(this).data("x") - 1][0], oThis, oThis.gridsColumns[$(this).data("x") - 1].data("trueWidth"), oThis.gridsCells[$(this).data("x") - 1][0].data("trueHeight"));
                         }
                     });
                 }
@@ -320,7 +327,8 @@
                         oThis.resizeCell(x, y - 1, rHeight), oThis.gridsCells[x][y - 1].css("height", rHeight), 
                         newHeight = oThis.gridsCells[x][y].outerHeight() - moved, rHeight = oThis.perOfHeight(newHeight, gridHeight), 
                         oThis.resizeCell(x, y, rHeight), oThis.gridsCells[x][y].css("height", rHeight), 
-                        $(this).css("top", "auto"), oThis.forcePerHeight(x), "function" == typeof oThis.settings.callSetHash && oThis.settings.callSetHash();
+                        $(this).css("top", "auto"), oThis.forcePerHeight(x), "function" == typeof oThis.settings.callSetHash && oThis.settings.callSetHash(), 
+                        "function" == typeof oThis.settings.callAfterResize && oThis.settings.callAfterResize(oThis.gridsCells[x][y - 1], oThis, oThis.gridsColumns[x].data("trueWidth"), oThis.gridsCells[x][y - 1].data("trueHeight"));
                     }
                 });
             }
@@ -438,7 +446,7 @@
         }, grid.forcePerWidth = function() {
             var wids = [], oThis = this;
             $.each(this.gridsColumns, function(key, col) {
-                wids.push(parseInt(oThis.perOfWidth($(col).outerWidth())));
+                wids.push(parseInt(oThis.perOfWidth($(col).width())));
             });
             var newWids = this.equalPers(wids, 100, 0);
             $.each(this.gridsColumns, function(key, col) {

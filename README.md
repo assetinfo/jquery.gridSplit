@@ -4,7 +4,7 @@ A jQuery grid system designed so that each cell can be "split" either horizontal
 
 --------
 
-Firstly, download or clone this repo, then run 'bower install' and include the required packages in your page:
+First, download or clone this repo, then run 'bower install' and include the required packages in your page:
 
 ```html
 <link rel="stylesheet" href="./src/css/jquery.gridsplit.css">
@@ -12,14 +12,14 @@ Firstly, download or clone this repo, then run 'bower install' and include the r
 <script src="./bower_components/jquery-ui/jquery-ui.js"></script>
 <script src="./dist/jquery.gridsplit.min.js"></script>
 ```
-OR include the optimised versions in ./dist/ dir that you can build using "grunt" (after doing "npm install"):
+OR include the optimised versions in ./dist/ dir (you can build these yourself using grunt, the package.json and gruntfile I used are included):
 
 ```html
 <link rel="stylesheet" href="./dist/jquery.gridsplit.optimised.css">
 <script src="./dist/jquery.gridsplit.optimised.js"></script>
 ```
 
-Alternatively include the required packages and the plugin via requirejs in your [module](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) with a config similar to:
+Alternatively, include the plugin using [AMD](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) with a config similar to:
 
 ```html
 require.config({
@@ -37,11 +37,9 @@ require.config({
     "jqueryui-draggable":     ["jquery", "core", "mouse", "widget"]
 });
 ```
-Now you're ready to build grids (see [example.html](https://github.com/assetinfo/jquery.gridSplit/blob/master/example.html) OR [example.amd.html](https://github.com/assetinfo/jquery.gridSplit/blob/master/example.amd.html) and [main.js](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) for initialisation methods)
-
 ## Demo
 
-We only have the one example at the moment, but its fairly comprehensive. [github.io](https://assetinfo.github.io/jquery.gridSplit) and [jsfiddle](http://jsfiddle.net/graydixon/bupjuntd/)
+We only have the one example but its fairly comprehensive. [github.io](https://assetinfo.github.io/jquery.gridSplit) and [jsfiddle](http://jsfiddle.net/graydixon/bupjuntd/), for more details check our documentation or unit-test.
 
 ## Generated Documentation
 
@@ -49,19 +47,19 @@ We only have the one example at the moment, but its fairly comprehensive. [githu
 
 ## Quick Reference 
 
-* A grid is initialised against a div that must have an id and a class of .grid.
+* A grid is initialised against a div that must have an id, and a class of .grid.
 <br/>
 
   ```html
   <div id="grid" class="grid"></div>
   ```
-* The simplest grid (one cell) would be initialised like so:
+* The simplest grid (one cell) would be initialised with something similar to:
 <br/>
 
   ```html
   var grid = $('#grid').gridSplit();
   ```
-* You can set various options at initialisation, for more detail see the [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html):
+* You can set various options and events at initialisation, for more detail see the [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html):
 <br/>
 
   ```html
