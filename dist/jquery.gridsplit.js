@@ -393,6 +393,13 @@
                     oThis.setMetaAt(x, null, obj)) : (oThis.setMetaAt(x, null, obj), oThis.setMetaAt(x, y, obj));
                 });
             });
+        }, grid.handleClick = function(to, type, grids) {
+            if ("cell" === type) {
+                {
+                    this.gridCell;
+                }
+                "function" == typeof grids.settings.callSetFocus && grids.settings.callSetFocus(JSON.parse($(to).data("cell")), grids);
+            }
         }, grid.addControls = function(to, x, y) {
             var oThis = this;
             if ("column" == $(to).data("type")) {
@@ -403,13 +410,6 @@
                 0 !== y && 1 == this.settings.resizable && this.addRail(to, x, y), to.on("click", function() {
                     oThis.handleClick(this, type, $(to).data("gridAt"));
                 });
-            }
-        }, grid.handleClick = function(to, type, grids) {
-            if ("cell" === type) {
-                {
-                    this.gridCell;
-                }
-                "function" == typeof grids.settings.callSetFocus && grids.settings.callSetFocus(JSON.parse($(to).data("cell")), grids);
             }
         }, grid.halfOf = function(first, second, full, type, obj) {
             if ("w" == type) if ("undefined" != typeof obj) var ret = this.perOfWidthEls(obj); else {
@@ -445,8 +445,8 @@
         }, grid.perOfHeightEls = function(els) {
             var searchEl, no = els.length, per = 100 / no + "%";
             if (1 == this.settings.splitCellInColumn) searchEl = "." + this.settings.useInsideCell; else {
-                var andNot = ":not(.", closeNot = ")";
-                searchEl = "." + this.settings.gridCellClass + andNot + this.settings.insideCellClass + closeNot;
+                var not = ":not(.", endNot = ")";
+                searchEl = "." + this.settings.gridCellClass + not + this.settings.insideCellClass + endNot;
             }
             return $(els[0]).parent().find(searchEl).css("height", per), per;
         }, grid.equalPers = function(arr, target, vh) {
@@ -473,8 +473,8 @@
                 marginOfErrors[i] = newVals[i] && Math.abs(arr[i] - newVals[i]) / arr[i], marginOfErrors[j] = newVals[j] && Math.abs(arr[j] - newVals[j]) / arr[j]);
             }
             return newVals;
-        }, grid.centerInner = function(thiss) {
-            var oThis = "undefined" != typeof thiss ? thiss : this;
+        }, grid.centerInner = function() {
+            var oThis = this;
             setTimeout(function() {
                 var realwidth = 0;
                 oThis.elInner.children("." + oThis.settings.gridColClass).each(function() {
@@ -511,14 +511,14 @@
         }, grid.return1stCell = function() {
             var oThis = this;
             return oThis.gridsCells[0][0].hasClass(oThis.settings.hasChildrenClass) ? oThis.gridsCells[0][0].data("grid").return1stCell() : oThis.gridsCells[0][0];
-        }, grid.returnLXY = function(x, y, args) {
+        }, grid.returnLXY = function(x, y, response) {
             var oThis = this;
-            if ("undefined" == typeof args ? args = y + "" + x + "-" : args += y + "" + x + "-", 
+            if ("undefined" == typeof response ? response = y + "" + x + "-" : response += y + "" + x + "-", 
             oThis !== oThis.parent()) {
                 var pG = oThis.settings.parentsGrid, pX = oThis.settings.parentsX, pY = oThis.settings.parentsY;
-                if ("undefined" != typeof pX) return pG.returnLXY(pX, pY, args);
+                if ("undefined" != typeof pX) return pG.returnLXY(pX, pY, response);
             }
-            return args;
+            return response;
         }, grid.returnLongXY = function(x, y) {
             return this.returnLXY(x, y).split("").reverse().join("").replace(/(^[-\s]+)|([-\s]+$)/g, "");
         }, grid.returnContent = function(cell) {

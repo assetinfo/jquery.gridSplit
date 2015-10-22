@@ -2,21 +2,21 @@
  * Script: jquery.gridSplit.min.js - v.0.0.1
  * Copyright: (c) 2015 Graham Dixon (assetinfo(MML))
  * Licensed: MIT
- * Requires: jQuery && jQuery-ui, bootstrap 3.*
+ * Requires: jQuery && jQuery-ui-draggable
  */
 ;
 (function(factory) {
     if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module depending on jQuery.
+        // AMD. Register as an anonymous module depending on jQuery
         // shim ../bower_components/jquery-ui/jquery-ui(draggable) to ../bower_components/jquery/src/jquery as jquery
         define(['jquery', 'jqueryui-draggable'], factory);
     } else {
-        // No AMD. Register plugin with global jQuery objects.
+        // No AMD. Register plugin with global jQuery objects
         factory(jQuery, jQuery);
     }
 }(function($, jui) {
     /**
-     * $.fn.gridSplit - calls - new gridSplit(el, options) - using this as el.
+     * $.fn.gridSplit - calls - new gridSplit(el, options) - using this as el
      *
      * @param {object} el the $el this grid is being applied to [assumed when initialised via $.fn]
      * @param {object} options the settings being applied to this $el
@@ -72,7 +72,7 @@
             };
         init(this);
         // --------       
-        // return grid to enable chaining of gridSplit functions;
+        // return grid to enable chaining of gridSplit functions
         return grid;
     });
     /**
@@ -176,7 +176,7 @@
                 this.settings.useInsideCell = this.settings.insideCellClass + '' + this.settings.nestedIn;
             }
             if (this.settings.data == '') {
-                // to force the addCol/addCell function to go straight to setting these values.
+                // to force the addCol/addCell function to go straight to setting these values
                 this.gridsStructure[0] = null;
                 this.addColumn(0);
                 this.gridsStructure[0][0] = null;
@@ -189,9 +189,6 @@
                 // add grid data and set meta
                 this.buildGrid(this.settings.data);
             }
-            // $(window).on("resize", function() {
-            //     oThis.centerInner(oThis)
-            // });
             return this;
         }
         /**
@@ -204,11 +201,11 @@
          * @memberOf gridSplit
          */
         grid.buildGrid = function(data, undefined) {
-            // use data to build grid.
+            // use data to build grid
             var oThis = this;
             // each column
             oThis.buildingGrid = true;
-            // make sure this meta will render a workable grid.
+            // make sure this meta will render a workable grid
             function checkMeta(meta) {
                 var metaOut = 0;
                 // sometimes deleting a split cell can leave meta, if column[0]'s width is 100% [1] can be deleted
@@ -225,7 +222,7 @@
                 // keep iterating till we make no changes, then we know that metaOut is the true [0][0] starting point      
                 return (metaOut == 0 ? meta : checkMeta(metaOut));
             }
-            // data needs to be a clean metaAt object.
+            // data needs to be a clean metaAt object
             data = checkMeta(data);
             $.each(data, function(x, column) {
                 if (!isNaN(x)) {
@@ -233,7 +230,6 @@
                     oThis.addColumn(x, undefined, true);
                     oThis.gridsColumns[x].css("float", "left");
                     // console.log("add Column " + x);
-                    // each cell
                     if (oThis.countCells(column) > 0) {
                         $.each(column, function(y, cell) {
                             if (!isNaN(y)) {
@@ -247,12 +243,11 @@
                             }
                         });
                     } else {
-                        // single cell.
                         oThis.addCell(x, 0);
                     }
                 }
             });
-            // set widths/heights/foundAt values from meta.
+            // set widths/heights/and any other meta data
             oThis.setMeta(data);
             // only restart the grid on the top layer
             if (oThis == oThis.parent()) {
@@ -263,7 +258,7 @@
             return oThis;
         }
         /**
-         * thie.setMeta<br/><br/>Set the widths and height of the columns / cells when provided with an appropriate object.
+         * thie.setMeta<br/><br/>Set the widths and height of the columns / cells when provided with a valid meta object
          *
          * @function gridSplit.setMeta
          * @param {object} data the data we are applying to the grid
@@ -308,7 +303,7 @@
             return this;
         }
         grid.countCells = function(arr) {
-            // data is array not object so no .length
+            // data is array not object so no .length but we only want to count int keys
             var t = 0;
             $.each(arr, function(k, arrr) {
                 if (!isNaN(k)) {
@@ -328,12 +323,12 @@
          * @memberOf gridSplit
          */
         grid.addCell = function(x, y, after) {
-            // add a cell by sharing the available height between all cells in the column.
+            // add a cell by sharing the available height between all cells in the column
             var oThis = this;
             if (typeof x == "undefined" || typeof y == "undefined") {
                 return this;
             }
-            // set to structure length if x is less so can add to last using addCell(99999,99999);
+            // set to structure length if x is less so can add to last using addCell(99999,99999)
             if ((this.gridsStructure.length - 1) < x) {
                 x = this.gridsStructure.length - 1;
             }
@@ -378,12 +373,12 @@
             return this;
         }
         /**
-         * this.addColumn()<br/><br/>Add a column at position, append to grid or insertAfter 'after'. Use skip->true to avoid auto adjusting column widths.
+         * this.addColumn()<br/><br/>Add a column at position, append to grid or insertAfter 'after'
          *
          * @function gridSplit.addColumn
          * @param {int} x the target column
          * @param {object} after $element
-         * @param {bool} skip Use skip->true to avoid auto adjusting column widths
+         * @param {bool} skip Use skip=true to avoid auto adjusting column widths
          * @return {object} this
          * @memberOf gridSplit
          */
@@ -393,8 +388,8 @@
             if (typeof x == "undefined") {
                 return;
             }
-            // if === needs to set, already been through this.splitAt()
-            // if column exists then do a split at location instead.
+            // if === needs to be set, already been through this.splitAt()
+            // if column exists then do a split at location instead
             // otherwise delete reference to the attempt and split the last in the object
             if (this.gridsStructure[x] == null) {
                 // inserting the actual cell
@@ -433,12 +428,12 @@
             return this;
         }
         /**
-         * this.splitAt()<br/><br/> provides a gateway to addColumn and addCell, providing addition methods.
+         * this.splitAt()<br/><br/> provides a proxy to addColumn, addCell and splitCellInColumn
          *
          * @function gridSplit.splitAt
          * @param {int} x the target column (if no y provided, columns is split vertically)
          * @param {int} y the target cell (if y is provided, cell is split horizontally)
-         * @param {bool} cell split the cell vertically by providing true.
+         * @param {bool} cell splitCellInColumn switch (if true is provided, cell is split vertically)
          * @return {object} this
          * @memberOf gridSplit
          */
@@ -447,7 +442,7 @@
             // split the cell ([x][y] - horizontally)[ .splitAt(0,0)]
             // split the cell ([x][y] - vertically)[ .splitAt(0,0,true)]
             var oThis = this;
-            // function to check descendents after a move to ensure ID integrity.
+            // function to check descendents after a move to ensure ID integrity
             var updateIdThenCallAfterMoveTimeout;
             var updateIdThenCallAfterMove = function(startingPoint, x, y, fixIDFrom, fixIDTo) {
                 if(typeof startingPoint !== "undefined") {
@@ -456,7 +451,7 @@
                     }
                     if(startingPoint.gridsCells.length > 0) {
                         var orig = startingPoint.id;
-                        // Unique ID's solve problems with over-lapping grid.id-xy combinations.
+                        // Unique ID's solve problems with over-lapping grid.id-xy combinations
                         startingPoint.id = startingPoint.settings.nestedIn + "-" + startingPoint.parent().id + "-" + x + y + "-" + Date.now();
                         startingPoint.id = startingPoint.id.replace(fixIDFrom, fixIDTo);
                         $(startingPoint.el).attr("id", startingPoint.id);
@@ -502,11 +497,11 @@
                     oThis.gridsStructure[x][(y + 1)] = null;
                     oThis.addCell(x, (y + 1));
                 } else {
-                    // shift everything after y in x right to make space;
+                    // shift everything after y in x right to make space
                     var reEx = [];
                     var reExm = {};
                     var reExs = [];
-                    // need to keep reference to col width.
+                    // need to keep reference to col width
                     reExm['c'] = oThis.metaAt[x]['c'];
                     $.each(oThis.gridsCells[x], function(ly, acY) {
                         if (ly >= (y + 1)) {
@@ -567,12 +562,11 @@
             } else {
                 // splitting the column virticaly
                 if ((x + 1) == oThis.gridsStructure.length) {
-                    // conditions are good get straight to splitting.
-                    // tell column it needs to set.
+                    // conditions are good get straight to splitting
                     oThis.gridsStructure[(x + 1)] = null;
                     oThis.addColumn((x + 1));
                 } else {
-                    // make space available by shifting everything after x right;
+                    // make space available by shifting everything after x right
                     var reEx = [];
                     var reExm = {};
                     var reExc = [];
@@ -613,7 +607,7 @@
                 var first = oThis.gridsColumns[x];
                 var second = oThis.gridsColumns[(x + 1)];
                 var width = oThis.gridsColumns[x].width();
-                // setWid is calculated by taking the width of the first dividing by two and applying that to both affected cols.
+                // setWid is calculated by taking the width of the first dividing by two and applying that to both affected cols
                 // pass this (to obj in halfOf) at the end of this call to even the rows as theyre added
                 if (oThis.settings.splitMethodV == "half") {
                     var setWid = oThis.halfOf(first, second, width, "w");
@@ -630,7 +624,7 @@
         }
 
         /**
-         * this.splitCellInColumn()<br/><br/> initialises another grid within a grid.
+         * this.splitCellInColumn()<br/><br/> initialises another grid within a grid
          *
          * @function gridSplit.splitCellInColumn
          * @param {object} el the target gridsCell we will be adding a grid to
@@ -641,13 +635,13 @@
          * @memberOf gridSplit
          */
         grid.splitCellInColumn = function(el, x, y, data) {
-            // use .data("grid") here to reference inner grid.
+            // use .data("grid") here to reference inner grid
             var content = this.returnContent(el);
             // save reference to parents meta data
             if (typeof this.metaAt[x][y] !== "undefined") {
                 var oldMeta = this.metaAt[x][y];
             }
-            // add an ID to the cell so that a new grid can be initialised on it.
+            // add an ID to the cell so that a new grid can be initialised on it
             el.attr("id", (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id) + '-' + x + '' + y + Date.now()).css(this.settings.hideBorder).off("click").gridSplit({
                 "parentsGrid": this,
                 "parentsX": x,
@@ -687,7 +681,7 @@
             return el.data("grid");
         }
         /**
-         * this.delCell()<br/><br/> allows for removing a cell.
+         * this.delCell()<br/><br/> allows for the deletion of a cell
          *
          * @function gridSplit.delCell
          * @param {int} x the target cells column
@@ -696,7 +690,7 @@
          * @memberOf gridSplit
          */
         grid.delCell = function(x, y) {
-            // shift everything after y in x left and remove the element and references;
+            // shift everything after y in x left and remove the element and references
             var oThis = this;
             var reEx = [];
             var reExm = {};
@@ -775,7 +769,7 @@
             return oThis;
         }
         /**
-         * this.delColumn()<br/><br/> allows for removing a column.
+         * this.delColumn()<br/><br/> allows for the deletion of a column
          *
          * @function gridSplit.delColumn
          * @param {int} x the target column
@@ -783,7 +777,7 @@
          * @memberOf gridSplit
          */
         grid.delColumn = function(x) {
-            // shift everything after x left and remove the element and references;
+            // shift everything after x left and remove the element and references
             var oThis = this;
             var reEx = [];
             var reExm = {};
@@ -818,7 +812,7 @@
                             reExm[lx] = oThis.metaAt[lx];
                             reExs[lx] = oThis.gridsStructure[lx];
                             reExc[lx] = oThis.gridsColumns[lx];
-                            // cells might still have been moved if their parent-grid was destroyed.
+                            // cells might still have been moved if their parent-grid was destroyed
                             if (typeof oThis.settings.callAfterMove === "function") {
                                 for (y = 0; y < reEx[lx].length; y++) {
                                     oThis.settings.callAfterMove(oThis.id + '' + (lx) + '' + y, oThis.id + '' + lx + '' + y, oThis, lx, y, lx, y);
@@ -868,7 +862,7 @@
             return oThis;
         }
         /**
-         * this.delAt()<br/><br/> provides a gateway to delColumn and delCell.
+         * this.delAt()<br/><br/> provides a proxy to delColumn and delCell
          *
          * @function gridSplit.delAt
          * @param {int} x the target cells column
@@ -880,7 +874,7 @@
             return ((typeof y == "undefined" || y == null) ? this.delColumn(x) : this.delCell(x, y));
         }
         /**
-         * this.addRail()<br/><br/> will add rails to cells/columns if this.settings.resizable is true;
+         * this.addRail()<br/><br/> will add rails to cells/columns if this.settings.resizable is true
          *
          * @function gridSplit.addRail
          * @param {object} to the target element
@@ -912,7 +906,7 @@
                         start: function(event, ui) {
                             // x value might change after init so check the number of previous columns
                             var x = $(this).closest('.' + oThis.settings.gridColClass).prevAll('.' + oThis.settings.gridColClass).length;
-                            // this should be called as an event
+                            // set the foucs using a callback function provided at init
                             if (typeof oThis.settings.callSetFocus == "function") {
                                 oThis.settings.callSetFocus(JSON.parse($(oThis.gridsCells[x - 1][0]).data("cell")), oThis);
                             }
@@ -920,13 +914,13 @@
                                 rRail.data("x", x);
                                 // rail sits inside the cell to the right of the cell it will reference
                                 var railReferstoRightOf = oThis.gridsColumns[x - 1];
-                                // measure between the two elements that we know exist, x and x-1; 
-                                // take away grids offset to compensate on nested grids.
+                                // measure between the two elements that we know exist, x and x-1
+                                // take away grids offset to compensate on nested grids
                                 rRail.origRight = oThis.gridsColumns[x].offset().left - oThis.$el.offset().left;
                                 rRail.origLeft = oThis.gridsColumns[x - 1].offset().left - oThis.$el.offset().left;
                                 // makes the original width
                                 rRail.origWidth = rRail.origRight - rRail.origLeft;
-                                // add dragging class so we can style on the drag.
+                                // add dragging class so we can style on the drag
                                 $(this).addClass(oThis.settings.draggingClass);
                             } else {
                                 // removes the rail if its left behind from a deleted cell
@@ -951,12 +945,12 @@
                                     var thisnewWid = thisWid - takePer;
                                     oThis.gridsColumns[x].css("width", oThis.perOfWidth(thisnewWid));
                                 }
-                                // look across all widths and make sure they fill 100%;
+                                // look across all widths and make sure they fill 100%
                                 oThis.forcePerWidth();
                             }
                             // put the rail back to auto default position
                             $(this).css("left", "auto");
-                            // make the current url fit the meta.
+                            // make the current url fit the meta
                             if (typeof oThis.settings.callSetHash == "function") {
                                 oThis.settings.callSetHash();
                             }
@@ -985,11 +979,11 @@
                         start: function(event, ui) {
                             var y = $(this).closest('.' + oThis.settings.gridCellClass).prevAll('.' + oThis.settings.gridCellClass).length;
                             var x = $(this).closest('.' + oThis.settings.gridColClass).prevAll('.' + oThis.settings.gridColClass).length;
-                            // this should be called as an event
+                            // set the foucs using a callback function provided at init
                             if (typeof oThis.settings.callSetFocus == "function") {
                                 oThis.settings.callSetFocus(JSON.parse($(oThis.gridsCells[x][y - 1]).data("cell")), oThis);
                             }
-                            // cant move a rail at 0.0                      
+                            // cant move a rail at 0,0 (but it shouldnt exist anyway)
                             if (typeof oThis.gridsCells[x][y] !== "undefined" && y !== 0) {
                                 rRail.data("x", x);
                                 rRail.data("y", y);
@@ -1001,11 +995,6 @@
                         },
                         stop: function(e, ui) {
                             var moved = (ui.position.top - ui.originalPosition.top);
-                            if (moved > 0) {
-                                // bigger
-                            } else {
-                                // smaller   
-                            }
                             var y = $(this).data("y"),
                                 x = $(this).data("x"),
                                 newBottom = $(this).offset().top,
@@ -1025,7 +1014,7 @@
                             oThis.gridsCells[x][y].css("height", rHeight);
                             // put the rail back to auto default position
                             $(this).css("top", "auto");
-                            // look across all heights and make sure they fill 100%;
+                            // look across all heights and make sure they fill 100%
                             oThis.forcePerHeight(x);
                             // make the current url fit the meta.
                             if (typeof oThis.settings.callSetHash == "function") {
@@ -1042,7 +1031,7 @@
             $(window).trigger("resize.grid");
         }
         /**
-         * this.resizeColumn()<br/><br/> simplify the pass through to this.setMetaAt on width resize;
+         * this.resizeColumn()<br/><br/> simplify the pass through to this.setMetaAt on width resize
          *
          * @function gridSplit.resizeColumn
          * @param {int} x the target cells column
@@ -1062,7 +1051,7 @@
             };
             // meta will be %
             this.setMetaAt(x, null, obj);
-            // convert to pix and set to data.
+            // convert to pix and set to data
             var asPix = parseInt(((this.$el.outerWidth() / 100) * parseInt(to)).toFixed(0));
             this.gridsColumns[x].data("trueWidth", asPix);
         }
@@ -1076,7 +1065,6 @@
          * @memberOf gridSplit
          */
         grid.resizeCell = function(x, y, to) {
-            //.
             if (typeof this.metaAt[x] === "undefined") {
                 this.metaAt[x] = {};
                 this.metaAt[x]['c'] = {};
@@ -1102,7 +1090,7 @@
             }
         }
         /**
-         * this.setMetaAt()<br/><br/> set the obj against this.metaAt[x]([y]);
+         * this.setMetaAt()<br/><br/> set the obj against this.metaAt[x]([y])
          *
          * @function gridSplit.setMetaAt
          * @param {int} x the target cells column
@@ -1130,7 +1118,7 @@
             });
         }
         /**
-         * this.setMetaAllCells()<br/><br/> set the obj against all cells in grids scope;
+         * this.setMetaAllCells()<br/><br/> set the obj against all cells in grids scope
          *
          * @function gridSplit.setMetaAllCells
          * @param {object} scope grid
@@ -1151,9 +1139,25 @@
                 });
             });
         }
-
         /**
-         * this.addControls()<br/><br/> add a control set to either a column or a cell.
+         * this.handleClick()<br/><br/> handles click against a column or a cell
+         *
+         * @function gridSplit.handleClick
+         * @param {object} to the target element
+         * @param {string} type the target element type [cell|column]
+         * @memberOf gridSplit
+         */
+        grid.handleClick = function(to, type, grids) {
+            // handles click action against a cell.
+            if (type === "cell") {
+                var w = this.gridCell;
+                if (typeof grids.settings.callSetFocus === "function") {
+                    grids.settings.callSetFocus(JSON.parse($(to).data("cell")), grids);
+                }
+            }
+        }
+        /**
+         * this.addControls()<br/><br/> add controls to either column or cell
          *
          * @function gridSplit.addControls
          * @param {object} to the target element
@@ -1188,23 +1192,6 @@
                 to.on("click", function() {
                     oThis.handleClick(this, type, $(to).data("gridAt"));
                 });
-            }
-        }
-        /**
-         * this.handleClick()<br/><br/> handles click against a column or a cell
-         *
-         * @function gridSplit.handleClick
-         * @param {object} to the target element
-         * @param {string} type the target element type [cell|column]
-         * @memberOf gridSplit
-         */
-        grid.handleClick = function(to, type, grids) {
-            // handles click action against a cell.
-            if (type === "cell") {
-                var w = this.gridCell;
-                if (typeof grids.settings.callSetFocus === "function") {
-                    grids.settings.callSetFocus(JSON.parse($(to).data("cell")), grids);
-                }
             }
         }
         /**
@@ -1270,9 +1257,9 @@
          * @memberOf gridSplit
          */
         grid.perOfWidthEls = function(grid) {
-            // grid is a gridSplit instance (so we can target other instances from here.)
-            // start from first in series then move to parent and find all others in one DOM hit.
-            var els = grid.$el.find('.' + grid.settings.innerGridClass).first().children("." + grid.settings.gridColClass);
+            // grid is a gridSplit instance 
+            // find all columns in grid
+            var els = grid.$el.find('.' + grid.settings.innerGridClass).first().children('.' + grid.settings.gridColClass);
             var no = els.length;
             var per = (100 / no);
             // set width and float the column left;
@@ -1306,21 +1293,19 @@
             var no = els.length,
                 per = (100 / no) + "%",
                 searchEl;
-            // start from first in series then move to $.parent and find all others in one hit.
+            // find all cells in column
             if (this.settings.splitCellInColumn == true) {
                 searchEl = "." + this.settings.useInsideCell;
             } else {
-                // this screwed up the formatting on github when it was in one line,
-                // so I moved it into vars, no idea why this breaks things.
-                var andNot = ":not(.";
-                var closeNot = ")";
-                searchEl = "." + this.settings.gridCellClass + andNot + this.settings.insideCellClass + closeNot;
+                var not = ':not(.';
+                var endNot = ')';
+                searchEl = '.' + this.settings.gridCellClass + not + this.settings.insideCellClass + endNot;
             }
             $(els[0]).parent().find(searchEl).css("height", per);
             return per;
         }
         /**
-         * this.equalPers()<br/><br/> creates percentages that have to total target(100) by weighting the available items;
+         * this.equalPers()<br/><br/> creates percentages that total target(100) by weighing the available items taking into account minimums
          *
          * @function gridSplit.equalPers
          * @param {object} arr pass in values that need to total target
@@ -1351,7 +1336,7 @@
             return arr;
         }
         /**
-         * this.percentageRounding()<br/><br/> creates whole number percentages that have to total target(100);
+         * this.percentageRounding()<br/><br/> creates whole number percentages that total target(100)
          *
          * @function gridSplit.percentageRounding
          * @param {object} arr pass in values that need to total target
@@ -1389,7 +1374,7 @@
             for (i = 0; i < len; i++) {
                 marginOfErrors[i] = newVals[i] && Math.abs(arr[i] - newVals[i]) / arr[i];
             }
-            // Math.round() causes some problems as it is difficult to know at the beginning
+            // Math.round() causes some problems as its difficult to know at the beginning
             // whether numbers should have been rounded up or down to reduce total margin of error. 
             // This section of code increments and decrements values by 1 to find the number
             // combination with least margin of error.
@@ -1420,14 +1405,13 @@
             return newVals;
         }
         /**
-         * this.centerInner()<br/><br/> calculates the padding required to center a grid.
+         * this.centerInner()<br/><br/> calculates the padding required to center a grid
          *
          * @function gridSplit.centerInner
-         * @param {object} thiss optional so you center an alternative grid
          * @memberOf gridSplit
          */
-        grid.centerInner = function(thiss) {
-            var oThis = ((typeof thiss !== "undefined") ? thiss : this);
+        grid.centerInner = function() {
+            var oThis = this;
             // if the percentages go haywire, make sure the grid sits centered in .grid
             setTimeout(function() {
                 var realwidth = 0;
@@ -1440,7 +1424,7 @@
             });
         }
         /**
-         * this.forcePerWidth()<br/><br/> all cell widths need to total 100..
+         * this.forcePerWidth()<br/><br/> sum of all cells widths needs to be 100
          *
          * @function gridSplit.forcePerWidth
          * @memberOf gridSplit
@@ -1462,7 +1446,7 @@
             });
         }
         /**
-         * this.forcePerHeight()<br/><br/> all columns' cells heights need to total 100.
+         * this.forcePerHeight()<br/><br/> sum of all columns' heights needs to be 100
          *
          * @function gridSplit.forcePerHeight
          * @param {int} x column being altered
@@ -1518,50 +1502,51 @@
             }
         }
         /**
-         * this.returnLXY()<br/><br/> nested operation for this.returnLongXY.
+         * this.returnLXY()<br/><br/> nested operation for this.returnLongXY
          *
          * @function gridSplit.returnLXY
          * @param {int} x the target column
          * @param {int} y the target cell
-         * @param {string} args append each tier to the same string
-         * @return {string} full x,y resolution for the cell.
+         * @param {string} response the response string
+         * @return {string} full yx-yx resolution for the cell (cell->parent)
          * @memberOf gridSplit
          */
-        grid.returnLXY = function(x,y,args) {
+        grid.returnLXY = function(x,y,response) {
             var oThis = this;
             // if were not at parent, find parent grid and x y of parent cell
-            if(typeof args == "undefined") { 
-                args = y + "" + x + "-";
+            // build string y x order string reversed after collation
+            if(typeof response == "undefined") { 
+                response = y + "" + x + "-";
             } else {
-                args += y + "" + x + "-";
+                response += y + "" + x + "-";
             }
             if(oThis !== oThis.parent()) {
                 var pG = oThis.settings.parentsGrid;
                 var pX = oThis.settings.parentsX;
                 var pY = oThis.settings.parentsY;
                 if(typeof pX !== "undefined") {
-                    return pG.returnLXY(pX,pY,args);
+                    return pG.returnLXY(pX,pY,response);
                 }
             }
-            return args
+            return response
         }
         /**
-         * this.returnLongXY()<br/><br/> return the full x,y resolution for the cell.
+         * this.returnLongXY()<br/><br/> return the full xy-xy resolution for the given cell
          *
          * @function gridSplit.returnLongXY
          * @param {int} x the target column
          * @param {int} y the target cell
-         * @return {string} full x,y resolution for the cell
+         * @return {string} full xy-xy resolution for the given cell (parent->cell)
          * @memberOf gridSplit
          */
         grid.returnLongXY = function(x, y){
             // start on cell and work outwards 
-            // reverse the string because we want to use as a ref to the cells nested position
+            // string is built in reverse order - so needs to be reversed
             return this.returnLXY(x,y).split('').reverse().join('').replace(/(^[-\s]+)|([-\s]+$)/g, '');
         }
 
         /**
-         * this.returnContent()<br/><br/> return content that exists within the cell;
+         * this.returnContent()<br/><br/> return and detach content from the given cell
          *
          * @function gridSplit.returnContent
          * @return {object} jQuery element
@@ -1588,7 +1573,7 @@
             return $(useContent);
         }
         /**
-         * this.returnStructure()<br/><br/> return a simple object of the grids structure (true where cell exists);
+         * this.returnStructure()<br/><br/> return a simple object of the grids structure (true where cell exists)
          *
          * @function gridSplit.returnStructure
          * @return {string} JSON representative
@@ -1598,7 +1583,7 @@
             return JSON.stringify(this.gridsStructure);
         }
         /**
-         * this.returnMeta()<br/><br/> return a complex object of the grids structure with heights and widths;
+         * this.returnMeta()<br/><br/> return a complex object of the grids structure with heights and widths
          *
          * @function gridSplit.returnMeta
          * @return {string} JSON representative
@@ -1611,7 +1596,7 @@
          * this.returnCells()<br/><br/> return an object of the grids cells
          *
          * @function gridSplit.returnCells
-         * @return {object} object of grids Cells.
+         * @return {object} object of grids Cells
          * @memberOf gridSplit
          */
         grid.returnCells = function() {
@@ -1632,7 +1617,7 @@
             return (this.settings.parentsGrid === '' ? this : this.settings.parentsGrid);
         }
         /**
-         * this.dontDestroy<br/><br/> remove the grid and all associated data<br/>
+         * this.dontDestroy<br/><br/> call a function to handle saving of data before its destroyed <br/>
          * this.settings.callBeforeDestroy - pass the object through a call without destroying so that you can save the content of the cells
          *
          * @function gridSplit.dontDestroy
@@ -1664,7 +1649,7 @@
             this.$el.empty().removeData("grid");
             return this.$el;
         }
-        // call grid.init() on new gridSplit();
+        // call grid.init() on new gridSplit()
         grid.init(el, options);
     }
 }));
