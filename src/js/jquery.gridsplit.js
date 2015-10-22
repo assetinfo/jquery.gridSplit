@@ -22,29 +22,29 @@
      * @param {object} options the settings being applied to this $el
      * @param {object} options.horizRail - horizontal rail $el to be cloned
      * @param {object} options.vertRail - vertical rail $el to be cloned
-     * @param {String} options.gridColClass - Column class
-     * @param {String} options.gridCellClass - Cell class
-     * @param {String} options.innerGridClass - Inner grid class
-     * @param {String} options.hasChildrenClass - Cell has children class
-     * @param {String} options.resizableClass - Add class if resizable
-     * @param {String} options.draggingClass - Rail is being dragged class
-     * @param {String} options.data - Data to initialise the grid with
-     * @param {String} options.setMeta - Meta to be set against the current grid
-     * @param {String} options.parentsGrid - The parent of the current grid
-     * @param {String} options.nestedIn - The ID of the grid this grid is nested within
-     * @param {bool} options.resizable - Is this grid resizable?
-     * @param {String} options.splitMethodH - Method to use when splitting cells horizontally ["half"|""]
-     * @param {String} options.splitMethodV -  Method to use when splitting columns vertically ["half"|""]
-     * @param {int} options.horizMin - Minimum cell height
-     * @param {int} options.vertMin - Minimum column width
+     * @param {String} options.gridColClass - column class
+     * @param {String} options.gridCellClass - cell class
+     * @param {String} options.innerGridClass - inner grid class
+     * @param {String} options.hasChildrenClass - cell has children class
+     * @param {String} options.resizableClass - add class if resizable
+     * @param {String} options.draggingClass - rail is being dragged class
+     * @param {String} options.data - data to initialise the grid with
+     * @param {String} options.setMeta - meta to be set against the current grid
+     * @param {String} options.parentsGrid - the parent of the current grid
+     * @param {String} options.nestedIn - the ID of the grid this grid is nested within
+     * @param {bool} options.resizable - is this grid resizable?
+     * @param {String} options.splitMethodH - method to use when splitting cells horizontally ["half"|""]
+     * @param {String} options.splitMethodV -  method to use when splitting columns vertically ["half"|""]
+     * @param {int} options.horizMin - minimum cell height
+     * @param {int} options.vertMin - minimum column width
      * @param {Object} options.hideBorder - CSS obj to hide a border
-     * @param {function} options.callFocusAndLoad - When reloading a grid this call is attempted on each cell
-     * @param {function} options.callResetGrid - This function is attempted once the grid has been rebuilt
-     * @param {function} options.callAfterMove - Stack some functions with the cells context / do something with the cells context
-     * @param {function} options.callFinaliseMove - Invoke the calls you stacked / do something after all moves have finished
-     * @param {function} options.callSetFocus - Pass the cells context to a function and do something with it
-     * @param {function} options.callAfterResize - Pass the cells context to a function and do something with it
-     * @param {function} options.callBeforeDestroy - Call attempted when .destroy() is called on a grid
+     * @param {function} options.callFocusAndLoad - when reloading a grid this call is attempted on each cell
+     * @param {function} options.callResetGrid - this function is attempted once the grid has been rebuilt
+     * @param {function} options.callAfterMove - stack some functions with the cells context / do something with the cells context
+     * @param {function} options.callFinaliseMove - invoke the calls we stacked / do something after all moves have finished
+     * @param {function} options.callSetFocus - pass the cells context to a function and do something with it
+     * @param {function} options.callAfterResize - pass the cells context to a function and do something with it
+     * @param {function} options.callBeforeDestroy - call attempted when .destroy() is called on a grid
      * @class $.fn.gridSplit
      * @memberOf! $.fn
      */
@@ -115,36 +115,36 @@
             }
         };
         /**
-         * Iniatialise the grid and apply the options contained in the passed in object.
+         * iniatialise the grid and apply the options contained in the passed in object
          *
          * @function gridSplit.init
          * @param {object} el the $element we are applying the grid to
          * @param {object} options the options being passed through to init from $(el).gridSplit(options) or new gridSplit(options)
          * @param {object} options.horizRail - horizontal rail $el to be cloned
          * @param {object} options.vertRail - vertical rail $el to be cloned
-         * @param {String} options.gridColClass - Column class
-         * @param {String} options.gridCellClass - Cell class
-         * @param {String} options.innerGridClass - Inner grid class
-         * @param {String} options.hasChildrenClass - Cell has children class
-         * @param {String} options.draggingClass - Rail is being dragged class
-         * @param {String} options.resizableClass - Add class if resizable
-         * @param {String} options.data - Data to initialise the grid with
-         * @param {String} options.setMeta - Meta to set against the current grid
-         * @param {String} options.parentsGrid - The parent of the current grid
-         * @param {String} options.nestedIn - The ID of the grid this grid is nested within
-         * @param {bool} options.resizable - Is this grid resizable?
-         * @param {String} options.splitMethodH - Method to use when splitting cells horizontally ["half"|""]
-         * @param {String} options.splitMethodV -  Method to use when splitting columns vertically ["half"|""]
-         * @param {int} options.horizMin - Minimum cell height
-         * @param {int} options.vertMin - Minimum column width
+         * @param {String} options.gridColClass - column class
+         * @param {String} options.gridCellClass - cell class
+         * @param {String} options.innerGridClass - inner grid class
+         * @param {String} options.hasChildrenClass - cell has children class
+         * @param {String} options.draggingClass - rail is being dragged class
+         * @param {String} options.resizableClass - add class if resizable
+         * @param {String} options.data - data to initialise the grid with
+         * @param {String} options.setMeta - meta to set against the current grid
+         * @param {String} options.parentsGrid - the parent of the current grid
+         * @param {String} options.nestedIn - the ID of the grid this grid is nested within
+         * @param {bool} options.resizable - is this grid resizable?
+         * @param {String} options.splitMethodH - method to use when splitting cells horizontally ["half"|""]
+         * @param {String} options.splitMethodV -  method to use when splitting columns vertically ["half"|""]
+         * @param {int} options.horizMin - minimum cell height
+         * @param {int} options.vertMin - minimum column width
          * @param {Object} options.hideBorder - CSS obj to hide a border
-         * @param {function} options.callFocusAndLoad - When reloading a grid this call is attempted on each cell
-         * @param {function} options.callResetGrid - This function is attempted once the grid has been rebuilt
-         * @param {function} options.callAfterMove - Stack some functions with the cells context / do something with the cells context
-         * @param {function} options.callFinaliseMove - Invoke the calls you stacked / do something after all moves have finished
-         * @param {function} options.callSetFocus - Pass the cells context to a function and do something with it
-         * @param {function} options.callAfterResize - Pass the cells context to a function and do something with it
-         * @param {function} options.callBeforeDestroy - Call attempted when .destroy() is called on a grid
+         * @param {function} options.callFocusAndLoad - when reloading a grid this call is attempted on each cell
+         * @param {function} options.callResetGrid - this function is attempted once the grid has been rebuilt
+         * @param {function} options.callAfterMove - stack some functions with the cells context / do something with the cells context
+         * @param {function} options.callFinaliseMove - invoke the calls we stacked / do something after all moves have finished
+         * @param {function} options.callSetFocus - pass the cells context to a function and do something with it
+         * @param {function} options.callAfterResize - pass the cells context to a function and do something with it
+         * @param {function} options.callBeforeDestroy - call attempted when .destroy() is called on a grid
          * @return {object} this
          * @property {object} this.settings - object of settings extended by options
          * @property {String} this.id - the grid elements ID
@@ -181,7 +181,7 @@
                 this.addColumn(0);
                 this.gridsStructure[0][0] = null;
                 this.addCell(0, 0);
-                // when where splitting a Cell in a colum we need to split horizontally
+                // when where splitting a cell in a colum we need to split horizontally
                 if (this.settings.splitCellInColumn == true) {
                     this.addColumn(0);
                 }
@@ -1140,7 +1140,7 @@
             });
         }
         /**
-         * this.handleClick()<br/><br/> handles click against a column or a cell
+         * this.handleClick()<br/><br/> handle click event against a cell
          *
          * @function gridSplit.handleClick
          * @param {object} to the target element
@@ -1148,7 +1148,7 @@
          * @memberOf gridSplit
          */
         grid.handleClick = function(to, type, grids) {
-            // handles click action against a cell.
+            // only handles a click action against a cell
             if (type === "cell") {
                 var w = this.gridCell;
                 if (typeof grids.settings.callSetFocus === "function") {
@@ -1237,7 +1237,7 @@
             return ret;
         }
         /**
-         * this.perOfWidth()<br/><br/> passes back the percentage that pixels represents of the grids.outerWidth()
+         * this.perOfWidth()<br/><br/> returns the percentage that pixels represents of the grids.outerWidth()
          *
          * @function gridSplit.perOfWidth
          * @param {int} pixels elements width
@@ -1270,7 +1270,7 @@
             return per;
         }
         /**
-         * this.perOfHeight()<br/><br/> passes back the percentage that pixels represents of the elHeight.outerHeight()
+         * this.perOfHeight()<br/><br/> returns the percentage that pixels represents of the elHeight.outerHeight()
          *
          * @function gridSplit.perOfHeight
          * @param {int} pixels elements height
@@ -1308,7 +1308,7 @@
          * this.equalPers()<br/><br/> creates percentages that total target(100) by weighing the available items taking into account minimums
          *
          * @function gridSplit.equalPers
-         * @param {object} arr pass in values that need to total target
+         * @param {object} arr pass in array of values
          * @param {int} target normally 100
          * @param {int} vh vertical|horizontal, what mins should we use
          * @return {object} pers
@@ -1327,7 +1327,7 @@
                 }
                 total += arr[i];
             }
-            // arr needs to be a real percent of target.
+            // arr needs to be a real percent of target
             for (x = 0; x < arr.length; x++) {
                 arr[x] = (target / total) * arr[x];
             }
@@ -1339,7 +1339,7 @@
          * this.percentageRounding()<br/><br/> creates whole number percentages that total target(100)
          *
          * @function gridSplit.percentageRounding
-         * @param {object} arr pass in values that need to total target
+         * @param {object} arr pass in array of values
          * @param {int} target normally 100
          * @return {object} pers
          * @memberOf gridSplit
@@ -1424,7 +1424,7 @@
             });
         }
         /**
-         * this.forcePerWidth()<br/><br/> sum of all cells widths needs to be 100
+         * this.forcePerWidth()<br/><br/> create percentage widths for all columns in grid
          *
          * @function gridSplit.forcePerWidth
          * @memberOf gridSplit
@@ -1446,7 +1446,7 @@
             });
         }
         /**
-         * this.forcePerHeight()<br/><br/> sum of all columns' heights needs to be 100
+         * this.forcePerHeight()<br/><br/> create percentage heights for all cells in column 
          *
          * @function gridSplit.forcePerHeight
          * @param {int} x column being altered
@@ -1576,17 +1576,17 @@
          * this.returnStructure()<br/><br/> return a simple object of the grids structure (true where cell exists)
          *
          * @function gridSplit.returnStructure
-         * @return {string} JSON representative
+         * @return {string} JSON string
          * @memberOf gridSplit
          */
         grid.returnStructure = function() {
             return JSON.stringify(this.gridsStructure);
         }
         /**
-         * this.returnMeta()<br/><br/> return a complex object of the grids structure with heights and widths
+         * this.returnMeta()<br/><br/> return a complete object of the grids structure with heights and widths and all other stored meta
          *
          * @function gridSplit.returnMeta
-         * @return {string} JSON representative
+         * @return {string} JSON string
          * @memberOf gridSplit
          */
         grid.returnMeta = function() {
@@ -1618,7 +1618,7 @@
         }
         /**
          * this.dontDestroy<br/><br/> call a function to handle saving of data before its destroyed <br/>
-         * this.settings.callBeforeDestroy - pass the object through a call without destroying so that you can save the content of the cells
+         * this.settings.callBeforeDestroy - pass the object through a call without destroying so that we can save the content of the cells
          *
          * @function gridSplit.dontDestroy
          * @return {object} gridSplit jQuery el
@@ -1635,7 +1635,7 @@
         }
         /**
          * this.destroy<br/><br/> remove the grid and all associated data<br/>
-         * this.settings.callBeforeDestroy - pass the object through a call before destroying so that you can save the content of the cells
+         * this.settings.callBeforeDestroy - pass the object through a call before destroying so that we can save the content of the cells
          *
          * @function gridSplit.destroy
          * @return {object} gridSplit jQuery el
