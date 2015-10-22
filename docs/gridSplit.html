@@ -1548,7 +1548,7 @@
     
     
     <div class="description">
-        this.destroy<br/><br/> remove the grid and all associated data<br/>this.settings.callBeforeDestroy - pass the object through a call before destroying so that you can save the content of the cells
+        this.destroy<br/><br/> remove the grid and all associated data<br/>this.settings.callBeforeDestroy - pass the object through a call before destroying so that we can save the content of the cells
     </div>
     
 
@@ -1637,7 +1637,7 @@
     
     
     <div class="description">
-        this.dontDestroy<br/><br/> call a function to handle saving of data before its destroyed <br/>this.settings.callBeforeDestroy - pass the object through a call without destroying so that you can save the content of the cells
+        this.dontDestroy<br/><br/> call a function to handle saving of data before its destroyed <br/>this.settings.callBeforeDestroy - pass the object through a call without destroying so that we can save the content of the cells
     </div>
     
 
@@ -1776,7 +1776,7 @@
   
               
   
-              <td class="description last">pass in values that need to total target</td>
+              <td class="description last">pass in array of values</td>
           </tr>
   
     
@@ -1911,7 +1911,7 @@
     
     
     <div class="description">
-        this.forcePerHeight()<br/><br/> sum of all columns' heights needs to be 100
+        this.forcePerHeight()<br/><br/> create percentage heights for all cells in column
     </div>
     
 
@@ -2027,7 +2027,7 @@
     
     
     <div class="description">
-        this.forcePerWidth()<br/><br/> sum of all cells widths needs to be 100
+        this.forcePerWidth()<br/><br/> create percentage widths for all columns in grid
     </div>
     
 
@@ -2324,7 +2324,7 @@
     
     
     <div class="description">
-        this.handleClick()<br/><br/> handles click against a column or a cell
+        this.handleClick()<br/><br/> handle click event against a cell
     </div>
     
 
@@ -2463,7 +2463,7 @@
     
     
     <div class="description">
-        Iniatialise the grid and apply the options contained in the passed in object.
+        iniatialise the grid and apply the options contained in the passed in object
     </div>
     
 
@@ -2624,7 +2624,7 @@
   
               
   
-              <td class="description last">Column class</td>
+              <td class="description last">column class</td>
           </tr>
   
     
@@ -2647,7 +2647,7 @@
   
               
   
-              <td class="description last">Cell class</td>
+              <td class="description last">cell class</td>
           </tr>
   
     
@@ -2670,7 +2670,7 @@
   
               
   
-              <td class="description last">Inner grid class</td>
+              <td class="description last">inner grid class</td>
           </tr>
   
     
@@ -2693,7 +2693,7 @@
   
               
   
-              <td class="description last">Cell has children class</td>
+              <td class="description last">cell has children class</td>
           </tr>
   
     
@@ -2716,7 +2716,7 @@
   
               
   
-              <td class="description last">Rail is being dragged class</td>
+              <td class="description last">rail is being dragged class</td>
           </tr>
   
     
@@ -2739,7 +2739,7 @@
   
               
   
-              <td class="description last">Add class if resizable</td>
+              <td class="description last">add class if resizable</td>
           </tr>
   
     
@@ -2762,7 +2762,7 @@
   
               
   
-              <td class="description last">Data to initialise the grid with</td>
+              <td class="description last">data to initialise the grid with</td>
           </tr>
   
     
@@ -2785,7 +2785,7 @@
   
               
   
-              <td class="description last">Meta to set against the current grid</td>
+              <td class="description last">meta to set against the current grid</td>
           </tr>
   
     
@@ -2808,7 +2808,7 @@
   
               
   
-              <td class="description last">The parent of the current grid</td>
+              <td class="description last">the parent of the current grid</td>
           </tr>
   
     
@@ -2831,7 +2831,7 @@
   
               
   
-              <td class="description last">The ID of the grid this grid is nested within</td>
+              <td class="description last">the ID of the grid this grid is nested within</td>
           </tr>
   
     
@@ -2854,7 +2854,7 @@
   
               
   
-              <td class="description last">Is this grid resizable?</td>
+              <td class="description last">is this grid resizable?</td>
           </tr>
   
     
@@ -2877,7 +2877,7 @@
   
               
   
-              <td class="description last">Method to use when splitting cells horizontally ["half"|""]</td>
+              <td class="description last">method to use when splitting cells horizontally ["half"|""]</td>
           </tr>
   
     
@@ -2900,7 +2900,7 @@
   
               
   
-              <td class="description last">Method to use when splitting columns vertically ["half"|""]</td>
+              <td class="description last">method to use when splitting columns vertically ["half"|""]</td>
           </tr>
   
     
@@ -2923,7 +2923,7 @@
   
               
   
-              <td class="description last">Minimum cell height</td>
+              <td class="description last">minimum cell height</td>
           </tr>
   
     
@@ -2946,7 +2946,7 @@
   
               
   
-              <td class="description last">Minimum column width</td>
+              <td class="description last">minimum column width</td>
           </tr>
   
     
@@ -2992,7 +2992,7 @@
   
               
   
-              <td class="description last">When reloading a grid this call is attempted on each cell</td>
+              <td class="description last">when reloading a grid this call is attempted on each cell</td>
           </tr>
   
     
@@ -3015,7 +3015,7 @@
   
               
   
-              <td class="description last">This function is attempted once the grid has been rebuilt</td>
+              <td class="description last">this function is attempted once the grid has been rebuilt</td>
           </tr>
   
     
@@ -3038,7 +3038,7 @@
   
               
   
-              <td class="description last">Stack some functions with the cells context / do something with the cells context</td>
+              <td class="description last">stack some functions with the cells context / do something with the cells context</td>
           </tr>
   
     
@@ -3061,7 +3061,7 @@
   
               
   
-              <td class="description last">Invoke the calls you stacked / do something after all moves have finished</td>
+              <td class="description last">invoke the calls we stacked / do something after all moves have finished</td>
           </tr>
   
     
@@ -3084,7 +3084,7 @@
   
               
   
-              <td class="description last">Pass the cells context to a function and do something with it</td>
+              <td class="description last">pass the cells context to a function and do something with it</td>
           </tr>
   
     
@@ -3107,7 +3107,7 @@
   
               
   
-              <td class="description last">Pass the cells context to a function and do something with it</td>
+              <td class="description last">pass the cells context to a function and do something with it</td>
           </tr>
   
     
@@ -3130,7 +3130,7 @@
   
               
   
-              <td class="description last">Call attempted when .destroy() is called on a grid</td>
+              <td class="description last">call attempted when .destroy() is called on a grid</td>
           </tr>
   
     
@@ -3608,7 +3608,7 @@
   
               
   
-              <td class="description last">pass in values that need to total target</td>
+              <td class="description last">pass in array of values</td>
           </tr>
   
     
@@ -3720,7 +3720,7 @@
     
     
     <div class="description">
-        this.perOfHeight()<br/><br/> passes back the percentage that pixels represents of the elHeight.outerHeight()
+        this.perOfHeight()<br/><br/> returns the percentage that pixels represents of the elHeight.outerHeight()
     </div>
     
 
@@ -3998,7 +3998,7 @@
     
     
     <div class="description">
-        this.perOfWidth()<br/><br/> passes back the percentage that pixels represents of the grids.outerWidth()
+        this.perOfWidth()<br/><br/> returns the percentage that pixels represents of the grids.outerWidth()
     </div>
     
 
@@ -5280,7 +5280,7 @@
     
     
     <div class="description">
-        this.returnMeta()<br/><br/> return a complex object of the grids structure with heights and widths
+        this.returnMeta()<br/><br/> return a complete object of the grids structure with heights and widths and all other stored meta
     </div>
     
 
@@ -5335,7 +5335,7 @@
     
             
 <div class="param-desc">
-    JSON representative
+    JSON string
 </div>
 
 
@@ -5424,7 +5424,7 @@
     
             
 <div class="param-desc">
-    JSON representative
+    JSON string
 </div>
 
 
@@ -6306,7 +6306,7 @@
           
     <span class="jsdoc-message">
     Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.2.2</a>
-    on 2015-10-22T22:02:41+01:00
+    on 2015-10-22T22:23:28+01:00
     </span>
         </footer>
       </div>
