@@ -30,7 +30,7 @@
      * @param {String} options.draggingClass - Rail is being dragged class
      * @param {String} options.data - Data to initialise the grid with
      * @param {String} options.setMeta - Meta to be set against the current grid
-     * @param {String} options.parentGrid - The parent of the current grid
+     * @param {String} options.parentsGrid - The parent of the current grid
      * @param {String} options.nestedIn - The ID of the grid this grid is nested within
      * @param {bool} options.resizable - Is this grid resizable?
      * @param {String} options.splitMethodH - Method to use when splitting cells horizontally ["half"|""]
@@ -96,7 +96,7 @@
             resizableClass: 'isResizable',
             draggingClass: 'dragging',
             data: '',
-            parentGrid: '',
+            parentsGrid: '',
             nestedIn: '',
             resizable: true,
             splitMethodH: "",
@@ -130,7 +130,7 @@
          * @param {String} options.resizableClass - Add class if resizable
          * @param {String} options.data - Data to initialise the grid with
          * @param {String} options.setMeta - Meta to set against the current grid
-         * @param {String} options.parentGrid - The parent of the current grid
+         * @param {String} options.parentsGrid - The parent of the current grid
          * @param {String} options.nestedIn - The ID of the grid this grid is nested within
          * @param {bool} options.resizable - Is this grid resizable?
          * @param {String} options.splitMethodH - Method to use when splitting cells horizontally ["half"|""]
@@ -154,7 +154,7 @@
          * @property {object} this.gridsCells - object of cells (only relevent to this grid)
          * @property {object} this.gridsStructure - object representing the simplified structure (all nested grids)
          * @property {object} this.timeoutFPH - object to hold timeouts for forcePercentHeight
-         * @property {object} this.metaAt - object of the complete structure and meta (all nested grid) to set against the grid
+         * @property {object} this.metaAt - object of the complete structure and meta (all nested grids) to set against the grid
          * @memberOf gridSplit
          */
         grid.init = function(el, options) {
@@ -292,19 +292,12 @@
                                 }
                             } else {
                                 if (typeof oThis.gridsCells[x][y] !== "undefined") {
+                                    oThis.metaAt[x][y] = cell;
                                     oThis.gridsCells[x][y].css("height", cell['h']);
                                     oThis.resizeCell(x, y, cell['h']);
                                 }
-                                if (typeof cell['fA'] !== "undefined") {
-                                    if (cell['isFullScreen'] === true) {
-                                        oThis.metaAt[x][y]['isFullScreen'] = true;
-                                    }
-                                    if (typeof cell['fSID'] !== "undefined") {
-                                        oThis.metaAt[x][y]['fSID'] = cell['fSID'];
-                                    }
-                                    if (typeof oThis.settings.callFocusAndLoad === "function") {
-                                        oThis.settings.callFocusAndLoad(oThis, x, y, cell['fA'], oThis.metaAt[x][y]['isFullScreen']);
-                                    }
+                                if (typeof oThis.settings.callFocusAndLoad === "function") {
+                                    oThis.settings.callFocusAndLoad(oThis, x, y);
                                 }
                             }
                         });
@@ -414,7 +407,7 @@
                 this.gridsStructure[x] = [];
                 this.gridsCells[x] = [];
                 this.metaAt[x] = {};
-                this.gridsColumns[x] = el.data("tpe", "c");
+                this.gridsColumns[x] = el.data("type", "column");
                 this.addControls(this.gridsColumns[x], x);
                 if (oThis !== oThis.parent()) {
                     var cell = JSON.parse(oThis.$el.data("cell"));
@@ -454,6 +447,50 @@
             // split the cell ([x][y] - horizontally)[ .splitAt(0,0)]
             // split the cell ([x][y] - vertically)[ .splitAt(0,0,true)]
             var oThis = this;
+            // function to check descendents after a move to ensure ID integrity.
+            var updateIdThenCallAfterMoveTimeout;
+            var updateIdThenCallAfterMove = function(startingPoint, x, y, fixIDFrom, fixIDTo) {
+                if(typeof startingPoint !== "undefined") {
+                    if(typeof updateIdThenCallAfterMoveTimeout !== "undefined") {
+                        clearTimeout(updateIdThenCallAfterMoveTimeout);
+                    }
+                    if(startingPoint.gridsCells.length > 0) {
+                        var orig = startingPoint.id;
+                        // Unique ID's solve problems with over-lapping grid.id-xy combinations.
+                        startingPoint.id = startingPoint.settings.nestedIn + "-" + startingPoint.parent().id + "-" + x + y + "-" + Date.now();
+                        startingPoint.id = startingPoint.id.replace(fixIDFrom, fixIDTo);
+                        $(startingPoint.el).attr("id", startingPoint.id);
+                        // return if the startingPoint has no columns. etc...
+                        if(typeof startingPoint.gridsColumns !== "undefined") {
+                            for(i=0;i<startingPoint.gridsColumns.length;i++){
+                                if(typeof startingPoint.gridsCells[i] === "object") {
+                                    var spLen = startingPoint.gridsCells[i].length;
+                                    if(spLen >= 0) {
+                                        // iterating nested collection calling after move and then calling _self
+                                        for(iy=0;iy<spLen;iy++){
+                                            if(typeof startingPoint.gridsCells[i] !== "undefined" && typeof startingPoint.gridsCells[i][iy] !== "undefined") {
+                                                var nextStartingPoint = startingPoint.gridsCells[i][iy].data("grid");
+                                                // this event is called when ever a cell is moved...
+                                                if (typeof startingPoint.settings.callAfterMove === "function") {
+                                                    startingPoint.settings.callAfterMove(orig + '' + i + '' + iy,  startingPoint.id + '' + i + '' + iy, startingPoint, i, iy, i, iy);
+                                                }
+                                                // keep moving down the nest
+                                                updateIdThenCallAfterMove(nextStartingPoint, i, iy, fixIDFrom, fixIDTo);
+                                                // timeout to make sure we only finalise the effects of callAfterMove once.
+                                                if (typeof startingPoint.settings.callFinaliseMove === "function") {
+                                                    updateIdThenCallAfterMoveTimeout = setTimeout(function(){
+                                                        startingPoint.settings.callFinaliseMove();
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             // spliting the cell horizontally
             if (typeof y !== "undefined") {
                 if (typeof cell !== "undefined") {
@@ -478,9 +515,18 @@
                             reExs[(ly + 1)] = oThis.gridsStructure[x][ly];
                             // cell here alter its .data("cell") attributes; +1 to y
                             reEx[(ly + 1)].data("cell", '{"x":' + parseInt(x) + ',"y":' + parseInt(ly + 1) + '}');
-                            // this should be called as an event   
                             if (typeof oThis.settings.callAfterMove === "function") {
-                                oThis.settings.callAfterMove(oThis.id + '' + x + '' + ly, oThis.id + '' + x + '' + (ly + 1), oThis, x, (ly + 1));
+                                oThis.settings.callAfterMove(oThis.id + '' + x + '' + ly, oThis.id + '' + x + '' + (ly + 1), oThis, x, (ly + 1), x, ly);
+                            }
+                            var startingPoint = reEx[(ly + 1)].data("grid");
+                            if(typeof startingPoint !== "undefined") {
+                                startingPoint.settings.parentsGrid = oThis;
+                                startingPoint.settings.parentsX = parseInt(x);
+                                startingPoint.settings.parentsY = parseInt(parseInt(ly + 1));
+                                var fixIDFrom = startingPoint.id + '-' + x + '' + ly;
+                                var fixIDTo = startingPoint.id + '-' + x + '' + (ly+1);
+                                // make sure IDs persist against the cell and any other references
+                                updateIdThenCallAfterMove(startingPoint, x, ly+1, fixIDFrom, fixIDTo);
                             }
                         } else {
                             reEx[ly] = oThis.gridsCells[x][ly];
@@ -542,10 +588,10 @@
                             for (y = 0; y < reExc[(lx + 1)].length; y++) {
                                 reExc[(lx + 1)][y].data("cell", '{"x":' + parseInt((lx + 1)) + ',"y":' + parseInt(y) + '}');
                                 if (typeof oThis.settings.callAfterMove === "function") {
-                                    oThis.settings.callAfterMove(oThis.id + '' + (lx) + '' + y, oThis.id + '' + (lx + 1) + '' + y, oThis, (lx + 1), y);
+                                    oThis.settings.callAfterMove(oThis.id + '' + (lx) + '' + y, oThis.id + '' + (lx + 1) + '' + y, oThis, (lx + 1), y, lx, y);
                                 }
                             }
-                        } else {
+                       } else {
                             reEx[lx] = oThis.gridsColumns[lx];
                             reExm[lx] = oThis.metaAt[lx];
                             reExc[lx] = oThis.gridsCells[lx];
@@ -582,6 +628,7 @@
             }
             return oThis;
         }
+
         /**
          * this.splitCellInColumn()<br/><br/> initialises another grid within a grid.
          *
@@ -596,14 +643,13 @@
         grid.splitCellInColumn = function(el, x, y, data) {
             // use .data("grid") here to reference inner grid.
             var content = this.returnContent(el);
-            // save reference to parents height and fA values
+            // save reference to parents meta data
             if (typeof this.metaAt[x][y] !== "undefined") {
-                var h = this.metaAt[x][y]['h'];
-                var fA = this.metaAt[x][y]['fA'];
+                var oldMeta = this.metaAt[x][y];
             }
             // add an ID to the cell so that a new grid can be initialised on it.
-            el.attr("id", (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id) + '-' + x + '' + y).css(this.settings.hideBorder).off("click").gridSplit({
-                "parentGrid": this,
+            el.attr("id", (this.settings.nestedIn !== '' ? this.settings.nestedIn + "-" + this.id : this.id) + '-' + x + '' + y + Date.now()).css(this.settings.hideBorder).off("click").gridSplit({
+                "parentsGrid": this,
                 "parentsX": x,
                 "parentsY": y,
                 "splitCellInColumn": true,
@@ -629,17 +675,15 @@
                 this.metaAt[x]['c'] = {};
             }
             // move the widget to the new cell at 0,0
-            if (typeof content !== "undefined") {
+            if (typeof content !== "undefined" && $(content).length) {
                 el.data("grid").gridsCells[0][0].addClass(this.settings.hasContentClass).append(content);
             }
             // set parents meta equal to child.
             this.metaAt[x][y] = el.data("grid").metaAt;
-            this.metaAt[x][y]["h"] = h;
+            // height of 0,0 needs to fill parent
+            oldMeta['h'] = "100%";
             // reset meta
-            el.data("grid").setMetaAt(0, 0, {
-                "fA": fA,
-                "h": "100%"
-            });
+            el.data("grid").setMetaAt(0, 0, oldMeta);
             return el.data("grid");
         }
         /**
@@ -674,8 +718,14 @@
                                     reExs[(ly - 1)] = oThis.gridsStructure[x][ly];
                                     // cell here alter its .data("cell") attributes; -1 to y
                                     reEx[(ly - 1)].data("cell", '{"x":' + parseInt(x) + ',"y":' + parseInt((ly - 1)) + '}');
+                                    var startingPoint = reEx[(ly - 1)].data("grid");
+                                    if(typeof startingPoint !== "undefined") {
+                                        startingPoint.settings.parentsGrid = oThis;
+                                        startingPoint.settings.parentsX = parseInt(x);
+                                        startingPoint.settings.parentsY = parseInt(parseInt(ly - 1));
+                                    }
                                     if (typeof oThis.settings.callAfterMove === "function") {
-                                        oThis.settings.callAfterMove(oThis.id + '' + (x) + '' + ly, oThis.id + '' + (x) + '' + (ly - 1), oThis, x, (ly - 1));
+                                        oThis.settings.callAfterMove(oThis.id + '' + (x) + '' + ly, oThis.id + '' + (x) + '' + (ly - 1), oThis, x, (ly - 1), x, ly);
                                     }
                                     if (typeof reEx[(ly - 1)] !== "undefined") {
                                         $(window).trigger("resize.grid." + $(reEx[(ly - 1)]).data("widgetID"));
@@ -753,7 +803,7 @@
                             if (typeof reEx[(lx - 1)][y] !== "undefined") {
                                 reEx[(lx - 1)][y].data("cell", '{"x":' + parseInt((lx - 1)) + ',"y":' + parseInt(y) + '}');
                                 if (typeof oThis.settings.callAfterMove === "function") {
-                                    oThis.settings.callAfterMove(oThis.id + '' + (lx) + '' + y, oThis.id + '' + (lx - 1) + '' + y, oThis, (lx - 1), y);
+                                    oThis.settings.callAfterMove(oThis.id + '' + (lx) + '' + y, oThis.id + '' + (lx - 1) + '' + y, oThis, (lx - 1), y, lx, y);
                                 }
                             }
                         }
@@ -771,7 +821,7 @@
                             // cells might still have been moved if their parent-grid was destroyed.
                             if (typeof oThis.settings.callAfterMove === "function") {
                                 for (y = 0; y < reEx[lx].length; y++) {
-                                    oThis.settings.callAfterMove(oThis.id + '' + (lx) + '' + y, oThis.id + '' + lx + '' + y, oThis, lx, y);
+                                    oThis.settings.callAfterMove(oThis.id + '' + (lx) + '' + y, oThis.id + '' + lx + '' + y, oThis, lx, y, lx, y);
                                 }
                             }
                         } else {
@@ -844,9 +894,9 @@
             if (this.settings.resizable == true) {
                 to.addClass(this.settings.resizableClass);
             }
-            if ($(to).data("tpe") == "c") {
+            if ($(to).data("type") == "column") {
                 // column == vertical
-                if (x !== 0) {
+                if (x !== 0 && x !== "0") {
                     var w = this.settings.gridColClass;
                     var rail = this.settings.vertRail;
                     var rRail = rail.clone();
@@ -917,7 +967,7 @@
                     });
                 }
             } else {
-                if (y !== 0) {
+                if (y !== 0 && y !== "0") {
                     var w = this.settings.gridCellClass;
                     var rail = this.settings.horizRail;
                     var rRail = rail.clone();
@@ -989,6 +1039,7 @@
                     });
                 }
             }
+            $(window).trigger("resize.grid");
         }
         /**
          * this.resizeColumn()<br/><br/> simplify the pass through to this.setMetaAt on width resize;
@@ -1061,20 +1112,46 @@
          */
         grid.setMetaAt = function(x, y, obj) {
             var oThis = this;
-            if (typeof this.metaAt[x] === "undefined") {
-                this.metaAt[x] = {};
-                this.metaAt[x]['c'] = {};
+            clearTimeout(oThis.timeoutRZ);
+            if (typeof oThis.metaAt[x] === "undefined") {
+                oThis.metaAt[x] = {};
+                oThis.metaAt[x]['c'] = {};
             }
             if (y === null) {
-                this.metaAt[x]['c'] = $.extend({}, this.metaAt[x]['c'], obj);
+                oThis.metaAt[x]['c'] = $.extend({}, oThis.metaAt[x]['c'], obj);
             } else {
-                if (typeof this.metaAt[x][y] === "undefined") {
-                    this.metaAt[x][y] = {};
+                if (typeof oThis.metaAt[x][y] === "undefined") {
+                    oThis.metaAt[x][y] = {};
                 }
-                this.metaAt[x][y] = $.extend({}, this.metaAt[x][y], obj);
+                oThis.metaAt[x][y] = $.extend({}, oThis.metaAt[x][y], obj);
             }
-            $(window).trigger("resize.grid");
+            oThis.timeoutRZ = setTimeout(function(){
+                $(window).trigger("resize.grid");
+            });
         }
+        /**
+         * this.setMetaAllCells()<br/><br/> set the obj against all cells in grids scope;
+         *
+         * @function gridSplit.setMetaAllCells
+         * @param {object} scope grid
+         * @param {object} obj the target element
+         * @memberOf gridSplit
+         */
+        grid.setMetaAllCells = function(obj) {
+            var oThis = this;
+             $.each(grid.gridsCells, function(x, column) {
+                $.each(column, function(y, cell) {
+                    if (typeof cell.data("grid") !== "undefined") {
+                        cell.data("grid").setMetaAllCells(obj);
+                        oThis.setMetaAt(x,null,obj);
+                    } else {
+                        oThis.setMetaAt(x,null,obj);
+                        oThis.setMetaAt(x,y,obj);
+                    }
+                });
+            });
+        }
+
         /**
          * this.addControls()<br/><br/> add a control set to either a column or a cell.
          *
@@ -1088,9 +1165,9 @@
             // add a control set.   
             var oThis = this;
             // est type
-            if ($(to).data("tpe") == "c") {
+            if ($(to).data("type") == "column") {
                 var w = this.settings.gridColClass;
-                var tpe = "c";
+                var type = "column";
                 var ctrls = [];
                 // add the rail
                 if (x !== 0) {
@@ -1100,34 +1177,30 @@
                 }
             } else {
                 var w = this.settings.gridCellClass;
-                var tpe = "r";
+                var type = "cell";
                 var ctrls = [];
                 if (y !== 0) {
                     if (this.settings.resizable == true) {
                         this.addRail(to, x, y);
                     }
                 }
+                // add event to cell on click
+                to.on("click", function() {
+                    oThis.handleClick(this, type, $(to).data("gridAt"));
+                });
             }
-            // events
-            // to buttons.
-            to.on("click", function() {
-                oThis.clickThis(this, tpe, $(to).data("gridAt"));
-            });
         }
         /**
-         * this.clickThis()<br/><br/> handles click against a column or a cell
+         * this.handleClick()<br/><br/> handles click against a column or a cell
          *
-         * @function gridSplit.clickThis
+         * @function gridSplit.handleClick
          * @param {object} to the target element
          * @param {string} type the target element type [cell|column]
          * @memberOf gridSplit
          */
-        grid.clickThis = function(to, type, grids) {
-            // just to handle an action against a cell.
-            if (type !== "c") {
-                //     var w = this.gridCol;
-                // } else {
-                // console.log("clicking "+ $(to).data("cell"));
+        grid.handleClick = function(to, type, grids) {
+            // handles click action against a cell.
+            if (type === "cell") {
                 var w = this.gridCell;
                 if (typeof grids.settings.callSetFocus === "function") {
                     grids.settings.callSetFocus(JSON.parse($(to).data("cell")), grids);
@@ -1415,6 +1488,79 @@
             }
         }
         /**
+         * this.return1stGrid()<br/><br/> return the first grid
+         *
+         * @function gridSplit.return1stGrid
+         * @return {object} the first grid
+         * @memberOf gridSplit
+         */
+        grid.return1stGrid = function(){
+            var oThis = this;
+            if(oThis.parent() !== oThis) {
+                oThis = oThis.parent().return1stGrid();
+            } else {
+                return oThis;
+            }
+        }
+        /**
+         * this.return1stCell()<br/><br/> return the first cell
+         *
+         * @function gridSplit.return1stCell
+         * @return {object} the first cell
+         * @memberOf gridSplit
+         */
+        grid.return1stCell = function(){
+            var oThis = this;
+            if(oThis.gridsCells[0][0].hasClass(oThis.settings.hasChildrenClass)){
+                return oThis.gridsCells[0][0].data("grid").return1stCell();
+            } else {
+                return oThis.gridsCells[0][0];
+            }
+        }
+        /**
+         * this.returnLXY()<br/><br/> nested operation for this.returnLongXY.
+         *
+         * @function gridSplit.returnLXY
+         * @param {int} x the target column
+         * @param {int} y the target cell
+         * @param {string} args append each tier to the same string
+         * @return {string} full x,y resolution for the cell.
+         * @memberOf gridSplit
+         */
+        grid.returnLXY = function(x,y,args) {
+            var oThis = this;
+            // if were not at parent, find parent grid and x y of parent cell
+            if(typeof args == "undefined") { 
+                args = y + "" + x + "-";
+            } else {
+                args += y + "" + x + "-";
+            }
+            if(oThis !== oThis.parent()) {
+                var pG = oThis.settings.parentsGrid;
+                var pX = oThis.settings.parentsX;
+                var pY = oThis.settings.parentsY;
+                if(typeof pX !== "undefined") {
+                    return pG.returnLXY(pX,pY,args);
+                }
+            }
+            return args
+        }
+        /**
+         * this.returnLongXY()<br/><br/> return the full x,y resolution for the cell.
+         *
+         * @function gridSplit.returnLongXY
+         * @param {int} x the target column
+         * @param {int} y the target cell
+         * @return {string} full x,y resolution for the cell
+         * @memberOf gridSplit
+         */
+        grid.returnLongXY = function(x, y){
+            // start on cell and work outwards 
+            // reverse the string because we want to use as a ref to the cells nested position
+            return this.returnLXY(x,y).split('').reverse().join('').replace(/(^[-\s]+)|([-\s]+$)/g, '');
+        }
+
+        /**
          * this.returnContent()<br/><br/> return content that exists within the cell;
          *
          * @function gridSplit.returnContent
@@ -1426,16 +1572,20 @@
             // ignore any rail elements
             if (content.length == 1) {
                 if (content.hasClass("horizrail") == false) {
-                    var useContent = content.detach();
+                    var useContent = content;
                 }
             } else if (content.length == 2) {
                 if ($(content[0]).hasClass("horizrail") == false) {
-                    var useContent = $(content[0]).detach();
+                    var useContent = $(content[0]);
                 } else {
-                    var useContent = $(content[1]).detach();
+                    var useContent = $(content[1]);
                 }
             }
-            return useContent;
+            // detach if the items in the DOM
+            if($(useContent).parents('html').length) {
+                useContent = $(useContent).detach();
+            }
+            return $(useContent);
         }
         /**
          * this.returnStructure()<br/><br/> return a simple object of the grids structure (true where cell exists);
@@ -1479,25 +1629,39 @@
          * @memberOf gridSplit
          */
         grid.parent = function() {
-            return (this.settings.parentGrid === '' ? this : this.settings.parentGrid);
+            return (this.settings.parentsGrid === '' ? this : this.settings.parentsGrid);
+        }
+        /**
+         * this.dontDestroy<br/><br/> remove the grid and all associated data<br/>
+         * this.settings.callBeforeDestroy - pass the object through a call without destroying so that you can save the content of the cells
+         *
+         * @function gridSplit.dontDestroy
+         * @return {object} gridSplit jQuery el
+         * @memberOf gridSplit
+         */
+        grid.dontDestroy = function(undefined) {
+            // dont destroy the current grid after processing through .callBeforeDestroy(grid)
+            if (typeof this.settings.callBeforeDestroy == "function") {
+                // true as second param should carry out an alternative method where the content is reattached
+                this.settings.callBeforeDestroy(this, 1);
+            }
+            // dont empty and dont removeData("grid")
+            return this.$el;
         }
         /**
          * this.destroy<br/><br/> remove the grid and all associated data<br/>
-         * this.settings.callBeforeDestroy - pass the object through a call prior to destruction, so you can save the contents of the cells
+         * this.settings.callBeforeDestroy - pass the object through a call before destroying so that you can save the content of the cells
          *
          * @function gridSplit.destroy
-         * @return {undefined} undefined.
+         * @return {object} gridSplit jQuery el
          * @memberOf gridSplit
          */
         grid.destroy = function(undefined) {
             // destroy the current grid after processing through .callBeforeDestroy(grid)
-            
             if (typeof this.settings.callBeforeDestroy == "function") {
                 this.settings.callBeforeDestroy(this);
             }
-
             this.$el.empty().removeData("grid");
-           
             return this.$el;
         }
         // call grid.init() on new gridSplit();
