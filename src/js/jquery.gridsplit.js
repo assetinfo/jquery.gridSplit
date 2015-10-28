@@ -37,6 +37,8 @@
      * @param {string} options.splitMethodV -  method to use when splitting columns vertically ["half"|""]
      * @param {int} options.horizMin - minimum cell height
      * @param {int} options.vertMin - minimum column width
+     * @param {int} options.paddingW - padding applied to the column width
+     * @param {int} options.paddingH - padding applied to the cell height
      * @param {object} options.hideBorder - CSS obj to hide a border
      * @param {function} options.callFocusAndLoad - when reloading a grid this call is attempted on each cell
      * @param {function} options.callResetGrid - this function is attempted once the grid has been rebuilt
@@ -101,8 +103,10 @@
             resizable: true,
             splitMethodH: "",
             splitMethodV: "half",
-            horizMin: 13,
-            vertMin: 10,
+            horizMin: 0,
+            vertMin: 0,
+            paddingW: 1,
+            paddingH: 1,
             callFocusAndLoad: null,
             callResetGrid: null,
             callAfterMove: null,
@@ -137,6 +141,8 @@
          * @param {string} options.splitMethodV -  method to use when splitting columns vertically ["half"|""]
          * @param {int} options.horizMin - minimum cell height
          * @param {int} options.vertMin - minimum column width
+         * @param {int} options.paddingW - padding applied to the column width
+         * @param {int} options.paddingH - padding applied to the cell height
          * @param {object} options.hideBorder - CSS obj to hide a border
          * @param {function} options.callFocusAndLoad - when reloading a grid this call is attempted on each cell
          * @param {function} options.callResetGrid - this function is attempted once the grid has been rebuilt
@@ -542,7 +548,7 @@
                 var second = oThis.gridsCells[x][(y + 1)];
                 var no = oThis.gridsCells[x].length;
                 if (typeof first !== "undefined" && oThis.buildingGrid !== true && oThis.settings.splitMethodH == "half") {
-                    var height = first.outerHeight();
+                    var height = parseInt(oThis.metaAt[x][y]['h'] ? oThis.metaAt[x][y]['h'] : 100);
                     // set height divides the firsts' height by the .length of gridCells[x]
                     var setHeight = oThis.halfOf(first, second, height, "h");
                     oThis.resizeCell(x, y, setHeight);
@@ -605,7 +611,11 @@
                 }
                 var first = oThis.gridsColumns[x];
                 var second = oThis.gridsColumns[(x + 1)];
-                var width = oThis.gridsColumns[x].width();
+                if(typeof oThis.metaAt[x]['c'] !== "undefined") {
+                    var width = parseInt(oThis.metaAt[x]['c']['w'] ? oThis.metaAt[x]['c']['w'] : 100);
+                } else {
+                    var width = 100;
+                }
                 // setWid is calculated by taking the width of the first dividing by two and applying that to both affected cols
                 // pass this (to obj in halfOf) at the end of this call to even the rows as theyre added
                 if (oThis.settings.splitMethodV == "half") {
@@ -738,9 +748,11 @@
                                     } else {
                                         // add this height to the cell above
                                         if((ly-1) >= 0 && oThis.settings.splitMethodH == "half") {
-                                            var newHeight = (oThis.gridsCells[x][ly].height() + oThis.gridsCells[x][ly-1].height());
+                                            var newHeight = (oThis.gridsCells[x][ly].height() + oThis.settings.paddingH + oThis.gridsCells[x][ly-1].height());
                                             oThis.resizeCell(x, ly, newHeight);
                                             oThis.gridsCells[x][ly-1].height(oThis.perOfHeight(newHeight));
+                                        } else if ((ly-1) >= 0 && oThis.settings.splitMethodH == "") {
+                                            oThis.perOfHeightEls(oThis.gridsCells[x]);
                                         }
                                     }
                                 }
@@ -1206,7 +1218,7 @@
                 if (typeof flag !== "undefined") {
                     var ret = this.perOfWidthEls();
                 } else {
-                    var ret = this.perOfWidth((full / 2));
+                    var ret = (full / 2) + "%";
                     $(first).css({
                         "width": ret,
                         "float": "left"
@@ -1220,7 +1232,7 @@
                 if (typeof flag !== "undefined") {
                     var ret = this.perOfHeightEls(flag);
                 } else {
-                    var ret = this.perOfHeight((full / 2));
+                    var ret = (full / 2) + "%";
                     $(first).css({
                         "height": ret,
                     });
@@ -1428,7 +1440,7 @@
             var wids = [];
             var oThis = this;
             $.each(this.gridsColumns, function(key, col) {
-                wids.push(parseInt(oThis.perOfWidth($(col).width())));
+                wids.push(parseInt(oThis.perOfWidth($(col).width() + oThis.settings.paddingW)));
             });
             var newWids = this.equalPers(wids, 0);
             // console.log(wids);
@@ -1453,7 +1465,7 @@
             var col = this.gridsColumns[x];
             if (typeof col !== "undefined") {
                 $.each(oThis.gridsCells[x], function(y, cell) {
-                    heights.push(parseInt(oThis.perOfHeight($(cell).outerHeight(), $(col).outerHeight())));
+                    heights.push(parseInt(oThis.perOfHeight($(cell).outerHeight() + oThis.settings.paddingH, $(col).outerHeight())));
                 });
                 var newHeights = oThis.equalPers(heights, 1);
                 // console.log(heights);
