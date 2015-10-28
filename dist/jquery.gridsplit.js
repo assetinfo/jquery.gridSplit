@@ -510,7 +510,7 @@
                     }), oThis.resizeCell(x, y, newHeights[y] + "%");
                 });
             }
-        }, grid.forcePerBoth = function() {
+        }, grid.evenAll = function() {
             var oThis = this, data = this.metaAt, countColumns = oThis.countCells(data);
             $.each(data, function(x, column) {
                 if (!isNaN(x)) {
@@ -523,7 +523,7 @@
                             $(window).trigger("resize.grid." + $(oThis.gridsCells[x][y]).data("widgetID")), 
                             "object" == typeof cell[0]) {
                                 var nGrid = oThis.gridsCells[x][y].data("grid");
-                                nGrid.forcePerBoth();
+                                nGrid.evenAll();
                             }
                         }
                     }) : data[x].c.w = "100%";

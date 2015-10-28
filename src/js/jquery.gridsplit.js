@@ -159,7 +159,7 @@
          * @property {object} this.gridsColumns - object of columns (only relevent to this grid)
          * @property {object} this.gridsCells - object of cells (only relevent to this grid)
          * @property {object} this.gridsStructure - object representing the simplified structure (all nested grids)
-         * @property {object} this.timeoutFPH - object to hold timeouts for forcePercentHeight
+         * @property {object} this.timeoutFPH - object to hold timeouts for forcePerHeight
          * @property {object} this.metaAt - object of the complete structure and meta (all nested grids) to set against the grid
          * @memberOf gridSplit
          */
@@ -1479,12 +1479,12 @@
             }
         }
         /**
-         * this.forcePerBoth()<br/><br/> create and set percentage heights and widths for all columns and cells
+         * this.evenAll()<br/><br/> create and set percentage heights and widths for all columns and cells
          *
-         * @function gridSplit.forcePerBoth
+         * @function gridSplit.evenAll
          * @memberOf gridSplit
          */
-        grid.forcePerBoth = function() {
+        grid.evenAll = function() {
             // even percentages for each column / cell
             var oThis = this;
             var data = this.metaAt;
@@ -1508,7 +1508,7 @@
                                 $(window).trigger("resize.grid." + $(oThis.gridsCells[x][y]).data("widgetID"));
                                 if (typeof cell[0] === "object") {
                                     var nGrid = oThis.gridsCells[x][y].data("grid");
-                                    nGrid.forcePerBoth();
+                                    nGrid.evenAll();
                                 }
                             }
                         });
