@@ -695,7 +695,7 @@
     
     
     <div class="description">
-        this.addRail()<br/><br/> will add rails to cells/columns if this.settings.resizable is true
+        this.addRail()<br/><br/> adds rails to cells/columns if this.settings.resizable is true
     </div>
     
 
@@ -1718,7 +1718,7 @@
         
             
 <dt>
-    <h4 class="name" id="equalPers"><span class="type-signature">&lt;static> </span>equalPers<span class="signature">(arr, target, vh)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="equalPers"><span class="type-signature">&lt;static> </span>equalPers<span class="signature">(arr, vh)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -1726,7 +1726,7 @@
     
     
     <div class="description">
-        this.equalPers()<br/><br/> creates percentages that total target(100) by weighing the available items taking into account minimums
+        this.equalPers()<br/><br/> creates percentages that total 100 by weighing the available items taking into account minimums
     </div>
     
 
@@ -1777,29 +1777,6 @@
               
   
               <td class="description last">pass in array of values</td>
-          </tr>
-  
-    
-  
-          <tr>
-              
-                  <td class="name"><code>target</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">int</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">normally 100</td>
           </tr>
   
     
@@ -1896,6 +1873,72 @@
 
 
         
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="forcePerBoth"><span class="type-signature">&lt;static> </span>forcePerBoth<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        this.forcePerBoth()<br/><br/> create and set percentage heights and widths for all columns and cells
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
     
     
 </dd>
@@ -2085,7 +2128,7 @@
         
             
 <dt>
-    <h4 class="name" id="halfOf"><span class="type-signature">&lt;static> </span>halfOf<span class="signature">(first, second, full, type, obj)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="halfOf"><span class="type-signature">&lt;static> </span>halfOf<span class="signature">(first, second, full, type, flag)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
     
 </dt>
@@ -2093,7 +2136,7 @@
     
     
     <div class="description">
-        this.halfOf()<br/><br/> split a cell in two using the methods outlined in this.settings.splitMethod*
+        this.halfOf()<br/><br/> split a cell in two using the methods outlined in this.settings.splitMethod* indicated by the existence of 'flag'
     </div>
     
 
@@ -2179,7 +2222,7 @@
               <td class="type">
               
                   
-<span class="param-type">string</span>
+<span class="param-type">int</span>
 
 
               
@@ -2212,19 +2255,22 @@
   
               
   
-              <td class="description last">the target element type [cell|column]</td>
+              <td class="description last">the type of target element ["h" = cell  | "w" = column]</td>
           </tr>
   
     
   
           <tr>
               
-                  <td class="name"><code>obj</code></td>
+                  <td class="name"><code>flag</code></td>
               
   
               <td class="type">
               
                   
+<span class="param-type">bool</span>
+|
+
 <span class="param-type">object</span>
 
 
@@ -2235,7 +2281,7 @@
   
               
   
-              <td class="description last">[this|column] passed in when this.settings.splitMethod* = "half"</td>
+              <td class="description last">true - when this.settings.splitMethod* = "half" && type == "w"   <br/>  grids.gridsColumns[x] - when this.settings.splitMethod* = "half" && type == "h"</td>
           </tr>
   
     
@@ -2324,7 +2370,7 @@
     
     
     <div class="description">
-        this.handleClick()<br/><br/> handle click event against a cell
+        this.handleClick()<br/><br/> bind click event to a cell
     </div>
     
 
@@ -2397,7 +2443,7 @@
   
               
   
-              <td class="description last">the target element type [cell|column]</td>
+              <td class="description last">the target element type ["cell"  | "column"]</td>
           </tr>
   
     
@@ -2463,7 +2509,7 @@
     
     
     <div class="description">
-        iniatialise the grid and apply the options contained in the passed in object
+        initialise the grid and apply the options contained in the passed in object
     </div>
     
 
@@ -2614,7 +2660,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2637,7 +2683,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2660,7 +2706,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2683,7 +2729,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2706,7 +2752,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2729,7 +2775,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2752,7 +2798,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2775,7 +2821,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2798,7 +2844,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2821,7 +2867,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2867,7 +2913,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2890,7 +2936,7 @@
               <td class="type">
               
                   
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
               
@@ -2959,7 +3005,7 @@
               <td class="type">
               
                   
-<span class="param-type">Object</span>
+<span class="param-type">object</span>
 
 
               
@@ -3207,7 +3253,7 @@
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -3550,7 +3596,7 @@
         
             
 <dt>
-    <h4 class="name" id="percentageRounding"><span class="type-signature">&lt;static> </span>percentageRounding<span class="signature">(arr, target)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="percentageRounding"><span class="type-signature">&lt;static> </span>percentageRounding<span class="signature">(arr)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -3558,7 +3604,7 @@
     
     
     <div class="description">
-        this.percentageRounding()<br/><br/> creates whole number percentages that total target(100)
+        this.percentageRounding()<br/><br/> creates whole number percentages that total 100
     </div>
     
 
@@ -3609,29 +3655,6 @@
               
   
               <td class="description last">pass in array of values</td>
-          </tr>
-  
-    
-  
-          <tr>
-              
-                  <td class="name"><code>target</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">int</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">normally 100</td>
           </tr>
   
     
@@ -3851,7 +3874,7 @@
         
             
 <dt>
-    <h4 class="name" id="perOfHeightEls"><span class="type-signature">&lt;static> </span>perOfHeightEls<span class="signature">(grid)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="perOfHeightEls"><span class="type-signature">&lt;static> </span>perOfHeightEls<span class="signature">(els)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
     
 </dt>
@@ -3893,7 +3916,7 @@
   
           <tr>
               
-                  <td class="name"><code>grid</code></td>
+                  <td class="name"><code>els</code></td>
               
   
               <td class="type">
@@ -3909,7 +3932,7 @@
   
               
   
-              <td class="description last">pass in the grids column</td>
+              <td class="description last">pass in the grids.gridsColumns[x]</td>
           </tr>
   
     
@@ -4129,7 +4152,7 @@
         
             
 <dt>
-    <h4 class="name" id="perOfWidthEls"><span class="type-signature">&lt;static> </span>perOfWidthEls<span class="signature">(grid)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="perOfWidthEls"><span class="type-signature">&lt;static> </span>perOfWidthEls<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
     
     
 </dt>
@@ -4145,56 +4168,6 @@
     
     
     
-    
-        <h5>Parameters:</h5>
-        
-<div class="params-table-container">
-  <table class="params table table-striped">
-      <thead>
-    <tr>
-      
-      <th>Name</th>
-      
-  
-      <th>Type</th>
-  
-      
-  
-      
-  
-      <th class="last">Description</th>
-    </tr>
-    </thead>
-  
-    <tbody>
-    
-  
-          <tr>
-              
-                  <td class="name"><code>grid</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">object</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">pass in the grid instance</td>
-          </tr>
-  
-    
-    </tbody>
-  </table>
-</div>
-
     
     
     
@@ -5361,6 +5334,122 @@
         
             
 <dt>
+    <h4 class="name" id="returnProperty"><span class="type-signature">&lt;static> </span>returnProperty<span class="signature">(property)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        this.returnProperty()<br/><br/> return the current value set against a property
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>property</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">string</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last">the property were replacing in all grids</td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="returnStructure"><span class="type-signature">&lt;static> </span>returnStructure<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
     
     
@@ -5589,7 +5678,7 @@
         
             
 <dt>
-    <h4 class="name" id="setMetaAllCells"><span class="type-signature">&lt;static> </span>setMetaAllCells<span class="signature">(scope, obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setMetaAllCells"><span class="type-signature">&lt;static> </span>setMetaAllCells<span class="signature">(obj)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -5627,29 +5716,6 @@
     </thead>
   
     <tbody>
-    
-  
-          <tr>
-              
-                  <td class="name"><code>scope</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">object</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">grid</td>
-          </tr>
-  
     
   
           <tr>
@@ -5833,6 +5899,145 @@
               
   
               <td class="description last">the target element</td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setProperty"><span class="type-signature">&lt;static> </span>setProperty<span class="signature">(property, value)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        this.setProperty()<br/><br/> replace an options value after init
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>property</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">string</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last">the property were replacing in all grids</td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>value</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">string</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last">the new value to be set against all grids</td>
           </tr>
   
     
@@ -6306,7 +6511,7 @@
           
     <span class="jsdoc-message">
     Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.2.2</a>
-    on 2015-10-22T22:23:28+01:00
+    on 2015-10-28T10:12:44+00:00
     </span>
         </footer>
       </div>
