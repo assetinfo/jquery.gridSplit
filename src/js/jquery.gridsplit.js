@@ -51,29 +51,27 @@
      * @memberOf! $.fn
      */
     $.fn.gridSplit = (function(options) {
-        var grid,
-            init = function(that) {
-                if (undefined == $(that).data('grid')) {
-                    grid = new gridSplit(that, options);
-                    $(that).data('grid', grid);
-                } else {
-                    // do option based functions
-                    if (typeof options !== "undefined") {
-                        // allow recreate on .gridSplit({data:object});
-                        if (typeof options['data'] !== "undefined") {
-                            grid = that.data('grid').init(that, options);
-                        } else if (typeof options['setMeta'] !== "undefined") {
-                            grid = that.data('grid').setMeta(options['setMeta'], false);
-                        } else {
-                            grid = that.data('grid');
-                        }
+        var grid;
+        if($(this).length) {
+            if (undefined == $(this).data('grid')) {
+                grid = new gridSplit(this, options);
+                $(this).data('grid', grid);
+            } else {
+                // do option based functions
+                if (typeof options !== "undefined") {
+                    // allow recreate on .gridSplit({data:object});
+                    if (typeof options['data'] !== "undefined") {
+                        grid = this.data('grid').init(this, options);
+                    } else if (typeof options['setMeta'] !== "undefined") {
+                        grid = this.data('grid').setMeta(options['setMeta'], false);
                     } else {
-                        grid = that.data('grid');
+                        grid = this.data('grid');
                     }
+                } else {
+                    grid = this.data('grid');
                 }
-            };
-        init(this);
-        // --------       
+            }
+        }
         // return grid to enable chaining of gridSplit functions
         return grid;
     });
@@ -159,7 +157,6 @@
          * @property {object} this.gridsColumns - object of columns (only relevent to this grid)
          * @property {object} this.gridsCells - object of cells (only relevent to this grid)
          * @property {object} this.gridsStructure - object representing the simplified structure (all nested grids)
-         * @property {object} this.timeoutFPH - object to hold timeouts for forcePerHeight
          * @property {object} this.metaAt - object of the complete structure and meta (all nested grids) to set against the grid
          * @memberOf gridSplit
          */
@@ -173,7 +170,6 @@
             this.gridsColumns = [];
             this.gridsCells = [];
             this.gridsStructure = [];
-            this.timeoutFPH = [];
             this.metaAt = {};
             // remove inner-grid to avoid multiple instances when setting data
             $("#" + this.id + " ." + this.settings.innerGridClass).remove();
@@ -194,6 +190,7 @@
             } else {
                 // add grid data and set meta
                 this.buildGrid(this.settings.data);
+                this.forcePerWidth();
             }
             return this;
         }
@@ -233,7 +230,7 @@
             $.each(data, function(x, column) {
                 if (!isNaN(x)) {
                     oThis.gridsStructure[x] = null;
-                    oThis.addColumn(x, undefined, true);
+                    oThis.addColumn(x, undefined);
                     oThis.gridsColumns[x].css("float", "left");
                     // console.log("adding column " + x);
                     if (oThis.countCells(column) > 0) {
@@ -383,11 +380,10 @@
          * @function gridSplit.addColumn
          * @param {int} x the target column
          * @param {object} after $element
-         * @param {bool} skip Use skip=true to avoid auto adjusting column widths
          * @return {object} this
          * @memberOf gridSplit
          */
-        grid.addColumn = function(x, after, skip) {
+        grid.addColumn = function(x, after) {
             // add a column by halving the target column.
             var oThis = this;
             if (typeof x == "undefined") {
@@ -423,12 +419,6 @@
                 // split last and delete reference to attempt
                 this.splitAt(this.gridsStructure.length - 1);
                 delete(this.gridsStructure[x]);
-            }
-            if (!skip == true) {
-                clearTimeout(oThis.timeoutFP);
-                oThis.timeoutFP = setTimeout(function(){
-                    oThis.forcePerWidth();
-                });
             }
             return this;
         }
@@ -548,17 +538,14 @@
                 var second = oThis.gridsCells[x][(y + 1)];
                 var no = oThis.gridsCells[x].length;
                 if (typeof first !== "undefined" && oThis.buildingGrid !== true && oThis.settings.splitMethodH == "half") {
-                    var height = parseInt(oThis.metaAt[x][y]['h'] ? oThis.metaAt[x][y]['h'] : 100);
+                    var height = parseInt(oThis.metaAt[x][y]['h']);
                     // set height divides the firsts' height by the .length of gridCells[x]
                     var setHeight = oThis.halfOf(first, second, height, "h");
                     oThis.resizeCell(x, y, setHeight);
                     oThis.resizeCell(x, (y + 1), setHeight);
-                    clearTimeout(oThis.timeoutFPH[x]);
-                    oThis.timeoutFPH[x] = setTimeout(function() {
-                        oThis.forcePerHeight(x);
-                    });
+                    oThis.forcePerHeight(x);
                 } else {
-                    var setHeight = this.halfOf(first, second, 0, "h", oThis.gridsCells[x]);
+                    var setHeight = this.halfOf(first, second, 0, "h", x);
                     // set all of the heights in the column by this value
                     $.each(this.gridsCells[x], function(ly, acY) {
                         oThis.resizeCell(x, ly, setHeight);
@@ -752,7 +739,7 @@
                                             oThis.resizeCell(x, ly, newHeight);
                                             oThis.gridsCells[x][ly-1].height(oThis.perOfHeight(newHeight));
                                         } else if ((ly-1) >= 0 && oThis.settings.splitMethodH == "") {
-                                            oThis.perOfHeightEls(oThis.gridsCells[x]);
+                                            oThis.perOfHeightEls(x);
                                         }
                                     }
                                 }
@@ -1209,7 +1196,7 @@
          * @param {object} second the element filling the space
          * @param {int} full the size of the first element
          * @param {string} type the type of target element ["h" = cell  | "w" = column]
-         * @param {bool|object} flag true - when this.settings.splitMethod* = "half" && type == "w"   <br/>  grids.gridsColumns[x] - when this.settings.splitMethod* = "half" && type == "h"
+         * @param {bool|int} flag true - when this.settings.splitMethod* = "half" && type == "w"   <br/>  columns x - when this.settings.splitMethod* = "half" && type == "h"
          * @return {string} ret the new width|height as percentage
          * @memberOf gridSplit
          */
@@ -1265,14 +1252,15 @@
         grid.perOfWidthEls = function() {
             // grid is a gridSplit instance 
             // find all columns in grid
-            var meta = grid.metaAt;
-            var no = grid.countCells(meta);
-            var per = (100 / no);
-            var els = this.$el.find('.' + grid.settings.innerGridClass).first().children('.' + grid.settings.gridColClass);
+            var oThis = this,
+                no = oThis.gridsColumns.length,
+                per = (100 / no) + "%";
             // set width and float the column left;
-            els.css({
-                "width": per + "%",
-                "float": "left"
+            $.each(oThis.gridsColumns, function(x, column) {
+                column.css({
+                    "width": per,
+                    "float": "left"
+                });
             });
             return per;
         }
@@ -1292,23 +1280,20 @@
          * this.perOfHeightEls()<br/><br/> creates even heights for each cell in the column
          *
          * @function gridSplit.perOfHeightEls
-         * @param {object} els pass in the grids.gridsColumns[x]
+         * @param {int} x the grids column position
          * @return {string} per
          * @memberOf gridSplit
          */
-        grid.perOfHeightEls = function(els) {
-            var no = els.length,
-                per = (100 / no) + "%",
-                searchEl;
+        grid.perOfHeightEls = function(x) {
+            var oThis = this,
+                no = oThis.gridsCells[x].length,
+                per = (100 / no) + "%";
             // find all cells in column
-            if (this.settings.splitCellInColumn == true) {
-                searchEl = "." + this.settings.useInsideCell;
-            } else {
-                var not = ':not(.';
-                var endNot = ')';
-                searchEl = '.' + this.settings.gridCellClass + not + this.settings.insideCellClass + endNot;
-            }
-            $(els[0]).parent().find(searchEl).css("height", per);
+            $.each(oThis.gridsCells[x], function(y, cell) {
+                cell.css({
+                    "height": per,
+                });
+            });
             return per;
         }
         /**
@@ -1339,18 +1324,18 @@
                 arr[x] = (target / total) * arr[x];
             }
             // round the pers keep at 100%
-            arr = grid.percentageRounding(arr);
+            arr = grid.perRounding(arr);
             return arr;
         }
         /**
-         * this.percentageRounding()<br/><br/> creates whole number percentages that total 100
+         * this.perRounding()<br/><br/> creates whole number percentages that total 100
          *
-         * @function gridSplit.percentageRounding
+         * @function gridSplit.perRounding
          * @param {object} arr pass in array of values
          * @return {object} pers
          * @memberOf gridSplit
          */
-        grid.percentageRounding = function(arr) {
+        grid.perRounding = function(arr) {
             var i = arr.length,
                 j = 0,
                 total = 0,
@@ -1420,27 +1405,26 @@
         grid.centerInner = function() {
             var oThis = this;
             // if the percentages go haywire, make sure the grid sits centered in .grid
-            setTimeout(function() {
-                var realwidth = 0;
-                oThis.elInner.children('.' + oThis.settings.gridColClass).each(function() {
-                    realwidth += $(this).outerWidth(true);
-                });
-                if (realwidth < oThis.elInner.width()) {
-                    oThis.elInner.css("padding-left", (oThis.elInner.width() - realwidth) / 2 + "px");
-                }
+            var realwidth = 0;
+            $(oThis.gridsColumns).each(function() {
+                realwidth += $(this).outerWidth(true);
             });
+            if (realwidth < oThis.elInner.width()) {
+                oThis.elInner.css("padding-left", (oThis.elInner.width() - realwidth) / 2 + "px");
+            }
         }
         /**
          * this.forcePerWidth()<br/><br/> create percentage widths for all columns in grid
          *
          * @function gridSplit.forcePerWidth
+         * @return {object} oThis grid instance
          * @memberOf gridSplit
          */
         grid.forcePerWidth = function() {
             var wids = [];
             var oThis = this;
             $.each(this.gridsColumns, function(key, col) {
-                wids.push(parseInt(oThis.perOfWidth($(col).width() + oThis.settings.paddingW)));
+                wids.push(parseInt(oThis.perOfWidth($(col).width() + oThis.settings.paddingW))); // + padding
             });
             var newWids = this.equalPers(wids, 0);
             // console.log(wids);
@@ -1451,12 +1435,14 @@
                 });
                 oThis.resizeColumn(key, (newWids[key] + "%"));
             });
+            return oThis;
         }
         /**
          * this.forcePerHeight()<br/><br/> create percentage heights for all cells in column 
          *
          * @function gridSplit.forcePerHeight
          * @param {int} x column being altered
+         * @return {object} oThis grid instance
          * @memberOf gridSplit
          */
         grid.forcePerHeight = function(x) {
@@ -1465,7 +1451,7 @@
             var col = this.gridsColumns[x];
             if (typeof col !== "undefined") {
                 $.each(oThis.gridsCells[x], function(y, cell) {
-                    heights.push(parseInt(oThis.perOfHeight($(cell).outerHeight() + oThis.settings.paddingH, $(col).outerHeight())));
+                    heights.push(parseInt(oThis.perOfHeight($(cell).height() + oThis.settings.paddingH, $(col).height())));
                 });
                 var newHeights = oThis.equalPers(heights, 1);
                 // console.log(heights);
@@ -1477,6 +1463,7 @@
                     oThis.resizeCell(x, y, (newHeights[y] + "%"));
                 });
             }
+            return oThis;
         }
         /**
          * this.evenAll()<br/><br/> create and set percentage heights and widths for all columns and cells
