@@ -340,7 +340,7 @@
         
             
 <dt>
-    <h4 class="name" id="addColumn"><span class="type-signature">&lt;static> </span>addColumn<span class="signature">(x, after, skip)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="addColumn"><span class="type-signature">&lt;static> </span>addColumn<span class="signature">(x, after)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -422,29 +422,6 @@
               
   
               <td class="description last">$element</td>
-          </tr>
-  
-    
-  
-          <tr>
-              
-                  <td class="name"><code>skip</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">bool</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">Use skip=true to avoid auto adjusting column widths</td>
           </tr>
   
     
@@ -1946,7 +1923,7 @@
         
             
 <dt>
-    <h4 class="name" id="forcePerHeight"><span class="type-signature">&lt;static> </span>forcePerHeight<span class="signature">(x)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="forcePerHeight"><span class="type-signature">&lt;static> </span>forcePerHeight<span class="signature">(x)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -2055,6 +2032,29 @@
     
     
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    oThis grid instance
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">object</span>
+
+
+  </dd>
+</dl>
+
+
+        
     
     
 </dd>
@@ -2062,7 +2062,7 @@
         
             
 <dt>
-    <h4 class="name" id="forcePerWidth"><span class="type-signature">&lt;static> </span>forcePerWidth<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="forcePerWidth"><span class="type-signature">&lt;static> </span>forcePerWidth<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -2121,6 +2121,29 @@
     
     
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    oThis grid instance
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">object</span>
+
+
+  </dd>
+</dl>
+
+
+        
     
     
 </dd>
@@ -2271,7 +2294,7 @@
 <span class="param-type">bool</span>
 |
 
-<span class="param-type">object</span>
+<span class="param-type">int</span>
 
 
               
@@ -2281,7 +2304,7 @@
   
               
   
-              <td class="description last">true - when this.settings.splitMethod* = "half" && type == "w"   <br/>  grids.gridsColumns[x] - when this.settings.splitMethod* = "half" && type == "h"</td>
+              <td class="description last">true - when this.settings.splitMethod* = "half" && type == "w"   <br/>  columns x - when this.settings.splitMethod* = "half" && type == "h"</td>
           </tr>
   
     
@@ -3431,29 +3454,6 @@
 
         <tr>
             
-                <td class="name"><code>this.timeoutFPH</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">object to hold timeouts for forcePerHeight</td>
-        </tr>
-
-  
-
-        <tr>
-            
                 <td class="name"><code>this.metaAt</code></td>
             
 
@@ -3642,145 +3642,6 @@
         
             
 <dt>
-    <h4 class="name" id="percentageRounding"><span class="type-signature">&lt;static> </span>percentageRounding<span class="signature">(arr)</span><span class="type-signature"> &rarr; {object}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        this.percentageRounding()<br/><br/> creates whole number percentages that total 100
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-<div class="params-table-container">
-  <table class="params table table-striped">
-      <thead>
-    <tr>
-      
-      <th>Name</th>
-      
-  
-      <th>Type</th>
-  
-      
-  
-      
-  
-      <th class="last">Description</th>
-    </tr>
-    </thead>
-  
-    <tbody>
-    
-  
-          <tr>
-              
-                  <td class="name"><code>arr</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">object</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">pass in array of values</td>
-          </tr>
-  
-    
-    </tbody>
-  </table>
-</div>
-
-    
-    
-    
-<dl class="details">
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-  
-
-  
-
-  
-
-  
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    pers
-</div>
-
-
-
-<dl>
-  <dt>
-    Type
-  </dt>
-  <dd>
-    
-<span class="param-type">object</span>
-
-
-  </dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="perOfHeight"><span class="type-signature">&lt;static> </span>perOfHeight<span class="signature">(pixels)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
     
@@ -3920,7 +3781,7 @@
         
             
 <dt>
-    <h4 class="name" id="perOfHeightEls"><span class="type-signature">&lt;static> </span>perOfHeightEls<span class="signature">(els)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="perOfHeightEls"><span class="type-signature">&lt;static> </span>perOfHeightEls<span class="signature">(x)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
     
 </dt>
@@ -3962,13 +3823,13 @@
   
           <tr>
               
-                  <td class="name"><code>els</code></td>
+                  <td class="name"><code>x</code></td>
               
   
               <td class="type">
               
                   
-<span class="param-type">object</span>
+<span class="param-type">int</span>
 
 
               
@@ -3978,7 +3839,7 @@
   
               
   
-              <td class="description last">pass in the grids.gridsColumns[x]</td>
+              <td class="description last">the grids column position</td>
           </tr>
   
     
@@ -4273,6 +4134,145 @@
   <dd>
     
 <span class="param-type">string</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="perRounding"><span class="type-signature">&lt;static> </span>perRounding<span class="signature">(arr)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        this.perRounding()<br/><br/> creates whole number percentages that total 100
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>arr</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">object</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last">pass in array of values</td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    pers
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">object</span>
 
 
   </dd>
@@ -6557,7 +6557,7 @@
           
     <span class="jsdoc-message">
     Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.2.2</a>
-    on 2015-10-28T19:15:12+00:00
+    on 2015-10-29T15:13:19+00:00
     </span>
         </footer>
       </div>
