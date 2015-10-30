@@ -33,10 +33,8 @@
             resizable: !0,
             splitMethodH: "",
             splitMethodV: "half",
-            horizMin: 0,
-            vertMin: 0,
-            paddingW: 1,
-            paddingH: 1,
+            horizMin: 4,
+            vertMin: 4,
             callFocusAndLoad: null,
             callResetGrid: null,
             callAfterMove: null,
@@ -55,8 +53,8 @@
             this.elInner = $("<div />").addClass(this.settings.innerGridClass).appendTo(this.$el), 
             1 == this.settings.splitCellInColumn && (this.settings.useInsideCell = this.settings.insideCellClass + "" + this.settings.nestedIn), 
             "" == this.settings.data ? (this.gridsStructure[0] = null, this.addColumn(0), this.gridsStructure[0][0] = null, 
-            this.addCell(0, 0), 1 == this.settings.splitCellInColumn && this.addColumn(0)) : (this.buildGrid(this.settings.data), 
-            this.forcePerWidth()), this;
+            this.addCell(0, 0), 1 == this.settings.splitCellInColumn && this.addColumn(0)) : this.buildGrid(this.settings.data), 
+            this;
         }, grid.buildGrid = function(data, undefined) {
             function checkMeta(meta) {
                 var metaOut = 0;
@@ -125,7 +123,7 @@
                         var cell = JSON.parse(oThis.$el.data("cell")), origHeight = oThis.parent().metaAt[cell.x][cell.y].h;
                         oThis.parent().metaAt[cell.x][cell.y] = oThis.metaAt, oThis.parent().metaAt[cell.x][cell.y].h = origHeight, 
                         oThis.parent().gridsStructure[cell.x][cell.y] = oThis.gridsStructure;
-                    }
+                    } else oThis.metaAt[x].c = {}, oThis.metaAt[x].c.w = "100%";
                 } else this.gridsStructure.length > x ? this.splitAt(x) : (this.splitAt(this.gridsStructure.length - 1), 
                 delete this.gridsStructure[x]);
                 return this;
@@ -163,7 +161,7 @@
                             var startingPoint = reEx[ly + 1].data("grid");
                             if ("undefined" != typeof startingPoint) {
                                 startingPoint.settings.parentsGrid = oThis, startingPoint.settings.parentsX = parseInt(x), 
-                                startingPoint.settings.parentsY = parseInt(parseInt(ly + 1));
+                                startingPoint.settings.parentsY = parseInt(ly + 1);
                                 var fixIDFrom = startingPoint.id + "-" + x + ly, fixIDTo = startingPoint.id + "-" + x + (ly + 1);
                                 updateIdThenCallAfterMove(startingPoint, x, ly + 1, fixIDFrom, fixIDTo);
                             }
@@ -177,8 +175,8 @@
                     oThis.gridsCells[x].length;
                 }
                 if ("undefined" != typeof first && oThis.buildingGrid !== !0 && "half" == oThis.settings.splitMethodH) {
-                    var height = parseInt(oThis.metaAt[x][y].h), setHeight = oThis.halfOf(first, second, height, "h");
-                    oThis.resizeCell(x, y, setHeight), oThis.resizeCell(x, y + 1, setHeight), oThis.forcePerHeight(x);
+                    var height = oThis.metaAt[x][y].h ? parseFloat(oThis.metaAt[x][y].h) : 100, setHeight = oThis.halfOf(first, second, height, "h");
+                    oThis.resizeCell(x, y, setHeight), oThis.resizeCell(x, y + 1, setHeight);
                 } else {
                     var setHeight = this.halfOf(first, second, 0, "h", x);
                     $.each(this.gridsCells[x], function(ly, acY) {
@@ -199,7 +197,7 @@
                     "function" == typeof oThis.settings.callFinaliseMove && oThis.settings.callFinaliseMove();
                 }
                 var first = oThis.gridsColumns[x], second = oThis.gridsColumns[x + 1];
-                if ("undefined" != typeof oThis.metaAt[x].c) var width = parseInt(oThis.metaAt[x].c.w ? oThis.metaAt[x].c.w : 100); else var width = 100;
+                if ("undefined" != typeof oThis.metaAt[x].c) var width = parseFloat(oThis.metaAt[x].c.w ? oThis.metaAt[x].c.w : 100); else var width = 100;
                 if ("half" == oThis.settings.splitMethodV) var setWid = oThis.halfOf(first, second, width, "w"); else var setWid = oThis.halfOf(first, second, width, "w", 1);
                 oThis.resizeColumn(x, setWid), oThis.resizeColumn(x + 1, setWid), oThis.gridsStructure[x + 1][0] = null, 
                 oThis.addCell(x + 1, 0);
@@ -234,7 +232,7 @@
             this.metaAt[x][y] = el.data("grid").metaAt, oldMeta.h = "100%", el.data("grid").setMetaAt(0, 0, oldMeta), 
             el.data("grid");
         }, grid.delCell = function(x, y) {
-            var oThis = this, reEx = [], reExm = {}, reExs = [];
+            var oThis = this, makeResize = !1, reEx = [], reExm = {}, reExs = [];
             if ("undefined" != typeof oThis.gridsColumns[x] && "undefined" != typeof oThis.gridsCells[x][y]) if (oThis.gridsColumns.length > 0) if (oThis.gridsCells[x].length > 1) {
                 var el = oThis.gridsCells[x][y];
                 if ($("#h1-" + el.data("widgetID")).remove(), $("#h2-" + el.data("widgetID")).remove(), 
@@ -250,21 +248,21 @@
                         "undefined" != typeof reEx[ly - 1] ? $(window).trigger("resize.grid." + $(reEx[ly - 1]).data("widgetID")) : oThis.delCell(x, ly - 1);
                     } else if (ly != y) reEx[ly] = oThis.gridsCells[x][ly], reExm[ly] = oThis.metaAt[x][ly], 
                     reExs[ly] = oThis.gridsStructure[x][ly]; else if (ly - 1 >= 0 && "half" == oThis.settings.splitMethodH) {
-                        var newHeight = oThis.gridsCells[x][ly].height() + oThis.settings.paddingH + oThis.gridsCells[x][ly - 1].height();
-                        oThis.resizeCell(x, ly, newHeight), oThis.gridsCells[x][ly - 1].height(oThis.perOfHeight(newHeight));
-                    } else ly - 1 >= 0 && "" == oThis.settings.splitMethodH && oThis.perOfHeightEls(x);
+                        var newHeight = parseFloat(oThis.metaAt[x][ly].h) + parseFloat(oThis.metaAt[x][ly - 1].h) + "%";
+                        oThis.metaAt[x][ly - 1].h = newHeight, oThis.gridsCells[x][ly - 1].css("height", newHeight);
+                    } else (0 > ly - 1 || "" == oThis.settings.splitMethodH) && (makeResize = !0);
                 }), oThis.gridsCells[x] = reEx, oThis.metaAt[x] = reExm, oThis.gridsStructure[x] = reExs, 
-                oThis.forcePerHeight(x), oThis !== oThis.parent()) {
+                oThis !== oThis.parent()) {
                     var cell = JSON.parse(oThis.$el.data("cell")), origHeight = oThis.parent().metaAt[cell.x][cell.y].h;
                     oThis.parent().metaAt[cell.x][cell.y] = oThis.metaAt, oThis.parent().metaAt[cell.x][cell.y].h = origHeight, 
                     oThis.parent().gridsStructure[cell.x][cell.y] = oThis.gridsStructure;
                 }
                 "function" == typeof oThis.settings.callFinaliseMove && oThis.settings.callFinaliseMove(), 
-                $(el).remove();
+                $(el).remove(), makeResize && oThis.forcePerHeight(x);
             } else oThis.delColumn(x); else oThis.delColumn(x);
             return oThis;
         }, grid.delColumn = function(x) {
-            var oThis = this, reEx = [], reExm = {}, reExs = [], reExc = [], el = oThis.gridsColumns[x];
+            var oThis = this, makeResize = !1, reEx = [], reExm = {}, reExs = [], reExc = [], el = oThis.gridsColumns[x];
             if ("undefined" != typeof oThis.gridsColumns[x]) {
                 if ($.each(oThis.gridsColumns, function(lx, acX) {
                     if (lx > x) {
@@ -276,21 +274,20 @@
                         if (reEx[lx] = oThis.gridsCells[lx], reExm[lx] = oThis.metaAt[lx], reExs[lx] = oThis.gridsStructure[lx], 
                         reExc[lx] = oThis.gridsColumns[lx], "function" == typeof oThis.settings.callAfterMove) for (y = 0; y < reEx[lx].length; y++) oThis.settings.callAfterMove(oThis.id + "" + lx + y, oThis.id + "" + lx + y, oThis, lx, y, lx, y);
                     } else if (lx - 1 >= 0 && "half" == oThis.settings.splitMethodV) {
-                        var newWid = oThis.gridsColumns[lx].outerWidth() + oThis.gridsColumns[lx - 1].outerWidth();
-                        oThis.resizeColumn(lx - 1, newWid), oThis.gridsColumns[lx - 1].width(oThis.perOfWidth(newWid));
-                    }
+                        var newWid = parseFloat(oThis.metaAt[lx].c.w) + parseFloat(oThis.metaAt[lx - 1].c.w) + "%";
+                        oThis.metaAt[lx - 1].c.w = newWid, oThis.gridsColumns[lx - 1].css("width", newWid);
+                    } else (0 > lx - 1 || "" == oThis.settings.splitMethodV) && (makeResize = !0);
                 }), $(el).remove(), oThis.gridsCells = reEx, oThis.metaAt = reExm, oThis.gridsStructure = reExs, 
                 oThis.gridsColumns = reExc, oThis !== oThis.parent()) {
                     var cell = JSON.parse(oThis.$el.data("cell")), origHeight = oThis.parent().metaAt[cell.x][cell.y].h;
                     oThis.parent().metaAt[cell.x][cell.y] = oThis.metaAt, oThis.parent().metaAt[cell.x][cell.y].h = origHeight, 
-                    oThis.parent().gridsStructure[cell.x][cell.y] = oThis.gridsStructure, oThis.parent().forcePerHeight(cell.x);
+                    oThis.parent().gridsStructure[cell.x][cell.y] = oThis.gridsStructure;
                 }
                 if (0 == reEx.length && "undefined" != typeof oThis.$el.data("cell")) {
                     var cell = JSON.parse(oThis.$el.data("cell"));
                     isNaN(cell.x) || isNaN(cell.y) || "undefined" != typeof oThis.parent().gridsCells[cell.x] && "undefined" != typeof oThis.parent().gridsCells[cell.x][cell.y] && oThis.parent().delAt(cell.x, cell.y);
                 }
-                "function" == typeof oThis.settings.callFinaliseMove && oThis.settings.callFinaliseMove(), 
-                oThis.forcePerWidth();
+                makeResize && oThis.forcePerWidth(), "function" == typeof oThis.settings.callFinaliseMove && oThis.settings.callFinaliseMove();
             }
             return oThis;
         }, grid.delAt = function(x, y) {
@@ -368,7 +365,7 @@
                 w: to
             };
             this.setMetaAt(x, null, obj);
-            var asPix = parseInt((this.$el.outerWidth() / 100 * parseInt(to)).toFixed(0));
+            var asPix = parseInt(this.$el.outerWidth() / 100 * parseFloat(to));
             this.gridsColumns[x].data("trueWidth", asPix), "function" == typeof this.settings.callAfterResize && "undefined" != typeof this.gridsColumns[x] && "undefined" != typeof this.gridsCells[x][0] && this.settings.callAfterResize(this.gridsCells[x][0], this, this.gridsColumns[x].data("trueWidth"), this.gridsCells[x][0].data("trueHeight"));
         }, grid.resizeCell = function(x, y, to) {
             "undefined" == typeof this.metaAt[x] && (this.metaAt[x] = {}, this.metaAt[x].c = {}), 
@@ -377,7 +374,7 @@
                 h: to
             };
             this.setMetaAt(x, y, obj);
-            var asPix = parseInt((this.gridsColumns[x].height() / 100 * parseInt(to)).toFixed(0)), cell = this.gridsCells[x][y];
+            var asPix = parseInt(this.gridsColumns[x].height() / 100 * parseFloat(to)), cell = this.gridsCells[x][y];
             cell.data("trueHeight", asPix), "function" == typeof this.settings.callAfterResize && "undefined" != typeof this.gridsColumns[x] && "undefined" != typeof this.gridsCells[x][y] && this.settings.callAfterResize(this.gridsCells[x][y], this, this.gridsColumns[x].data("trueWidth"), this.gridsCells[x][y].data("trueHeight"));
         }, grid.setMetaAt = function(x, y, obj) {
             var oThis = this;
@@ -412,7 +409,7 @@
             }
         }, grid.halfOf = function(first, second, full, type, flag) {
             if ("w" == type) if ("undefined" != typeof flag) var ret = this.perOfWidthEls(); else {
-                var ret = full / 2 + "%";
+                var ret = parseFloat(full / 2) + "%";
                 $(first).css({
                     width: ret,
                     "float": "left"
@@ -421,7 +418,7 @@
                     "float": "left"
                 });
             } else if ("h" == type) if ("undefined" != typeof flag) var ret = this.perOfHeightEls(flag); else {
-                var ret = full / 2 + "%";
+                var ret = parseFloat(full / 2) + "%";
                 $(first).css({
                     height: ret
                 }), $(second).css({
@@ -438,7 +435,7 @@
                 column.css({
                     width: per,
                     "float": "left"
-                });
+                }), oThis.resizeColumn(x, per);
             }), per;
         }, grid.perOfHeight = function(pixels, elHeight) {
             var per = 100 / ("undefined" != typeof elHeight ? elHeight : this.$el.outerHeight()) * pixels;
@@ -448,33 +445,14 @@
             return $.each(oThis.gridsCells[x], function(y, cell) {
                 cell.css({
                     height: per
-                });
+                }), oThis.resizeCell(x, y, per);
             }), per;
         }, grid.equalPers = function(arr, vh) {
             var i = arr.length, total = 0, target = 100;
             for (min = 0; i--; ) min = 0 == vh ? this.settings.vertMin : this.settings.horizMin, 
             arr[i] < min && (arr[i] = min), total += arr[i];
             for (x = 0; x < arr.length; x++) arr[x] = target / total * arr[x];
-            return arr = grid.perRounding(arr);
-        }, grid.perRounding = function(arr) {
-            function errorFactor(oldNum, newNum) {
-                return Math.abs(oldNum - newNum) / oldNum;
-            }
-            for (var change, next, factor1, factor2, i = arr.length, j = 0, total = 0, target = 100, newVals = [], len = arr.length, marginOfErrors = []; i--; ) total += newVals[i] = Math.round(arr[i]);
-            for (change = target > total ? 1 : -1; total !== target; ) {
-                for (i = 0; len > i; i++) next = i === len - 1 ? 0 : i + 1, factor2 = errorFactor(arr[next], newVals[next] + change), 
-                factor1 = errorFactor(arr[i], newVals[i] + change), factor1 > factor2 && (j = next);
-                newVals[j] += change, total += change;
-            }
-            for (i = 0; len > i; i++) marginOfErrors[i] = newVals[i] && Math.abs(arr[i] - newVals[i]) / arr[i];
-            for (i = 0; len > i; i++) for (j = 0; len > j; j++) if (j !== i) {
-                var roundUpFactor = errorFactor(arr[i], newVals[i] + 1) + errorFactor(arr[j], newVals[j] - 1), roundDownFactor = errorFactor(arr[i], newVals[i] - 1) + errorFactor(arr[j], newVals[j] + 1), sumMargin = marginOfErrors[i] + marginOfErrors[j];
-                sumMargin > roundUpFactor && (newVals[i] = newVals[i] + 1, newVals[j] = newVals[j] - 1, 
-                marginOfErrors[i] = newVals[i] && Math.abs(arr[i] - newVals[i]) / arr[i], marginOfErrors[j] = newVals[j] && Math.abs(arr[j] - newVals[j]) / arr[j]), 
-                sumMargin > roundDownFactor && (newVals[i] = newVals[i] - 1, newVals[j] = newVals[j] + 1, 
-                marginOfErrors[i] = newVals[i] && Math.abs(arr[i] - newVals[i]) / arr[i], marginOfErrors[j] = newVals[j] && Math.abs(arr[j] - newVals[j]) / arr[j]);
-            }
-            return newVals;
+            return arr;
         }, grid.centerInner = function() {
             var oThis = this, realwidth = 0;
             $(oThis.gridsColumns).each(function() {
@@ -483,25 +461,27 @@
         }, grid.forcePerWidth = function() {
             var wids = [], oThis = this;
             $.each(this.gridsColumns, function(key, col) {
-                wids.push(parseInt(oThis.perOfWidth($(col).width() + oThis.settings.paddingW)));
+                var width = parseFloat(oThis.perOfWidth($(col).width()));
+                wids.push(width);
             });
-            var newWids = this.equalPers(wids, 0);
+            var wids = oThis.equalPers(wids, 0);
             return $.each(this.gridsColumns, function(key, col) {
                 $(col).css({
-                    width: newWids[key] + "%"
-                }), oThis.resizeColumn(key, newWids[key] + "%");
+                    width: wids[key] + "%"
+                }), oThis.resizeColumn(key, wids[key] + "%");
             }), oThis;
         }, grid.forcePerHeight = function(x) {
             var heights = [], oThis = this, col = this.gridsColumns[x];
             if ("undefined" != typeof col) {
                 $.each(oThis.gridsCells[x], function(y, cell) {
-                    heights.push(parseInt(oThis.perOfHeight($(cell).height() + oThis.settings.paddingH, $(col).height())));
+                    var height = parseFloat(oThis.perOfHeight($(cell).outerHeight(), $(col).outerHeight()));
+                    heights.push(height);
                 });
-                var newHeights = oThis.equalPers(heights, 1);
+                var heights = oThis.equalPers(heights, 1);
                 $.each(oThis.gridsCells[x], function(y, cell) {
                     $(cell).css({
-                        height: newHeights[y] + "%"
-                    }), oThis.resizeCell(x, y, newHeights[y] + "%");
+                        height: heights[y] + "%"
+                    }), oThis.resizeCell(x, y, heights[y] + "%");
                 });
             }
             return oThis;
