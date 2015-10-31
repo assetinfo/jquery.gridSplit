@@ -85,7 +85,7 @@
         var defaults = {
             horizRail: $('<div/>').addClass("horizrail"),
             vertRail: $('<div/>').addClass("vertrail"),
-            gridColClass: 'column',
+            gridColClass: 'gridColumn',
             gridCellClass: 'gridCell',
             innerGridClass: 'inner-grid',
             insideCellClass: 'insideCell',
