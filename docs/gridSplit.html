@@ -155,7 +155,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="addCell"><span class="type-signature">&lt;static> </span>addCell<span class="signature">(x, y, after)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="addCell"><span class="type-signature">&lt;static> </span>addCell<span class="signature">(x, y)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -163,7 +163,7 @@
     
     
     <div class="description">
-        this.addCell()<br/><br/>Add a cell at an x,y co-ordinate, append to grid or insertAfter 'after'
+        this.addCell()<br/><br/>Add a cell at an x,y co-ordinate, appends to grid or inserts after x
     </div>
     
 
@@ -240,29 +240,6 @@
           </tr>
   
     
-  
-          <tr>
-              
-                  <td class="name"><code>after</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">object</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">$element</td>
-          </tr>
-  
-    
     </tbody>
   </table>
 </div>
@@ -340,7 +317,7 @@
         
             
 <dt>
-    <h4 class="name" id="addColumn"><span class="type-signature">&lt;static> </span>addColumn<span class="signature">(x, after)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="addColumn"><span class="type-signature">&lt;static> </span>addColumn<span class="signature">(x)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -348,7 +325,7 @@
     
     
     <div class="description">
-        this.addColumn()<br/><br/>Add a column at position, append to grid or insertAfter 'after'
+        this.addColumn()<br/><br/>Add a column at position, appends to grid or inserts after x
     </div>
     
 
@@ -402,29 +379,6 @@
           </tr>
   
     
-  
-          <tr>
-              
-                  <td class="name"><code>after</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">object</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">$element</td>
-          </tr>
-  
-    
     </tbody>
   </table>
 </div>
@@ -502,7 +456,7 @@
         
             
 <dt>
-    <h4 class="name" id="addControls"><span class="type-signature">&lt;static> </span>addControls<span class="signature">(to, x, y)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="addControls"><span class="type-signature">&lt;static> </span>addControls<span class="signature">(x, y)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -540,29 +494,6 @@
     </thead>
   
     <tbody>
-    
-  
-          <tr>
-              
-                  <td class="name"><code>to</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">object</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">the target element</td>
-          </tr>
-  
     
   
           <tr>
@@ -664,7 +595,7 @@
         
             
 <dt>
-    <h4 class="name" id="addRail"><span class="type-signature">&lt;static> </span>addRail<span class="signature">(to, x, y)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="addRail"><span class="type-signature">&lt;static> </span>addRail<span class="signature">(x, y)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -702,29 +633,6 @@
     </thead>
   
     <tbody>
-    
-  
-          <tr>
-              
-                  <td class="name"><code>to</code></td>
-              
-  
-              <td class="type">
-              
-                  
-<span class="param-type">object</span>
-
-
-              
-              </td>
-  
-              
-  
-              
-  
-              <td class="description last">the target element</td>
-          </tr>
-  
     
   
           <tr>
@@ -3087,7 +2995,7 @@
   
               
   
-              <td class="description last">pass the cells context to a function and do something with it</td>
+              <td class="description last">pass the cells context to a function and do something with it when handleClick is triggered</td>
           </tr>
   
     
@@ -3110,7 +3018,7 @@
   
               
   
-              <td class="description last">pass the cells context to a function and do something with it</td>
+              <td class="description last">pass the cells context to a function and do something with it after each window resize or cell/column resize</td>
           </tr>
   
     
@@ -5890,7 +5798,7 @@
         
             
 <dt>
-    <h4 class="name" id="splitAt"><span class="type-signature">&lt;static> </span>splitAt<span class="signature">(x, y, cell)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="splitAt"><span class="type-signature">&lt;static> </span>splitAt<span class="signature">(x, y, vert)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -5978,7 +5886,7 @@
   
           <tr>
               
-                  <td class="name"><code>cell</code></td>
+                  <td class="name"><code>vert</code></td>
               
   
               <td class="type">
@@ -6202,7 +6110,7 @@
   
               
   
-              <td class="description last">if the action is being made by buildGrid then data will be passed back in to buildGrid</td>
+              <td class="description last">if the call is being made by buildGrid then data will be set which will again trigger buildGrid on this grids init</td>
           </tr>
   
     
@@ -6306,7 +6214,7 @@
           
     <span class="jsdoc-message">
     Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.2.2</a>
-    on 2015-11-02T17:35:01+00:00
+    on 2015-11-02T18:49:34+00:00
     </span>
         </footer>
       </div>
