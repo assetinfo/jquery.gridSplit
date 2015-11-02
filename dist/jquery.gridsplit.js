@@ -19,29 +19,29 @@
         var grid = this, defaults = {
             horizRail: $("<div/>").addClass("horizrail"),
             vertRail: $("<div/>").addClass("vertrail"),
-            gridColClass: "gridColumn",
+            gridColumnClass: "gridColumn",
             gridCellClass: "gridCell",
-            innerGridClass: "inner-grid",
+            innerGridClass: "innerGrid",
             insideCellClass: "insideCell",
             hasChildrenClass: "hasChildren",
-            hasContentClass: "hasContent h100per",
+            hasContentClass: "hasContent",
             resizableClass: "isResizable",
             draggingClass: "dragging",
-            data: "",
-            parentsGrid: "",
-            nestedIn: "",
             resizable: !0,
+            data: "",
+            nestedIn: "",
+            parentsGrid: "",
             splitMethodH: "",
             splitMethodV: "half",
             horizMin: 4,
             vertMin: 4,
-            callFocusAndLoad: null,
+            callFocusLoad: null,
             callResetGrid: null,
             callAfterMove: null,
-            callFinaliseMove: null,
             callSetFocus: null,
-            callAfterResize: null,
             callBeforeDestroy: null,
+            callAfterResize: null,
+            callFinaliseMove: null,
             hideBorder: {
                 border: "0px"
             }
@@ -86,7 +86,7 @@
                     oThis.countCells(column) > 0 && $.each(column, function(y, cell) {
                         "object" == typeof cell[0] ? "undefined" != typeof oThis.gridsCells[x][y] && "undefined" != typeof oThis.gridsCells[x][y].data("grid") && (oThis.gridsCells[x][y].data("grid").setMeta(cell), 
                         oThis.resizeCell(x, y, cell.h), oThis.gridsCells[x][y].css("height", cell.h)) : ("undefined" != typeof oThis.gridsCells[x][y] && (oThis.metaAt[x][y] = cell, 
-                        oThis.gridsCells[x][y].css("height", cell.h), oThis.resizeCell(x, y, cell.h)), "function" == typeof oThis.settings.callFocusAndLoad && oThis.settings.callFocusAndLoad(oThis, x, y));
+                        oThis.gridsCells[x][y].css("height", cell.h), oThis.resizeCell(x, y, cell.h)), "function" == typeof oThis.settings.callFocusLoad && oThis.settings.callFocusLoad(oThis, x, y));
                     });
                 }
             }), oThis.buildingGrid = !1, this;
@@ -116,7 +116,7 @@
             var oThis = this;
             if ("undefined" != typeof x) {
                 if (null == this.gridsStructure[x]) {
-                    var el = $('<div class="' + this.settings.gridColClass + '" ></div>');
+                    var el = $('<div class="' + this.settings.gridColumnClass + '" ></div>');
                     if ("undefined" != typeof after ? el.insertAfter(after) : el.appendTo(this.elInner), 
                     this.gridsStructure[x] = [], this.gridsCells[x] = [], this.metaAt[x] = {}, this.gridsColumns[x] = el.data("type", "column"), 
                     this.addControls(this.gridsColumns[x], x), oThis !== oThis.parent()) {
@@ -215,7 +215,7 @@
                 splitMethodV: this.settings.splitMethodV,
                 horizMin: this.settings.horizMin,
                 vertMin: this.settings.vertMin,
-                callFocusAndLoad: this.settings.callFocusAndLoad,
+                callFocusLoad: this.settings.callFocusLoad,
                 callResetGrid: null,
                 callAfterMove: this.settings.callAfterMove,
                 callFinaliseMove: this.settings.callFinaliseMove,
@@ -250,7 +250,7 @@
                     reExs[ly] = oThis.gridsStructure[x][ly]; else if (ly - 1 >= 0 && "half" == oThis.settings.splitMethodH) {
                         var newHeight = parseFloat(oThis.metaAt[x][ly].h) + parseFloat(oThis.metaAt[x][ly - 1].h) + "%";
                         oThis.metaAt[x][ly - 1].h = newHeight, oThis.gridsCells[x][ly - 1].css("height", newHeight);
-                    } else (0 > ly - 1 || "" == oThis.settings.splitMethodH) && (makeResize = !0);
+                    } else (0 > ly - 1 || "half" !== oThis.settings.splitMethodH) && (makeResize = !0);
                 }), oThis.gridsCells[x] = reEx, oThis.metaAt[x] = reExm, oThis.gridsStructure[x] = reExs, 
                 oThis !== oThis.parent()) {
                     var cell = JSON.parse(oThis.$el.data("cell")), origHeight = oThis.parent().metaAt[cell.x][cell.y].h;
@@ -276,7 +276,7 @@
                     } else if (lx - 1 >= 0 && "half" == oThis.settings.splitMethodV) {
                         var newWid = parseFloat(oThis.metaAt[lx].c.w) + parseFloat(oThis.metaAt[lx - 1].c.w) + "%";
                         oThis.metaAt[lx - 1].c.w = newWid, oThis.gridsColumns[lx - 1].css("width", newWid);
-                    } else (0 > lx - 1 || "" == oThis.settings.splitMethodV) && (makeResize = !0);
+                    } else (0 > lx - 1 || "half" !== oThis.settings.splitMethodV) && (makeResize = !0);
                 }), $(el).remove(), oThis.gridsCells = reEx, oThis.metaAt = reExm, oThis.gridsStructure = reExs, 
                 oThis.gridsColumns = reExc, oThis !== oThis.parent()) {
                     var cell = JSON.parse(oThis.$el.data("cell")), origHeight = oThis.parent().metaAt[cell.x][cell.y].h;
@@ -296,15 +296,15 @@
             var oThis = this;
             if (1 == this.settings.resizable && to.addClass(this.settings.resizableClass), "column" == $(to).data("type")) {
                 if (0 !== x && "0" !== x) {
-                    var rail = (this.settings.gridColClass, this.settings.vertRail), rRail = rail.clone();
+                    var rail = (this.settings.gridColumnClass, this.settings.vertRail), rRail = rail.clone();
                     rRail.appendTo(to), rRail.on("mouseenter", function() {
-                        var x = $(this).closest("." + oThis.settings.gridColClass).prevAll("." + oThis.settings.gridColClass).length;
+                        var x = $(this).closest("." + oThis.settings.gridColumnClass).prevAll("." + oThis.settings.gridColumnClass).length;
                         ("undefined" == typeof oThis.gridsColumns[x] || 0 == x) && rRail.remove();
                     }).draggable({
                         axis: "x",
                         containment: to.parent(),
                         start: function(event, ui) {
-                            var x = $(this).closest("." + oThis.settings.gridColClass).prevAll("." + oThis.settings.gridColClass).length;
+                            var x = $(this).closest("." + oThis.settings.gridColumnClass).prevAll("." + oThis.settings.gridColumnClass).length;
                             if ("function" == typeof oThis.settings.callSetFocus && oThis.settings.callSetFocus(JSON.parse($(oThis.gridsCells[x - 1][0]).data("cell")), oThis), 
                             "undefined" != typeof oThis.gridsColumns[x] && 0 !== x) {
                                 rRail.data("x", x);
@@ -336,22 +336,22 @@
                 rRail.appendTo(to);
                 var oThis = this;
                 rRail.on("mouseenter", function() {
-                    var y = $(this).closest("." + oThis.settings.gridCellClass).prevAll("." + oThis.settings.gridCellClass).length, x = $(this).closest("." + oThis.settings.gridColClass).prevAll("." + oThis.settings.gridColClass).length;
+                    var y = $(this).closest("." + oThis.settings.gridCellClass).prevAll("." + oThis.settings.gridCellClass).length, x = $(this).closest("." + oThis.settings.gridColumnClass).prevAll("." + oThis.settings.gridColumnClass).length;
                     ("undefined" == typeof oThis.gridsCells[x][y] || 0 == y) && rRail.remove();
                 }).draggable({
                     containment: to.parent(),
                     axis: "y",
                     start: function(event, ui) {
-                        var y = $(this).closest("." + oThis.settings.gridCellClass).prevAll("." + oThis.settings.gridCellClass).length, x = $(this).closest("." + oThis.settings.gridColClass).prevAll("." + oThis.settings.gridColClass).length;
+                        var y = $(this).closest("." + oThis.settings.gridCellClass).prevAll("." + oThis.settings.gridCellClass).length, x = $(this).closest("." + oThis.settings.gridColumnClass).prevAll("." + oThis.settings.gridColumnClass).length;
                         "function" == typeof oThis.settings.callSetFocus && oThis.settings.callSetFocus(JSON.parse($(oThis.gridsCells[x][y - 1]).data("cell")), oThis), 
                         "undefined" != typeof oThis.gridsCells[x][y] && 0 !== y ? (rRail.data("x", x), rRail.data("y", y), 
                         $(this).addClass(oThis.settings.draggingClass)) : rRail.remove();
                     },
                     stop: function(e, ui) {
                         var moved = ui.position.top - ui.originalPosition.top, y = $(this).data("y"), x = $(this).data("x"), newHeight = ($(this).offset().top, 
-                        oThis.gridsCells[x][y - 1].outerHeight() + moved), gridHeight = oThis.gridsColumns[x].outerHeight(), rHeight = oThis.perOfHeight(newHeight, gridHeight);
+                        oThis.gridsCells[x][y - 1].outerHeight() + moved), rHeight = oThis.perOfHeight(newHeight);
                         oThis.resizeCell(x, y - 1, rHeight), oThis.gridsCells[x][y - 1].css("height", rHeight), 
-                        newHeight = oThis.gridsCells[x][y].outerHeight() - moved, rHeight = oThis.perOfHeight(newHeight, gridHeight), 
+                        newHeight = oThis.gridsCells[x][y].outerHeight() - moved, rHeight = oThis.perOfHeight(newHeight), 
                         oThis.resizeCell(x, y, rHeight), oThis.gridsCells[x][y].css("height", rHeight), 
                         $(this).css("top", "auto"), oThis.forcePerHeight(x), "function" == typeof oThis.settings.callSetHash && oThis.settings.callSetHash();
                     }
@@ -399,7 +399,7 @@
         }, grid.addControls = function(to, x, y) {
             var oThis = this;
             if ("column" == $(to).data("type")) {
-                var type = (this.settings.gridColClass, "column");
+                var type = (this.settings.gridColumnClass, "column");
                 0 !== x && 1 == this.settings.resizable && this.addRail(to, x, y);
             } else {
                 var type = (this.settings.gridCellClass, "cell");
@@ -437,8 +437,8 @@
                     "float": "left"
                 }), oThis.resizeColumn(x, per);
             }), per;
-        }, grid.perOfHeight = function(pixels, elHeight) {
-            var per = 100 / ("undefined" != typeof elHeight ? elHeight : this.$el.outerHeight()) * pixels;
+        }, grid.perOfHeight = function(pixels) {
+            var per = 100 / this.$el.outerHeight() * pixels;
             return per + "%";
         }, grid.perOfHeightEls = function(x) {
             var oThis = this, no = oThis.gridsCells[x].length, per = 100 / no + "%";
@@ -453,11 +453,6 @@
             arr[i] < min && (arr[i] = min), total += arr[i];
             for (x = 0; x < arr.length; x++) arr[x] = target / total * arr[x];
             return arr;
-        }, grid.centerInner = function() {
-            var oThis = this, realwidth = 0;
-            $(oThis.gridsColumns).each(function() {
-                realwidth += $(this).outerWidth(!0);
-            }), realwidth < oThis.elInner.width() && oThis.elInner.css("padding-left", (oThis.elInner.width() - realwidth) / 2 + "px");
         }, grid.forcePerWidth = function() {
             var wids = [], oThis = this;
             $.each(this.gridsColumns, function(key, col) {
@@ -474,7 +469,7 @@
             var heights = [], oThis = this, col = this.gridsColumns[x];
             if ("undefined" != typeof col) {
                 $.each(oThis.gridsCells[x], function(y, cell) {
-                    var height = parseFloat(oThis.perOfHeight($(cell).outerHeight(), $(col).outerHeight()));
+                    var height = parseFloat(oThis.perOfHeight($(cell).outerHeight()));
                     heights.push(height);
                 });
                 var heights = oThis.equalPers(heights, 1);
