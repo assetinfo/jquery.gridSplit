@@ -360,37 +360,6 @@
                 }
                 $(window).trigger("resize.grid");
             }
-        }, grid.resizeColumn = function(x, to) {
-            "undefined" == typeof this.metaAt && (this.metaAt = {}), "undefined" == typeof this.metaAt[x] && (this.metaAt[x] = {}, 
-            this.metaAt[x].c = {});
-            var obj = {
-                w: to
-            };
-            this.setMetaAt(x, null, obj);
-            var asPix = parseFloat(this.$el.outerWidth() / 100 * parseFloat(to));
-            this.gridsColumns[x].data("trueWidth", asPix), "function" == typeof this.settings.callAfterResize && "undefined" != typeof this.gridsColumns[x] && "undefined" != typeof this.gridsCells[x][0] && this.settings.callAfterResize(this.gridsCells[x][0], this, this.gridsColumns[x].data("trueWidth"), this.gridsCells[x][0].data("trueHeight"));
-        }, grid.resizeCell = function(x, y, to) {
-            "undefined" == typeof this.metaAt[x] && (this.metaAt[x] = {}, this.metaAt[x].c = {}), 
-            "undefined" == typeof this.metaAt[x][y] && (this.metaAt[x][y] = {});
-            var obj = {
-                h: to
-            };
-            this.setMetaAt(x, y, obj);
-            var asPix = parseFloat(this.gridsColumns[x].outerHeight() / 100 * parseFloat(to)), cell = this.gridsCells[x][y];
-            cell.data("trueHeight", asPix), "function" == typeof this.settings.callAfterResize && "undefined" != typeof this.gridsColumns[x] && "undefined" != typeof this.gridsCells[x][y] && this.settings.callAfterResize(this.gridsCells[x][y], this, this.gridsColumns[x].data("trueWidth"), this.gridsCells[x][y].data("trueHeight"));
-        }, grid.setMetaAt = function(x, y, obj) {
-            var oThis = this;
-            "undefined" == typeof oThis.metaAt[x] && (oThis.metaAt[x] = {}, oThis.metaAt[x].c = {}), 
-            null === y ? oThis.metaAt[x].c = $.extend({}, oThis.metaAt[x].c, obj) : ("undefined" == typeof oThis.metaAt[x][y] && (oThis.metaAt[x][y] = {}), 
-            oThis.metaAt[x][y] = $.extend({}, oThis.metaAt[x][y], obj)), $(window).trigger("resize.grid");
-        }, grid.setMetaAllCells = function(obj) {
-            var oThis = this;
-            $.each(grid.gridsCells, function(x, column) {
-                $.each(column, function(y, cell) {
-                    "undefined" != typeof cell.data("grid") ? (cell.data("grid").setMetaAllCells(obj), 
-                    oThis.setMetaAt(x, null, obj)) : (oThis.setMetaAt(x, null, obj), oThis.setMetaAt(x, y, obj));
-                });
-            });
         }, grid.handleClick = function(to, type, grids) {
             if ("cell" === type) {
                 {
@@ -449,6 +418,24 @@
                     height: per
                 }), oThis.resizeCell(x, y, per);
             }), per;
+        }, grid.resizeColumn = function(x, to) {
+            "undefined" == typeof this.metaAt && (this.metaAt = {}), "undefined" == typeof this.metaAt[x] && (this.metaAt[x] = {}, 
+            this.metaAt[x].c = {});
+            var obj = {
+                w: to
+            };
+            this.setMetaAt(x, null, obj);
+            var asPix = parseFloat(this.$el.outerWidth() / 100 * parseFloat(to));
+            this.gridsColumns[x].data("trueWidth", asPix), "function" == typeof this.settings.callAfterResize && "undefined" != typeof this.gridsColumns[x] && "undefined" != typeof this.gridsCells[x][0] && this.settings.callAfterResize(this.gridsCells[x][0], this, this.gridsColumns[x].data("trueWidth"), this.gridsCells[x][0].data("trueHeight"));
+        }, grid.resizeCell = function(x, y, to) {
+            "undefined" == typeof this.metaAt[x] && (this.metaAt[x] = {}, this.metaAt[x].c = {}), 
+            "undefined" == typeof this.metaAt[x][y] && (this.metaAt[x][y] = {});
+            var obj = {
+                h: to
+            };
+            this.setMetaAt(x, y, obj);
+            var asPix = parseFloat(this.gridsColumns[x].outerHeight() / 100 * parseFloat(to)), cell = this.gridsCells[x][y];
+            cell.data("trueHeight", asPix), "function" == typeof this.settings.callAfterResize && "undefined" != typeof this.gridsColumns[x] && "undefined" != typeof this.gridsCells[x][y] && this.settings.callAfterResize(this.gridsCells[x][y], this, this.gridsColumns[x].data("trueWidth"), this.gridsCells[x][y].data("trueHeight"));
         }, grid.equalPers = function(arr, vh) {
             var i = arr.length, total = 0, target = 100;
             for (min = 0; i--; ) min = 0 == vh ? this.settings.vertMin : this.settings.horizMin, 
@@ -501,6 +488,19 @@
                     }) : data[x].c.w = "100%";
                 }
             }), oThis.setMeta(data), oThis.parent() === oThis && "function" == typeof oThis.settings.callSetHash && oThis.settings.callSetHash();
+        }, grid.setMetaAt = function(x, y, obj) {
+            var oThis = this;
+            "undefined" == typeof oThis.metaAt[x] && (oThis.metaAt[x] = {}, oThis.metaAt[x].c = {}), 
+            null === y ? oThis.metaAt[x].c = $.extend({}, oThis.metaAt[x].c, obj) : ("undefined" == typeof oThis.metaAt[x][y] && (oThis.metaAt[x][y] = {}), 
+            oThis.metaAt[x][y] = $.extend({}, oThis.metaAt[x][y], obj)), $(window).trigger("resize.grid");
+        }, grid.setMetaAllCells = function(obj) {
+            var oThis = this;
+            $.each(grid.gridsCells, function(x, column) {
+                $.each(column, function(y, cell) {
+                    "undefined" != typeof cell.data("grid") ? (cell.data("grid").setMetaAllCells(obj), 
+                    oThis.setMetaAt(x, null, obj)) : (oThis.setMetaAt(x, null, obj), oThis.setMetaAt(x, y, obj));
+                });
+            });
         }, grid.setProperty = function(property, value) {
             var oThis = this;
             if (property) {
