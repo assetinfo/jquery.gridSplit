@@ -633,7 +633,6 @@
             }
             return oThis;
         }
-
         /**
          * this.splitCellInColumn()<br/><br/> initialises another grid within a grid
          *
@@ -855,7 +854,6 @@
                 oThis.metaAt = reExm;
                 oThis.gridsStructure = reExs;
                 oThis.gridsColumns = reExc;
-
                 if (oThis !== oThis.parent()) {
                     var cell = JSON.parse(oThis.$el.data('cell'));
                     var origHeight = oThis.parent().metaAt[cell['x']][cell['y']]['h'];
@@ -1047,116 +1045,6 @@
             }
         }
         /**
-         * this.resizeColumn()<br/><br/> simplify the pass through to this.setMetaAt on width resize
-         *
-         * @function gridSplit.resizeColumn
-         * @param {int} x the target cells column
-         * @param {string} to the new width (%)
-         * @memberOf gridSplit
-         */
-        grid.resizeColumn = function(x, to) {
-            if (typeof this.metaAt === 'undefined') {
-                this.metaAt = {};
-            }
-            if (typeof this.metaAt[x] === 'undefined') {
-                this.metaAt[x] = {};
-                this.metaAt[x]['c'] = {};
-            }
-            var obj = {
-                'w': to,
-            };
-            // meta will be %
-            this.setMetaAt(x, null, obj);
-            // convert to pix and set to data
-            var asPix = parseFloat(((this.$el.outerWidth() / 100) * parseFloat(to)));
-            this.gridsColumns[x].data('trueWidth', asPix);
-            // fire a function after resize
-            if (typeof this.settings.callAfterResize == 'function') {
-                if(typeof this.gridsColumns[x] !== 'undefined' && typeof this.gridsCells[x][0] !== 'undefined') {
-                    this.settings.callAfterResize(this.gridsCells[x][0], this, this.gridsColumns[x].data('trueWidth'), this.gridsCells[x][0].data('trueHeight'));
-                }
-            }
-        }
-        /**
-         * this.resizeCell()<br/><br/> simplify the pass through to this.setMetaAt on height resize;
-         *
-         * @function gridSplit.resizeCell
-         * @param {int} x the target cells column
-         * @param {int} y the target cells position in that column
-         * @param {string} to the new height (%)
-         * @memberOf gridSplit
-         */
-        grid.resizeCell = function(x, y, to) {
-            if (typeof this.metaAt[x] === 'undefined') {
-                this.metaAt[x] = {};
-                this.metaAt[x]['c'] = {};
-            }
-            if (typeof this.metaAt[x][y] === 'undefined') {
-                this.metaAt[x][y] = {};
-            }
-            var obj = {
-                'h': to
-            };
-            // meta will be %
-            this.setMetaAt(x, y, obj);
-            // convert to pix and set to data.
-            var asPix = parseFloat(((this.gridsColumns[x].outerHeight() / 100) * parseFloat(to)));
-            var cell = this.gridsCells[x][y];
-            cell.data('trueHeight', asPix);
-            // fire a function after resize
-            if (typeof this.settings.callAfterResize == 'function') {
-                if(typeof this.gridsColumns[x] !== 'undefined' && typeof this.gridsCells[x][y] !== 'undefined') {
-                    this.settings.callAfterResize(this.gridsCells[x][y], this, this.gridsColumns[x].data('trueWidth'), this.gridsCells[x][y].data('trueHeight'));
-                }
-            }
-        }
-        /**
-         * this.setMetaAt()<br/><br/> set the obj against this.metaAt[x]([y])
-         *
-         * @function gridSplit.setMetaAt
-         * @param {int} x the target cells column
-         * @param {int} y the target cells position in that column
-         * @param {object} obj the target element
-         * @memberOf gridSplit
-         */
-        grid.setMetaAt = function(x, y, obj) {
-            var oThis = this;
-            if (typeof oThis.metaAt[x] === 'undefined') {
-                oThis.metaAt[x] = {};
-                oThis.metaAt[x]['c'] = {};
-            }
-            if (y === null) {
-                oThis.metaAt[x]['c'] = $.extend({}, oThis.metaAt[x]['c'], obj);
-            } else {
-                if (typeof oThis.metaAt[x][y] === 'undefined') {
-                    oThis.metaAt[x][y] = {};
-                }
-                oThis.metaAt[x][y] = $.extend({}, oThis.metaAt[x][y], obj);
-            }
-            $(window).trigger('resize.grid');
-        }
-        /**
-         * this.setMetaAllCells()<br/><br/> set the obj against all cells in grids scope
-         *
-         * @function gridSplit.setMetaAllCells
-         * @param {object} obj the target element
-         * @memberOf gridSplit
-         */
-        grid.setMetaAllCells = function(obj) {
-            var oThis = this;
-             $.each(grid.gridsCells, function(x, column) {
-                $.each(column, function(y, cell) {
-                    if (typeof cell.data('grid') !== 'undefined') {
-                        cell.data('grid').setMetaAllCells(obj);
-                        oThis.setMetaAt(x,null,obj);
-                    } else {
-                        oThis.setMetaAt(x,null,obj);
-                        oThis.setMetaAt(x,y,obj);
-                    }
-                });
-            });
-        }
-        /**
          * this.handleClick()<br/><br/> bind click event to a cell
          *
          * @function gridSplit.handleClick
@@ -1321,6 +1209,70 @@
             return per;
         }
         /**
+         * this.resizeColumn()<br/><br/> simplify the pass through to this.setMetaAt on width resize
+         *
+         * @function gridSplit.resizeColumn
+         * @param {int} x the target cells column
+         * @param {string} to the new width (%)
+         * @memberOf gridSplit
+         */
+        grid.resizeColumn = function(x, to) {
+            if (typeof this.metaAt === 'undefined') {
+                this.metaAt = {};
+            }
+            if (typeof this.metaAt[x] === 'undefined') {
+                this.metaAt[x] = {};
+                this.metaAt[x]['c'] = {};
+            }
+            var obj = {
+                'w': to,
+            };
+            // meta will be %
+            this.setMetaAt(x, null, obj);
+            // convert to pix and set to data
+            var asPix = parseFloat(((this.$el.outerWidth() / 100) * parseFloat(to)));
+            this.gridsColumns[x].data('trueWidth', asPix);
+            // fire a function after resize
+            if (typeof this.settings.callAfterResize == 'function') {
+                if(typeof this.gridsColumns[x] !== 'undefined' && typeof this.gridsCells[x][0] !== 'undefined') {
+                    this.settings.callAfterResize(this.gridsCells[x][0], this, this.gridsColumns[x].data('trueWidth'), this.gridsCells[x][0].data('trueHeight'));
+                }
+            }
+        }
+        /**
+         * this.resizeCell()<br/><br/> simplify the pass through to this.setMetaAt on height resize;
+         *
+         * @function gridSplit.resizeCell
+         * @param {int} x the target cells column
+         * @param {int} y the target cells position in that column
+         * @param {string} to the new height (%)
+         * @memberOf gridSplit
+         */
+        grid.resizeCell = function(x, y, to) {
+            if (typeof this.metaAt[x] === 'undefined') {
+                this.metaAt[x] = {};
+                this.metaAt[x]['c'] = {};
+            }
+            if (typeof this.metaAt[x][y] === 'undefined') {
+                this.metaAt[x][y] = {};
+            }
+            var obj = {
+                'h': to
+            };
+            // meta will be %
+            this.setMetaAt(x, y, obj);
+            // convert to pix and set to data.
+            var asPix = parseFloat(((this.gridsColumns[x].outerHeight() / 100) * parseFloat(to)));
+            var cell = this.gridsCells[x][y];
+            cell.data('trueHeight', asPix);
+            // fire a function after resize
+            if (typeof this.settings.callAfterResize == 'function') {
+                if(typeof this.gridsColumns[x] !== 'undefined' && typeof this.gridsCells[x][y] !== 'undefined') {
+                    this.settings.callAfterResize(this.gridsCells[x][y], this, this.gridsColumns[x].data('trueWidth'), this.gridsCells[x][y].data('trueHeight'));
+                }
+            }
+        }
+        /**
          * this.equalPers()<br/><br/> creates percentages that total 100 by weighing the available items taking into account minimums
          *
          * @function gridSplit.equalPers
@@ -1447,6 +1399,52 @@
                 }
             }
         }
+        /**
+         * this.setMetaAt()<br/><br/> set the obj against this.metaAt[x]([y])
+         *
+         * @function gridSplit.setMetaAt
+         * @param {int} x the target cells column
+         * @param {int} y the target cells position in that column
+         * @param {object} obj the target element
+         * @memberOf gridSplit
+         */
+        grid.setMetaAt = function(x, y, obj) {
+            var oThis = this;
+            if (typeof oThis.metaAt[x] === 'undefined') {
+                oThis.metaAt[x] = {};
+                oThis.metaAt[x]['c'] = {};
+            }
+            if (y === null) {
+                oThis.metaAt[x]['c'] = $.extend({}, oThis.metaAt[x]['c'], obj);
+            } else {
+                if (typeof oThis.metaAt[x][y] === 'undefined') {
+                    oThis.metaAt[x][y] = {};
+                }
+                oThis.metaAt[x][y] = $.extend({}, oThis.metaAt[x][y], obj);
+            }
+            $(window).trigger('resize.grid');
+        }
+        /**
+         * this.setMetaAllCells()<br/><br/> set the obj against all cells in grids scope
+         *
+         * @function gridSplit.setMetaAllCells
+         * @param {object} obj the target element
+         * @memberOf gridSplit
+         */
+        grid.setMetaAllCells = function(obj) {
+            var oThis = this;
+             $.each(grid.gridsCells, function(x, column) {
+                $.each(column, function(y, cell) {
+                    if (typeof cell.data('grid') !== 'undefined') {
+                        cell.data('grid').setMetaAllCells(obj);
+                        oThis.setMetaAt(x,null,obj);
+                    } else {
+                        oThis.setMetaAt(x,null,obj);
+                        oThis.setMetaAt(x,y,obj);
+                    }
+                });
+            });
+        }
          /**
          * this.setProperty()<br/><br/> replace an options value after init
          *
@@ -1565,7 +1563,6 @@
             // string is built in reverse order - so needs to be reversed
             return this.returnLXY(x,y).split('').reverse().join('').replace(/(^[-\s]+)|([-\s]+$)/g, '');
         }
-
         /**
          * this.returnContent()<br/><br/> return and detach content from the given cell
          *
