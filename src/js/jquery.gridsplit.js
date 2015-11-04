@@ -505,7 +505,7 @@
                 // spliting the cell horizontally
                 if ((y + 1) == oThis.gridsStructure[x].length) {
                     // tell cell it needs to set.
-                    oThis.gridsStructure[x][(y + 1)] = null;
+                    oThis.gridsStructure[x][y + 1] = null;
                     oThis.addCell(x, (y + 1));
                 } else {
                     // shift everything after y in x right to make space
@@ -516,15 +516,15 @@
                     reExm['c'] = oThis.metaAt[x]['c'];
                     $.each(oThis.gridsCells[x], function(ly, acY) {
                         if (ly >= (y + 1)) {
-                            reEx[(ly + 1)] = oThis.gridsCells[x][ly];
-                            reExm[(ly + 1)] = oThis.metaAt[x][ly];
-                            reExs[(ly + 1)] = oThis.gridsStructure[x][ly];
+                            reEx[ly + 1] = oThis.gridsCells[x][ly];
+                            reExm[ly + 1] = oThis.metaAt[x][ly];
+                            reExs[ly + 1] = oThis.gridsStructure[x][ly];
                             // cell here alter its .data('cell') attributes; +1 to y
-                            reEx[(ly + 1)].data('cell', '{"x":' + parseInt(x) + ',"y":' + parseInt(ly + 1) + '}');
+                            reEx[ly + 1].data('cell', '{"x":' + parseInt(x) + ',"y":' + parseInt(ly + 1) + '}');
                             if (typeof oThis.settings.callAfterMove === 'function') {
                                 oThis.settings.callAfterMove(oThis.id + '' + x + '' + ly, oThis.id + '' + x + '' + (ly + 1), oThis, x, (ly + 1), x, ly);
                             }
-                            var startingPoint = reEx[(ly + 1)].data('grid');
+                            var startingPoint = reEx[ly + 1].data('grid');
                             if(typeof startingPoint !== 'undefined') {
                                 startingPoint.settings.parentsGrid = oThis;
                                 startingPoint.settings.parentsX = parseInt(x);
@@ -544,14 +544,14 @@
                     oThis.metaAt[x] = reExm;
                     oThis.gridsStructure[x] = reExs;
                     // tell cell it needs to set.
-                    oThis.gridsStructure[x][(y + 1)] = null;
+                    oThis.gridsStructure[x][y + 1] = null;
                     oThis.addCell(x, (y + 1));
                     if (typeof oThis.settings.callFinaliseMove === 'function') {
                         oThis.settings.callFinaliseMove();
                     }
                 }
                 var first = oThis.gridsCells[x][y];
-                var second = oThis.gridsCells[x][(y + 1)];
+                var second = oThis.gridsCells[x][y + 1];
                 var no = oThis.gridsCells[x].length;
                 if (typeof first !== 'undefined' && oThis.buildingGrid !== true && oThis.settings.splitMethodH == 'half') {
                     var height = (oThis.metaAt[x][y]['h'] ? parseFloat(oThis.metaAt[x][y]['h']) : 100);
@@ -570,7 +570,7 @@
                 // splitting the column virticaly
                 if ((x + 1) == oThis.gridsStructure.length) {
                     // conditions are good get straight to splitting
-                    oThis.gridsStructure[(x + 1)] = null;
+                    oThis.gridsStructure[x + 1] = null;
                     oThis.addColumn((x + 1));
                 } else {
                     // make space available by shifting everything after x right
@@ -581,13 +581,13 @@
                     // add opens after the move.
                     $.each(oThis.gridsColumns, function(lx, acX) {
                         if (lx >= (x + 1)) {
-                            reEx[(lx + 1)] = oThis.gridsColumns[lx];
-                            reExm[(lx + 1)] = oThis.metaAt[lx];
-                            reExc[(lx + 1)] = oThis.gridsCells[lx];
-                            reExs[(lx + 1)] = oThis.gridsStructure[lx];
+                            reEx[lx + 1] = oThis.gridsColumns[lx];
+                            reExm[lx + 1] = oThis.metaAt[lx];
+                            reExc[lx + 1] = oThis.gridsCells[lx];
+                            reExs[lx + 1] = oThis.gridsStructure[lx];
                             // foreach cell here alter its .data('cell') attributes; + 1 to x
-                            for (y = 0; y < reExc[(lx + 1)].length; y++) {
-                                reExc[(lx + 1)][y].data('cell', '{"x":' + parseInt(lx + 1) + ',"y":' + parseInt(y) + '}');
+                            for (y = 0; y < reExc[lx + 1].length; y++) {
+                                reExc[lx + 1][y].data('cell', '{"x":' + parseInt(lx + 1) + ',"y":' + parseInt(y) + '}');
                                 if (typeof oThis.settings.callAfterMove === 'function') {
                                     oThis.settings.callAfterMove(oThis.id + '' + (lx) + '' + y, oThis.id + '' + (lx + 1) + '' + y, oThis, (lx + 1), y, lx, y);
                                 }
@@ -604,7 +604,7 @@
                     oThis.gridsCells = reExc;
                     oThis.gridsStructure = reExs;
                     // tell column it needs to set.
-                    oThis.gridsStructure[(x + 1)] = null;
+                    oThis.gridsStructure[x + 1] = null;
                     oThis.addColumn((x + 1));
                     // fix the titles in the page header
                     if (typeof oThis.settings.callFinaliseMove === 'function') {
@@ -612,7 +612,7 @@
                     }
                 }
                 var first = oThis.gridsColumns[x];
-                var second = oThis.gridsColumns[(x + 1)];
+                var second = oThis.gridsColumns[x + 1];
                 if(typeof oThis.metaAt[x]['c'] !== 'undefined') {
                     var width = parseFloat(oThis.metaAt[x]['c']['w'] ? oThis.metaAt[x]['c']['w'] : 100);
                 } else {
@@ -628,7 +628,7 @@
                 oThis.resizeColumn(x, setWid);
                 oThis.resizeColumn((x + 1), setWid);
                 // column needs a cell, tell it that it needs to set.
-                oThis.gridsStructure[(x + 1)][0] = null;
+                oThis.gridsStructure[x + 1][0] = null;
                 oThis.addCell((x + 1), 0);
             }
             return oThis;
@@ -723,12 +723,12 @@
                             reExm['c'] = oThis.metaAt[x]['c'];
                             $.each(this.gridsCells[x], function(ly, acY) {
                                 if (ly > y) {
-                                    reEx[(ly - 1)] = oThis.gridsCells[x][ly];
-                                    reExm[(ly - 1)] = oThis.metaAt[x][ly];
-                                    reExs[(ly - 1)] = oThis.gridsStructure[x][ly];
+                                    reEx[ly - 1] = oThis.gridsCells[x][ly];
+                                    reExm[ly - 1] = oThis.metaAt[x][ly];
+                                    reExs[ly - 1] = oThis.gridsStructure[x][ly];
                                     // cell here alter its .data('cell') attributes; -1 on y
-                                    reEx[(ly - 1)].data('cell', '{"x":' + parseInt(x) + ',"y":' + parseInt(ly - 1) + '}');
-                                    var startingPoint = reEx[(ly - 1)].data('grid');
+                                    reEx[ly - 1].data('cell', '{"x":' + parseInt(x) + ',"y":' + parseInt(ly - 1) + '}');
+                                    var startingPoint = reEx[ly - 1].data('grid');
                                     if(typeof startingPoint !== 'undefined') {
                                         startingPoint.settings.parentsGrid = oThis;
                                         startingPoint.settings.parentsX = parseInt(x);
@@ -737,8 +737,8 @@
                                     if (typeof oThis.settings.callAfterMove === 'function') {
                                         oThis.settings.callAfterMove(oThis.id + '' + (x) + '' + ly, oThis.id + '' + (x) + '' + (ly - 1), oThis, x, (ly - 1), x, ly);
                                     }
-                                    if (typeof reEx[(ly - 1)] !== 'undefined') {
-                                        $(window).trigger('resize.grid.' + $(reEx[(ly - 1)]).data('widgetID'));
+                                    if (typeof reEx[ly - 1] !== 'undefined') {
+                                        $(window).trigger('resize.grid.' + $(reEx[ly - 1]).data('widgetID'));
                                     } else {
                                         oThis.delCell(x, (ly - 1));
                                     }
@@ -812,16 +812,16 @@
                         reExs[lx - 1] = oThis.gridsStructure[lx];
                         reExc[lx - 1] = oThis.gridsColumns[lx];
                         // foreach cell here alter its .data('cell') attributes; - 1 on x
-                        for (y = 0; y < reEx[(lx - 1)].length; y++) {
-                            if (typeof reEx[(lx - 1)][y] !== 'undefined') {
-                                reEx[(lx - 1)][y].data('cell', '{"x":' + parseInt(lx - 1) + ',"y":' + parseInt(y) + '}');
+                        for (y = 0; y < reEx[lx - 1].length; y++) {
+                            if (typeof reEx[lx - 1][y] !== 'undefined') {
+                                reEx[lx - 1][y].data('cell', '{"x":' + parseInt(lx - 1) + ',"y":' + parseInt(y) + '}');
                                 if (typeof oThis.settings.callAfterMove === 'function') {
                                     oThis.settings.callAfterMove(oThis.id + '' + (lx) + '' + y, oThis.id + '' + (lx - 1) + '' + y, oThis, (lx - 1), y, lx, y);
                                 }
                             }
                         }
-                        if (typeof reEx[(lx - 1)] !== 'undefined') {
-                            $(window).trigger('resize.grid.' + $(reEx[(lx - 1)]).data('widgetID'));
+                        if (typeof reEx[lx - 1] !== 'undefined') {
+                            $(window).trigger('resize.grid.' + $(reEx[lx - 1]).data('widgetID'));
                         } else {
                             oThis.delColumn((lx - 1));
                         }
@@ -906,7 +906,7 @@
         grid.addRail = function(x, y) {
             // different rails for horiz and vert, comments should detail the approach...
             var oThis = this;
-            var to = ( y ? oThis.gridsCells[x][y] : oThis.gridsColumns[x] );
+            var to = ( typeof y !== "undefined" ? oThis.gridsCells[x][y] : oThis.gridsColumns[x] );
             // if it has the resize class then this cell/column has already got a rail
             if(!to.hasClass(this.settings.resizableClass)) {
                 // add resize class
@@ -1049,15 +1049,15 @@
          *
          * @function gridSplit.handleClick
          * @param {object} to the target element
-         * @param {string} type the target element type ['cell'  | 'column']
+         * @param {string} type the target element type ['cell' | 'column']
          * @memberOf gridSplit
          */
-        grid.handleClick = function(to, type, grids) {
+        grid.handleClick = function(to, type) {
+            var oThis = this;
             // only handles a click action against a cell
             if (type === 'cell') {
-                var w = this.gridCell;
-                if (typeof grids.settings.callSetFocus === 'function') {
-                    grids.settings.callSetFocus(JSON.parse($(to).data('cell')), grids);
+                if (typeof oThis.settings.callSetFocus === 'function') {
+                    oThis.settings.callSetFocus(JSON.parse($(to).data('cell')), oThis);
                 }
             }
         }
@@ -1072,10 +1072,9 @@
         grid.addControls = function(x, y) {
             // add a control set.   
             var oThis = this;
-            var to = ( y ? oThis.gridsCells[x][y] : oThis.gridsColumns[x] );
+            var to = ( typeof y !== "undefined" ? oThis.gridsCells[x][y] : oThis.gridsColumns[x] );
             // est type - add rails if resizable && add click to cell
             if ($(to).data('type') == 'column') {
-                var w = this.settings.gridColumnClass;
                 var type = 'column';
                 var ctrls = [];
                 if (x !== 0) {
@@ -1084,7 +1083,6 @@
                     }
                 }
             } else {
-                var w = this.settings.gridCellClass;
                 var type = 'cell';
                 var ctrls = [];
                 if (y !== 0) {
@@ -1094,7 +1092,7 @@
                 }
                 // add click event to cell
                 to.on('click', function() {
-                    oThis.handleClick(this, type, $(to).data('gridAt'));
+                    oThis.handleClick(this, type);
                 });
             }
         }
