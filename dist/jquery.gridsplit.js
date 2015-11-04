@@ -293,7 +293,7 @@
         }, grid.delAt = function(x, y) {
             return "undefined" == typeof y || null == y ? this.delColumn(x) : this.delCell(x, y);
         }, grid.addRail = function(x, y) {
-            var oThis = this, to = y ? oThis.gridsCells[x][y] : oThis.gridsColumns[x];
+            var oThis = this, to = "undefined" != typeof y ? oThis.gridsCells[x][y] : oThis.gridsColumns[x];
             if (!to.hasClass(this.settings.resizableClass)) {
                 if (to.addClass(this.settings.resizableClass), "column" == $(to).data("type")) {
                     if (0 !== x && "0" !== x) {
@@ -360,22 +360,18 @@
                 }
                 $(window).trigger("resize.grid");
             }
-        }, grid.handleClick = function(to, type, grids) {
-            if ("cell" === type) {
-                {
-                    this.gridCell;
-                }
-                "function" == typeof grids.settings.callSetFocus && grids.settings.callSetFocus(JSON.parse($(to).data("cell")), grids);
-            }
+        }, grid.handleClick = function(to, type) {
+            var oThis = this;
+            "cell" === type && "function" == typeof oThis.settings.callSetFocus && oThis.settings.callSetFocus(JSON.parse($(to).data("cell")), oThis);
         }, grid.addControls = function(x, y) {
-            var oThis = this, to = y ? oThis.gridsCells[x][y] : oThis.gridsColumns[x];
+            var oThis = this, to = "undefined" != typeof y ? oThis.gridsCells[x][y] : oThis.gridsColumns[x];
             if ("column" == $(to).data("type")) {
-                var type = (this.settings.gridColumnClass, "column");
+                var type = "column";
                 0 !== x && 1 == this.settings.resizable && this.addRail(x, y);
             } else {
-                var type = (this.settings.gridCellClass, "cell");
+                var type = "cell";
                 0 !== y && 1 == this.settings.resizable && this.addRail(x, y), to.on("click", function() {
-                    oThis.handleClick(this, type, $(to).data("gridAt"));
+                    oThis.handleClick(this, type);
                 });
             }
         }, grid.halfOf = function(first, second, full, type, flag) {
