@@ -33,13 +33,13 @@ require.config({
     "gridsplit": "src/js/jquery.gridsplit"
   },
   "shim": {
-    "jquery":        { "exports": "$" },
-    "jqueryui-draggable":     ["jquery", "core", "mouse", "widget"]
+    "jquery": { "exports": "$" },
+    "jqueryui-draggable": ["jquery", "core", "mouse", "widget"]
 });
 ```
 ## Demo
 
-We only have the one example but its fairly comprehensive, see [github.io](https://assetinfo.github.io/jquery.gridSplit) or [jsfiddle](http://jsfiddle.net/graydixon/jo42v1q9/), for more details check our [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) or [jasmine test's](https://github.com/assetinfo/jquery.gridSplit/tree/master/spec).
+We only have the one example but its fairly comprehensive, see [github.io](https://assetinfo.github.io/jquery.gridSplit) or [jsfiddle](http://jsfiddle.net/graydixon/jo42v1q9/). For more details check our [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) and [jasmine test's](https://github.com/assetinfo/jquery.gridSplit/tree/master/spec).
 
 ## Generated Documentation
 
