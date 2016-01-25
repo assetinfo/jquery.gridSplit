@@ -93,84 +93,176 @@
 
     <section class="readme-section">
         <article><h1><a href="https://github.com/assetinfo/jquery.gridSplit">jquery.gridSplit</a>         <a href="https://travis-ci.org/assetinfo/jquery.gridSplit"><img src="https://travis-ci.org/assetinfo/jquery.gridSplit.png" alt="Build Status"></a></h1>
-<p>A jQuery grid system designed so that each cell can be &quot;split&quot; either horizontally or vertically. It is intended to be used as part of a larger system allowing the user free control of their widget environment. </p>
+<blockquote>
+<p>A jQuery grid system designed so that each cell can be &quot;split&quot; either horizontally or vertically. Useful for creating interactive/dynamic grids from static HTML, JSON objects or user interaction.</p>
+</blockquote>
 <hr>
-<p>First, download or clone this repo, then run 'bower install' and include the required packages in your page:</p>
-<pre><code class="lang-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;./src/css/jquery.gridsplit.css&quot;&gt;
+<h2>Demo</h2>
+<ul>
+<li>We only have the one example but its fairly comprehensive, see <a href="https://assetinfo.github.io/jquery.gridSplit">github.io</a> or <a href="http://jsfiddle.net/graydixon/jo42v1q9/">jsfiddle</a>. For more details check our <a href="https://assetinfo.github.io/jquery.gridSplit/docs/">documentation</a> and <a href="https://github.com/assetinfo/jquery.gridSplit/tree/master/spec">jasmine test's</a>.
+<br/>
+<br/>
+<br/></li>
+</ul>
+<h2>Documentation</h2>
+<ul>
+<li><a href="https://assetinfo.github.io/jquery.gridSplit/docs/">Jquery.gridSplit's documentation</a> has been generated using <a href="https://github.com/jsdoc3/jsdoc">jsDocs 3.2.2</a>
+<br/>
+<br/>
+<br/></li>
+</ul>
+<h2>Installing, building and testing</h2>
+<ol>
+<li><p><a href="https://github.com/assetinfo/jquery.gridSplit/archive/master.zip">Download</a> or clone this repo...</p>
+<pre><code>$ git clone git@github.com:assetinfo/jquery.gridSplit.git</code></pre>
+</li>
+<li><p>Navigate to the directory containing jquery.gridSplit and run...</p>
+<pre><code>$ bower install</code></pre>
+</li>
+<li><p>To build run...</p>
+<pre><code>$ grunt</code></pre>
+</li>
+<li><p>To test run...</p>
+<pre><code>$ grunt test</code></pre>
+</li>
+<li><p>To use in your own  project...</p>
+<ul>
+<li>include dependencies and minified version of jquery.gridSplit.js</li>
+</ul>
+<pre><code class="lang-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;./src/css/jquery.gridsplit.css&quot;/&gt;
 &lt;script src=&quot;./bower_components/jquery/dist/jquery.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./bower_components/jquery-ui/jquery-ui.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./dist/jquery.gridsplit.min.js&quot;&gt;&lt;/script&gt;</code></pre>
-<p>OR include the optimised versions in ./dist/ dir (you can build these yourself using grunt, the package.json and gruntfile we used are included):</p>
-<pre><code class="lang-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;./dist/jquery.gridsplit.optimised.css&quot;&gt;
-&lt;script src=&quot;./dist/jquery.gridsplit.optimised.js&quot;&gt;&lt;/script&gt;</code></pre>
-<p>Alternatively, include the plugin using <a href="https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js">AMD</a> with a config similar to:</p>
-<pre><code class="lang-html">require.config({
-  &quot;deps&quot;: [&quot;main&quot;],
-  &quot;paths&quot;: {
-    &quot;jquery&quot;: &quot;bower_components/jquery/dist/jquery&quot;,
-    &quot;core&quot;: &quot;bower_components/jquery-ui/ui/core&quot;,
-    &quot;mouse&quot;: &quot;bower_components/jquery-ui/ui/mouse&quot;,
-    &quot;widget&quot;: &quot;bower_components/jquery-ui/ui/widget&quot;,
-    &quot;jqueryui-draggable&quot;: &quot;bower_components/jquery-ui/ui/draggable&quot;,
-    &quot;gridsplit&quot;: &quot;src/js/jquery.gridsplit&quot;
-  },
-  &quot;shim&quot;: {
-    &quot;jquery&quot;:        { &quot;exports&quot;: &quot;$&quot; },
-    &quot;jqueryui-draggable&quot;:     [&quot;jquery&quot;, &quot;core&quot;, &quot;mouse&quot;, &quot;widget&quot;]
-});</code></pre>
-<h2>Demo</h2>
-<p>We only have the one example but its fairly comprehensive, see <a href="https://assetinfo.github.io/jquery.gridSplit">github.io</a> or <a href="http://jsfiddle.net/graydixon/jo42v1q9/">jsfiddle</a>, for more details check our <a href="https://assetinfo.github.io/jquery.gridSplit/docs/">documentation</a> or <a href="https://github.com/assetinfo/jquery.gridSplit/tree/master/spec">jasmine test's</a>.</p>
-<h2>Generated Documentation</h2>
-<p><a href="https://assetinfo.github.io/jquery.gridSplit/docs/">Documentation</a> has been generated using <a href="https://github.com/jsdoc3/jsdoc">jsDocs 3.2.2</a></p>
-<h2>Quick Reference</h2>
 <ul>
-<li><p>A grid is initialised against a div that must have an id, and a class of .grid.
-<br/></p>
-<pre><code class="lang-html">&lt;div id=&quot;grid&quot; class=&quot;grid&quot;&gt;&lt;/div&gt;</code></pre>
+<li>OR include the optimised versions from ./dist/:</li>
+</ul>
+<pre><code class="lang-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;./dist/jquery.gridsplit.optimised.css&quot;/&gt;
+&lt;script src=&quot;./dist/jquery.gridsplit.optimised.js&quot;&gt;&lt;/script&gt;</code></pre>
+<ul>
+<li>Alternatively, require jquery.gridSplit using <a href="https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js">AMD</a> with the following in your config file...</li>
+</ul>
+<pre><code class="lang-javascript">require.config({
+    &quot;deps&quot;: [&quot;main&quot;],
+    &quot;paths&quot;: {
+        &quot;jquery&quot;: &quot;bower_components/jquery/dist/jquery&quot;,
+        &quot;core&quot;: &quot;bower_components/jquery-ui/ui/core&quot;,
+        &quot;mouse&quot;: &quot;bower_components/jquery-ui/ui/mouse&quot;,
+        &quot;widget&quot;: &quot;bower_components/jquery-ui/ui/widget&quot;,
+        &quot;jqueryui-draggable&quot;: &quot;bower_components/jquery-ui/ui/draggable&quot;,
+        &quot;gridsplit&quot;: &quot;src/js/jquery.gridsplit&quot;
+    },
+    &quot;shim&quot;: {
+        &quot;jquery&quot;: { &quot;exports&quot;: &quot;$&quot; },
+        &quot;jqueryui-draggable&quot;: [&quot;jquery&quot;, &quot;core&quot;, &quot;mouse&quot;, &quot;widget&quot;]
+    }
+});</code></pre>
+<p><br/></p>
 </li>
-<li><p>The simplest grid (one cell) would be initialised with something similar to:
-<br/></p>
-<pre><code class="lang-html">var grid = $('#grid').gridSplit();</code></pre>
+</ol>
+<h2>Initialising a grid</h2>
+<ul>
+<li><p>A grid is initialised against a div that must have an id, and a class of .grid.</p>
+<ul>
+<li>HTML<pre><code class="lang-html">&lt;div id=&quot;grid1&quot; class=&quot;grid&quot;&gt;&lt;/div&gt;</code></pre>
 </li>
-<li><p>You can set various options and events at initialisation, for more detail see the <a href="https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html">documentation</a>:
-<br/></p>
-<pre><code class="lang-html"> var grid = $('#grid').gridSplit({resizable:false});</code></pre>
+<li>Javascript<pre><code class="lang-javascript">var grid = $('#grid1').gridSplit();</code></pre>
 </li>
-<li><p>A grid can be split with x/y co-ordinates using several methods that can be called in similar ways:
+</ul>
+</li>
+<li><p>A grid can be defined prior to initialisation...</p>
+<ul>
+<li>HTML<pre><code class="lang-html">&lt;div id=&quot;grid2&quot; class=&quot;grid&quot;&gt;
+  &lt;div class=&quot;innerGrid&quot; &gt;
+      &lt;div class=&quot;gridColumn&quot; gs-width=&quot;100%&quot; &gt;
+          &lt;div class=&quot;gridCell&quot; gs-height=&quot;50%&quot;&gt;
+              &lt;div class=&quot;fillCell&quot;&gt;&lt;a&gt; Test1 &lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;gridCell&quot; gs-height=&quot;50%&quot;&gt;
+              &lt;div class=&quot;fillCell&quot;&gt;&lt;a&gt; Test2 &lt;/a&gt;&lt;/div&gt;
+          &lt;/div&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</li>
+<li>Javascript<pre><code>var grid = $('#grid2').gridSplit({'useContent': true});</code></pre>
+</li>
+</ul>
+</li>
+<li><p>You can also set other options and events at initialisation...
 <br/></p>
-<pre><code class="lang-html"> grid.splitAt(0).splitAt(1,0).splitAt(0).addColumn(1).addCell(0,0).splitAt(1,0);</code></pre>
+<ul>
+<li>Disable 'resizable' functionality...<pre><code class="lang-javascript">var grid = $('#grid').gridSplit({'resizable':false});</code></pre>
+</li>
+<li>Split vertically by halfing column...<pre><code class="lang-javascript">var grid = $('#grid').gridSplit({'splitMethodV':'half'});</code></pre>
+</li>
+<li>Split vertically by evenly distributing the columns widths...<pre><code class="lang-javascript">var grid = $('#grid').gridSplit({'splitMethodV':''});</code></pre>
+<ul>
+<li>for more options see the <a href="https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html">documentation</a>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><br/></p>
+<h2>Manipulating a grid</h2>
+<ul>
+<li><p>A grid can be split with x/y co-ordinates, where x=column and y=cell. </p>
+<ul>
+<li>Adding a column splits the focus column vertically (into 2 columns). </li>
+<li>Adding a cell splits the focus cell horizontally (adding 2 cells).
+<br/></li>
+</ul>
+<pre><code class="lang-javascript">grid.splitAt(0).splitAt(1,0).splitAt(0).addColumn(1).addCell(0,0).splitAt(1,0);</code></pre>
 </li>
 <li><p>Cells can also be deleted using x/y co-ordinates:
 <br/></p>
-<pre><code class="lang-html"> grid.delCell(1,0).delAt(0,0).delColumn(1).delAt(0);</code></pre>
+<pre><code class="lang-javascript">grid.delCell(1,0).delAt(0,0).delColumn(1).delAt(0);</code></pre>
 </li>
-<li><p>This adds a grid to the cell and splits that new cell/grid vertically into two columns:
+<li><p>Cells can be split into two columns by providing true as the 3rd param. This effectivaly adds a new grid with two columns into the cell, returning the new grid as the current grids context.
 <br/></p>
-<pre><code class="lang-html"> var grid2 = grid.splitAt(1,0,true);</code></pre>
+<pre><code class="lang-javascript">var grid2 = grid.splitAt(1,0,true);</code></pre>
 </li>
-<li><p>If you want to chain spiltting actions then you might need .parent():
+<li><p>Nearly all functions which manipulate the grid will return 'this' (the current grids context), so in order to chain commands without breaking, use this.parent() to move the context to the grids parent grid (the top grids.parent() will === grids):
 <br/></p>
-<pre><code class="lang-html"> var grid = grid.splitAt(1,0,true).parent().splitAt(1,0).splitAt(1,1,true).parent(); // grid is still #grids gridSplit instance</code></pre>
+<pre><code class="lang-javascript">var grid = grid.splitAt(1,0,true).parent().splitAt(1,0).splitAt(1,1,true).parent(); // grid is still #grids gridSplit instance</code></pre>
 </li>
-<li><p>.returnMeta() will provide an array that represents the grid:
+<li><p>Grids can be rebuilt using JSON, the structure for which can be returned by calling:
 <br/></p>
-<pre><code class="lang-html"> var meta = grid.returnMeta(); // &quot;{&quot;0&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;19%&quot;}},&quot;1&quot;:{&quot;0&quot;:{&quot;0&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;50%&quot;}},&quot;1&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;50%&quot;}},&quot;h&quot;:&quot;50%&quot;},&quot;1&quot;:{&quot;h&quot;:&quot;50%&quot;},&quot;c&quot;:{&quot;w&quot;:&quot;81%&quot;}}}&quot;</code></pre>
+<pre><code class="lang-javascript">var meta = grid.returnMeta(); // &quot;{&quot;0&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;19%&quot;}},&quot;1&quot;:{&quot;0&quot;:{&quot;0&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;50%&quot;}},&quot;1&quot;:{&quot;c&quot;:{&quot;w&quot;:&quot;50%&quot;}},&quot;h&quot;:&quot;50%&quot;},&quot;1&quot;:{&quot;h&quot;:&quot;50%&quot;},&quot;c&quot;:{&quot;w&quot;:&quot;81%&quot;}}}&quot;</code></pre>
 </li>
-<li><p>This data can be used to duplicate or recreate the grid:
+<li><p>The grid can be cloned by initialising a new grid with the parsed meta object being passed in as 'data':
 <br/></p>
-<pre><code class="lang-html">  var grid3 = $('#grid-clone').gridSplit({data:JSON.parse(meta)});</code></pre>
+<pre><code class="lang-javascript">var grid3 = $('#grid-clone').gridSplit({data:JSON.parse(meta)});</code></pre>
 </li>
 <li><p>The grids $elements can be accessed using grids.gridsCells:
 <br/></p>
-<pre><code class="lang-html">  var $el00 = grid3.gridsCells[0][0];
-  var $el10_00 = grid3.gridsCells[1][0].data(&quot;grid&quot;).gridsCells[0][0];</code></pre>
+<pre><code class="lang-javascript">var $el00 = grid3.gridsCells[0][0];
+var $el10_00 = grid3.gridsCells[1][0].data(&quot;grid&quot;).gridsCells[0][0];</code></pre>
 </li>
 <li><p>To destroy the grid and any reference it adds:
 <br/></p>
-<pre><code class="lang-html">  grid3 = grid3.destroy(); // this does not remove the element</code></pre>
+<pre><code class="lang-javascript">grid3 = grid3.destroy(); // this will not remove the element, but will empty it</code></pre>
 </li>
 </ul>
-<hr></article>
+<h2>License</h2>
+<ul>
+<li><a href="https://github.com/assetinfo/jquery.gridSplit/blob/master/LICENSE">Licensed</a> under the MIT License (MIT).
+<br/>
+<br/>
+<br/></li>
+</ul>
+<h2>Acknowledgements</h2>
+<ul>
+<li><a href="https://github.com/hoxton-one/golden-layout">Hoxton-one - Golden-layout</a> - &quot;The ultimate Javascript layout manager.&quot;<ul>
+<li>This library has similar functionality, but it's more fleshed out than jquery.gridSplit. We didn't see golden-layout until we had just about finished gridSplit, we think we have the edge on simplicity, but having not done a thorough comparison: we wouldn't want to discourage you from trying it. <a href="https://golden-layout.com/examples">Examples</a> can be found on their <a href="https://golden-layout.com/">homepage</a>.
+<br/>
+<br/>
+<br/></li>
+</ul>
+</li>
+</ul>
+<h2>Contact us</h2>
+<h2>* <a href="mailto:gdixon@assetinfo.co.uk?Subject=jQuery.gridSplit%20Enquiry...">Contact us</a> if you need any further information or guidance (email: gdixon@assetinfo.co.uk).</h2></article>
     </section>
 
 
@@ -192,7 +284,7 @@
           
     <span class="jsdoc-message">
     Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.2.2</a>
-    on 2015-11-04T07:05:23+00:00
+    on 2016-01-25T20:54:14+00:00
     </span>
         </footer>
       </div>
