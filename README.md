@@ -3,52 +3,12 @@
    >A jQuery grid system designed so that each cell can be "split" either horizontally or vertically. Useful for creating interactive/dynamic grids from static HTML, JSON objects or user interaction.
 
 --------
-<<<<<<< HEAD
 ## Demo
 
 * We only have the one example but its fairly comprehensive, see [github.io](https://assetinfo.github.io/jquery.gridSplit) or [jsfiddle](http://jsfiddle.net/graydixon/jo42v1q9/). For more details check our [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) and [jasmine test's](https://github.com/assetinfo/jquery.gridSplit/tree/master/spec).
 <br/>
 <br/>
 <br/>
-=======
-
-First, download or clone this repo, then run 'bower install' and include the required packages in your page:
-
-```html
-<link rel="stylesheet" href="./src/css/jquery.gridsplit.css">
-<script src="./bower_components/jquery/dist/jquery.js"></script>
-<script src="./bower_components/jquery-ui/jquery-ui.js"></script>
-<script src="./dist/jquery.gridsplit.min.js"></script>
-```
-OR include the optimised versions in ./dist/ dir (you can build these yourself using grunt, the package.json and gruntfile we used are included):
-
-```html
-<link rel="stylesheet" href="./dist/jquery.gridsplit.optimised.css">
-<script src="./dist/jquery.gridsplit.optimised.js"></script>
-```
-
-Alternatively, include the plugin using [AMD](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) with a config similar to:
-
-```html
-require.config({
-  "deps": ["main"],
-  "paths": {
-    "jquery": "bower_components/jquery/dist/jquery",
-    "core": "bower_components/jquery-ui/ui/core",
-    "mouse": "bower_components/jquery-ui/ui/mouse",
-    "widget": "bower_components/jquery-ui/ui/widget",
-    "jqueryui-draggable": "bower_components/jquery-ui/ui/draggable",
-    "gridsplit": "src/js/jquery.gridsplit"
-  },
-  "shim": {
-    "jquery": { "exports": "$" },
-    "jqueryui-draggable": ["jquery", "core", "mouse", "widget"]
-});
-```
-## Demo
-
-We only have the one example but its fairly comprehensive, see [github.io](https://assetinfo.github.io/jquery.gridSplit) or [jsfiddle](http://jsfiddle.net/graydixon/jo42v1q9/). For more details check our [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) and [jasmine test's](https://github.com/assetinfo/jquery.gridSplit/tree/master/spec).
->>>>>>> a7bddb9b97173b7cabc7e86177cf2ec6b02e6d47
 
 ## Documentation
 
@@ -224,7 +184,6 @@ We only have the one example but its fairly comprehensive, see [github.io](https
 * To destroy the grid and any reference it adds:
 <br/>
 
-<<<<<<< HEAD
   ```javascript
   grid3 = grid3.destroy(); // this will not remove the element, but will empty it
   ```
@@ -245,9 +204,3 @@ We only have the one example but its fairly comprehensive, see [github.io](https
 ## Contact us
 * [Contact us](mailto:gdixon@assetinfo.co.uk?Subject=jQuery.gridSplit%20Enquiry...) if you need any further information or guidance (email: gdixon@assetinfo.co.uk).
 --------
-=======
-  ```html
-    grid3 = grid3.destroy(); // this does not remove the element
-  ```  
---------
->>>>>>> a7bddb9b97173b7cabc7e86177cf2ec6b02e6d47
