@@ -10,6 +10,54 @@
         <div id="grid1" class="grid"></div>
         <div id="grid2" class="grid"></div>
         <div id="grid3" class="grid"></div>
+        <div id="grid4" class="grid">
+            <div class="innerGrid" >
+                <div class="gridColumn">
+                    <div class="gridCell">
+                        <div class="fillCell"><a> Test1 </a></div>
+                    </div>
+                    <div class="gridCell">
+                        <div class="fillCell"><a> Test2 </a></div>
+                    </div>
+                </div>
+                <div class="gridColumn">
+                    <div class="gridCell">
+                         <div class="gridColumn">
+                              <div class="gridCell">
+                                  <div class="gridColumn">
+                                      <div class="gridCell" >
+                                          <div class="fillCell"><a> Test3 </a></div>
+                                      </div>
+                                  </div>
+                                  <div class="gridColumn">
+                                      <div class="gridCell" >
+                                          <div class="fillCell"><a> Test4 </a></div>
+                                      </div>
+                                  </div>
+                                  <div class="gridColumn">
+                                      <div class="gridCell" >
+                                            <div class="gridColumn">
+                                                <div class="gridCell">
+                                                    <div class="fillCell"><a> Test5 </a></div>
+                                                </div>
+                                                <div class="gridCell">
+                                                    <div class="fillCell"><a> Test6 </a></div>
+                                                </div>
+                                            </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="gridCell">
+                                  <div class="fillCell"><a> Test7 </a></div>
+                              </div>
+                          </div>
+                    </div>
+                    <div class="gridCell">
+                        <div class="fillCell"><a> Test8 </a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script type='text/javascript'>
             $(function() {
                               
@@ -44,9 +92,7 @@
                 // more sucinct version of whats above...
                 // chaining the result of each task (always a gridsplit instance)
                 // using .parent() to move to the grid above
-
                 /* 
-
                 var grid1 = window.grid1 = $('#grid').gridSplit()
                     .splitAt(0).splitAt(0, 0, true).splitAt(0, 0).splitAt(0, 0)
                     .splitAt(1, 0).splitAt(1, 0).splitAt(1).splitAt(2, 0)
@@ -56,21 +102,24 @@
                     .splitAt(0, 0).splitAt(1).splitAt(1, 0).splitAt(1, 1, true)
                     .splitAt(0, 0).parent().splitAt(5, 1, true)
                     .splitAt(1, 0).parent();
-
                 */
 
                 // make the same grid using the output from grid1.returnMeta()
                 var grid2 = window.grid2 = $('#grid2').gridSplit({
                     data: JSON.parse(grid1.returnMeta())
                 });
-
-                // this grid is built using the returned meta from above but as static object
-                var grid3 = window.grid13 = $('#grid3').gridSplit({
+                
+                // this grid is built using the returned meta from above but as a static object
+                var grid3 = window.grid3 = $('#grid3').gridSplit({
                     data: {"0":{"0":{"0":{"0":{"0":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"50%"}},"1":{"0":{},"c":{"w":"50%"}},"h":"33.333333333333336%"},"1":{"h":"33.333333333333336%"},"2":{"h":"33.333333333333336%"},"c":{"w":"50%"}},"1":{"0":{"h":"33.333333333333336%"},"1":{"h":"33.333333333333336%"},"2":{"h":"33.333333333333336%"},"c":{"w":"25%"}},"2":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"25%"}},"h":"33.333333333333336%"},"1":{"h":"33.333333333333336%"},"2":{"h":"33.333333333333336%"},"c":{"w":"12.5%"}},"1":{"0":{"h":"50%"},"1":{"0":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"50%"}},"1":{"0":{},"c":{"w":"50%"}},"h":"50%"},"c":{"w":"6.25%"}},"2":{"0":{},"c":{"w":"6.25%"}},"3":{"0":{},"c":{"w":"25%"}},"4":{"0":{"h":"25%"},"1":{"h":"25%"},"2":{"h":"25%"},"3":{"h":"25%"},"c":{"w":"25%"}},"5":{"0":{"h":"50%"},"1":{"0":{"0":{"h":"100%"},"c":{"w":"50%"}},"1":{"0":{"h":"50%"},"1":{"h":"50%"},"c":{"w":"50%"}},"h":"50%"},"c":{"w":"25%"}}}
+                });
+                
+                // make a grid based on the content of its div
+                $('#grid4').gridSplit({
+                    'useContent': true
                 });
 
                 /*
-
                 // Two different 4 cell grids just for reference
                 // HTML.
                 // <div id="grid" class="grid"></div>
@@ -92,7 +141,6 @@
                 grid2.splitAt(0);
                 grid2.splitAt(0, 0);
                 grid2.splitAt(1, 0);
-
                 */
             });
         </script>

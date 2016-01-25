@@ -1,6 +1,6 @@
 feature("Testing delAt | delColumn | delCell", function() {
     describe("Delete from a simple grid", function() {
-        window.a = '';
+        var a;
         afterEach(function() {
             a = $('#grid').gridSplit().destroy();
         });
