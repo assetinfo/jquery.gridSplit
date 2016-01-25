@@ -26,22 +26,28 @@
 2. Navigate to the directory containing jquery.gridSplit and run...
 
    ```
+   $ npm install
+   ```
+
+3. followed by...
+
+   ```
    $ bower install
    ```
 
-3. To build run...
+4. Then to build run...
 
    ```
    $ grunt
    ```
 
-4. To test run...
+5. And to test run...
 
    ```
    $ grunt test
    ```
 
-5. To use in your own  project...
+6. To use in your own project...
    
    * include dependencies and minified version of jquery.gridSplit.js
 
@@ -52,14 +58,14 @@
    <script src="./dist/jquery.gridsplit.min.js"></script>
    ```
    
-   * OR include the optimised versions from ./dist/:
+   * or include the optimised versions from ./dist/:
 
    ```html
    <link rel="stylesheet" href="./dist/jquery.gridsplit.optimised.css"/>
    <script src="./dist/jquery.gridsplit.optimised.js"></script>
    ```
 
-   * Alternatively, require jquery.gridSplit using [AMD](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) with the following in your config file...
+   * alternatively, [require](http://requirejs.org/) jquery.gridSplit in a [module](https://github.com/assetinfo/jquery.gridSplit/blob/master/main.js) with the following in your config file...
 
    ```javascript
    require.config({
@@ -128,7 +134,7 @@
     ```javascript
     var grid = $('#grid').gridSplit({'splitMethodV':''});
     ```
-        * for more options see the [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html).
+* for more options see the [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html).
     
 <br/>
 ## Manipulating a grid
@@ -203,4 +209,5 @@
 
 ## Contact us
 * [Contact us](mailto:gdixon@assetinfo.co.uk?Subject=jQuery.gridSplit%20Enquiry...) if you need any further information or guidance (email: gdixon@assetinfo.co.uk).
+
 --------
