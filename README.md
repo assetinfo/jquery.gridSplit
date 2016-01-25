@@ -103,12 +103,12 @@
     ```html
     <div id="grid2" class="grid">
         <div class="innerGrid" >
-            <div class="gridColumn" gs-width="100%" >
+            <div class="gridColumn" gs-width="100%">
                 <div class="gridCell" gs-height="50%">
-                    <div class="fillCell"><a> Test1 </a></div>
+                    <div class="fillCell"><a>Test1</a></div>
                 </div>
                 <div class="gridCell" gs-height="50%">
-                    <div class="fillCell"><a> Test2 </a></div>
+                    <div class="fillCell"><a>Test2</a></div>
                 </div>
             </div>
         </div>
@@ -209,5 +209,6 @@
 
 ## Contact us
 * [Contact us](mailto:gdixon@assetinfo.co.uk?Subject=jQuery.gridSplit%20Enquiry...) if you need any further information or guidance (email: gdixon@assetinfo.co.uk).
-
---------
+<br/>
+<br/>
+<br/>

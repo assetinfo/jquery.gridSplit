@@ -32,7 +32,7 @@ require(['gridsplit'], function(Gridsplit){
     // chaining the result of each task (always a gridsplit instance)
     // using .parent() to move to the grid above
     /* 
-    var grid1 = window.grid1 = $('#grid').gridSplit()
+    var grid1 = window.grid1 = $('#grid1').gridSplit()
         .splitAt(0).splitAt(0, 0, true).splitAt(0, 0).splitAt(0, 0)
         .splitAt(1, 0).splitAt(1, 0).splitAt(1).splitAt(2, 0)
         .splitAt(0, 0, true).splitAt(0, 0).parent().parent()
