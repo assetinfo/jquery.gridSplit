@@ -1,8 +1,9 @@
-# [jquery.gridSplit](https://github.com/assetinfo/jquery.gridSplit)         [![Build Status](https://travis-ci.org/assetinfo/jquery.gridSplit.png)](https://travis-ci.org/assetinfo/jquery.gridSplit)
+# [jQuery.gridSplit](https://github.com/assetinfo/jquery.gridSplit)         [![Build Status](https://travis-ci.org/assetinfo/jquery.gridSplit.png)](https://travis-ci.org/assetinfo/jquery.gridSplit)
 
    >A jQuery grid system designed so that each cell can be "split" either horizontally or vertically. Useful for creating interactive/dynamic grids from static HTML, JSON objects or user interaction.
 
 --------
+<br/>
 ## Demo
 
 * We only have the one example but its fairly comprehensive, see [github.io](https://assetinfo.github.io/jquery.gridSplit) or [jsfiddle](http://jsfiddle.net/graydixon/jo42v1q9/). For more details check our [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) and [jasmine test's](https://github.com/assetinfo/jquery.gridSplit/tree/master/spec).
@@ -12,7 +13,7 @@
 
 ## Documentation
 
-* [Jquery.gridSplit's documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) has been generated using [jsDocs 3.2.2](https://github.com/jsdoc3/jsdoc)
+* [jQuery.gridSplit's documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) has been generated using [jsDocs 3.2.2](https://github.com/jsdoc3/jsdoc)
 <br/>
 <br/>
 <br/>
@@ -29,7 +30,7 @@
    $ npm install
    ```
 
-3. followed by...
+3. Followed by...
 
    ```
    $ bower install
@@ -122,15 +123,15 @@
 * You can also set other options and events at initialisation...
 <br/>
 
-    * Disable 'resizable' functionality...
+    * disable 'resizable' functionality...
     ```javascript
     var grid = $('#grid').gridSplit({'resizable':false});
     ```
-    * Split vertically by halfing column...
+    * split vertically by halfing column...
     ```javascript
     var grid = $('#grid').gridSplit({'splitMethodV':'half'});
     ```
-    * Split vertically by evenly distributing the columns widths...
+    * split vertically by evenly distributing the columns widths...
     ```javascript
     var grid = $('#grid').gridSplit({'splitMethodV':''});
     ```
