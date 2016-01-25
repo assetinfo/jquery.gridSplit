@@ -128,7 +128,7 @@
     ```javascript
     var grid = $('#grid').gridSplit({'splitMethodV':''});
     ```
-        * for more options see the [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html).
+* for more options see the [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html).
     
 <br/>
 ## Manipulating a grid
