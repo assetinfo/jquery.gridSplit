@@ -194,6 +194,7 @@
   grid3 = grid3.destroy(); // this will not remove the element, but will empty it
   ```
 
+<br/>
 ## License
   * [Licensed](https://github.com/assetinfo/jquery.gridSplit/blob/master/LICENSE) under the MIT License (MIT).
 <br/>
