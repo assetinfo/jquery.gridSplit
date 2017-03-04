@@ -447,12 +447,12 @@
             var i = arr.length, total = 0, target = 100;
             for (min = 0; i--; ) min = 0 == vh ? this.settings.vertMin : this.settings.horizMin, 
             arr[i] < min && (arr[i] = min), total += arr[i];
-            for (x = 0; x < arr.length; x++) arr[x] = parseFloat(target / total * arr[x]);
+            for (x = 0; x < arr.length; x++) arr[x] = target / total * arr[x];
             return arr;
         }, grid.forcePerWidth = function(equal) {
             var wids = [], oThis = this;
             if (void 0 === equal || 0 == equal) $.each(this.gridsColumns, function(key, col) {
-                var width = parseFloat(oThis.perOfWidth($(col).width()));
+                var width = Math.round(parseFloat(oThis.perOfWidth($(col).width())));
                 wids.push(width);
             }); else {
                 var countColumns = oThis.countKeys(this.gridCells), ret = parseFloat(100 / countColumns) + "%";

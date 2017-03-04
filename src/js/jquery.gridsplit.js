@@ -1401,7 +1401,7 @@
             }
             // each arr[x] needs to be a real percent
             for (x = 0; x < arr.length; x++) {
-                arr[x] = parseFloat((target / total) * arr[x]);
+                arr[x] = (target / total) * arr[x];
             }
             return arr;
         }
@@ -1418,7 +1418,7 @@
             var oThis = this;
             if(typeof equal == "undefined" || equal == false) {
                 $.each(this.gridsColumns, function(key, col) {
-                    var width = parseFloat(oThis.perOfWidth($(col).width()));
+                    var width = Math.round(parseFloat(oThis.perOfWidth($(col).width())));
                     wids.push(width);
                 });
             } else {

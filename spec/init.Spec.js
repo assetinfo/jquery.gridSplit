@@ -12,9 +12,10 @@ feature("Testing initialisation", function() {
     describe("Initialise a static grid", function() {
         var a;
         it("appending #static and running .gridsplit({'useContent': true}) on it", function() {
-            $('body').append('<div id="static" class="grid"><div class="innerGrid" ><div class="gridColumn"><div class="gridCell"><div class="fillCell"><a> Test1 </a></div></div><div class="gridCell"><div class="fillCell"><a> Test2 </a></div></div></div></div></div>');
+            $('body').append('<div id="static" class="grid" style="height:100px; width:100px;"><div class="innerGrid" ><div class="gridColumn"><div class="gridCell"><div class="fillCell"><a> Test1 </a></div></div><div class="gridCell"><div class="fillCell"><a> Test2 </a></div></div></div></div></div>');
+            // initialise a grid from its content
             a = $('#static').gridSplit({'useContent': true});
-            //init is a function if a is a grid.
+            // ensure the grid had its sizes calculated properly
             var lenGrid = JSON.parse(a.returnStructure())[0].length;
             var gsWidth = JSON.parse(a.returnMeta())[0]['c']['w'];
             var gsHeight = JSON.parse(a.returnMeta())[0][0]['h'];
