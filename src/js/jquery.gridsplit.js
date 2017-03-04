@@ -1418,7 +1418,7 @@
             var oThis = this;
             if(typeof equal == "undefined" || equal == false) {
                 $.each(this.gridsColumns, function(key, col) {
-                    var width = Math.round(parseFloat(oThis.perOfWidth($(col).width())));
+                    var width = parseFloat(oThis.perOfWidth($(col).width()));
                     wids.push(width);
                 });
             } else {

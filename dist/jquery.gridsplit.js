@@ -452,7 +452,7 @@
         }, grid.forcePerWidth = function(equal) {
             var wids = [], oThis = this;
             if (void 0 === equal || 0 == equal) $.each(this.gridsColumns, function(key, col) {
-                var width = Math.round(parseFloat(oThis.perOfWidth($(col).width())));
+                var width = parseFloat(oThis.perOfWidth($(col).width()));
                 wids.push(width);
             }); else {
                 var countColumns = oThis.countKeys(this.gridCells), ret = parseFloat(100 / countColumns) + "%";
