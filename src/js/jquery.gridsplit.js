@@ -1253,8 +1253,7 @@
          * @memberOf gridSplit
          */
         grid.perOfWidth = function(pixels) {
-            var per = Math.round(((100/this.$el.outerWidth())*pixels)*15).toFixed(15)/15;
-            return per + '%';
+            return per = Math.round(((100/this.$el.outerWidth())*pixels)*15).toFixed(15)/15 + '%';
         }
         /**
          * this.perOfWidthEls()<br/><br/> creates even widths for each column in the grid
@@ -1289,8 +1288,7 @@
          * @memberOf gridSplit
          */
         grid.perOfHeight = function(col, pixels) {
-            var per = Math.round(((100/col.outerHeight())*pixels)*15).toFixed(15)/15;
-            return per + '%';
+            return Math.round(((100/col.outerHeight())*pixels)*15).toFixed(15)/15 + '%';
         }
         /**
          * this.perOfHeightEls()<br/><br/> creates even heights for each cell in the column
@@ -1415,26 +1413,27 @@
          * @memberOf gridSplit
          */
         grid.forcePerWidth = function(equal) {
-            var wids = [];
             var oThis = this;
+            var widths = [];
             if(typeof equal == "undefined" || equal == false) {
                 $.each(this.gridsColumns, function(key, col) {
-                    var width = parseFloat(oThis.perOfWidth($(col).outerWidth()));
-                    wids.push(width);
+                    widths.push(parseFloat(oThis.perOfWidth($(col).outerWidth())));
                 });
             } else {
                 var countColumns = oThis.countKeys(this.gridCells);
-                var ret = parseFloat(100 / countColumns) + '%';
+                var width = parseFloat(100 / countColumns) + '%';
                 $.each(this.gridCells, function(key, col) {
-                    wids.push(ret);
+                    widths.push(width);
                 });
             }
-            var wids = oThis.equalPers(wids, 0);
+            // make sure the widths are weighted percentages
+            widths = oThis.equalPers(widths, 0);
+            // apply the widths
             $.each(this.gridsColumns, function(key, col) {
                 $(col).css({
-                    'width': wids[key] + '%',
+                    'width': widths[key] + '%',
                 });
-                oThis.resizeColumn(key, (wids[key] + '%'));
+                oThis.resizeColumn(key, (widths[key] + '%'));
             });
             return oThis;
         }
@@ -1448,23 +1447,24 @@
          * @memberOf gridSplit
          */
         grid.forcePerHeight = function(x, equal) {
-            var heights = [];
             var oThis = this;
+            var heights = [];
             var col = this.gridsColumns[x];
             if (typeof col !== 'undefined') {
                 if(typeof equal == "undefined" || equal == false) {
                     $.each(oThis.gridsCells[x], function(y, cell) {
-                        var height = parseFloat(oThis.perOfHeight(col, $(cell).outerHeight()));
-                        heights.push(height);
+                        heights.push(parseFloat(oThis.perOfHeight(col, $(cell).outerHeight())));
                     });
                 } else {
                     var countKeys = oThis.countKeys(oThis.gridsCells[x]);
-                    var ret = 100 / countKeys
+                    var height = 100 / countKeys
                     $.each(oThis.gridsCells[x], function(y, cell) {
-                        heights.push(ret);
+                        heights.push(height);
                     });
                 }
-                var heights = oThis.equalPers(heights, 1);
+                // make sure the widths are weighted percentages
+                heights = oThis.equalPers(heights, 1);
+                // apply the heights
                 $.each(oThis.gridsCells[x], function(y, cell) {
                     $(cell).css({
                         'height': heights[y] + '%',
