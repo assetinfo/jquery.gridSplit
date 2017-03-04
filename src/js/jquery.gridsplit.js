@@ -1253,7 +1253,7 @@
          * @memberOf gridSplit
          */
         grid.perOfWidth = function(pixels) {
-            var per = ((100 / (this.$el.outerWidth())) * pixels);
+            var per = Math.round(((100/this.$el.outerWidth())*pixels)*15).toFixed(15)/15;
             return per + '%';
         }
         /**
@@ -1289,7 +1289,7 @@
          * @memberOf gridSplit
          */
         grid.perOfHeight = function(col, pixels) {
-            var per = ((100 / col.outerHeight()) * pixels);
+            var per = Math.round(((100/col.outerHeight())*pixels)*15).toFixed(15)/15;
             return per + '%';
         }
         /**
@@ -1419,7 +1419,7 @@
             var oThis = this;
             if(typeof equal == "undefined" || equal == false) {
                 $.each(this.gridsColumns, function(key, col) {
-                    var width = Math.round((100/oThis.$el.outerWidth())*$(col).outerWidth()*10).toFixed(10)/10;
+                    var width = parseFloat(oThis.perOfWidth($(col).outerWidth()));
                     wids.push(width);
                 });
             } else {
@@ -1454,7 +1454,7 @@
             if (typeof col !== 'undefined') {
                 if(typeof equal == "undefined" || equal == false) {
                     $.each(oThis.gridsCells[x], function(y, cell) {
-                        var height = Math.round((100/col.outerHeight())*$(cell).outerHeight()*10).toFixed(10)/10;
+                        var height = parseFloat(oThis.perOfHeight(col, $(cell).outerHeight()));
                         heights.push(height);
                     });
                 } else {

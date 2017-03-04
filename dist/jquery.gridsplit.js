@@ -408,7 +408,7 @@
             }
             return ret;
         }, grid.perOfWidth = function(pixels) {
-            return 100 / this.$el.outerWidth() * pixels + "%";
+            return Math.round(100 / this.$el.outerWidth() * pixels * 15).toFixed(15) / 15 + "%";
         }, grid.perOfWidthEls = function() {
             var oThis = this, no = oThis.gridsColumns.length, per = 100 / no + "%";
             return $.each(oThis.gridsColumns, function(x, column) {
@@ -418,7 +418,7 @@
                 }), oThis.resizeColumn(x, per);
             }), per;
         }, grid.perOfHeight = function(col, pixels) {
-            return 100 / col.outerHeight() * pixels + "%";
+            return Math.round(100 / col.outerHeight() * pixels * 15).toFixed(15) / 15 + "%";
         }, grid.perOfHeightEls = function(x) {
             var oThis = this, no = oThis.gridsCells[x].length, per = 100 / no + "%";
             return $.each(oThis.gridsCells[x], function(y, cell) {
@@ -452,7 +452,7 @@
         }, grid.forcePerWidth = function(equal) {
             var wids = [], oThis = this;
             if (void 0 === equal || 0 == equal) $.each(this.gridsColumns, function(key, col) {
-                var width = Math.round(100 / oThis.$el.outerWidth() * $(col).outerWidth() * 10).toFixed(10) / 10;
+                var width = parseFloat(oThis.perOfWidth($(col).outerWidth()));
                 wids.push(width);
             }); else {
                 var countColumns = oThis.countKeys(this.gridCells), ret = parseFloat(100 / countColumns) + "%";
@@ -470,7 +470,7 @@
             var heights = [], oThis = this, col = this.gridsColumns[x];
             if (void 0 !== col) {
                 if (void 0 === equal || 0 == equal) $.each(oThis.gridsCells[x], function(y, cell) {
-                    var height = Math.round(100 / col.outerHeight() * $(cell).outerHeight() * 10).toFixed(10) / 10;
+                    var height = parseFloat(oThis.perOfHeight(col, $(cell).outerHeight()));
                     heights.push(height);
                 }); else {
                     var countKeys = oThis.countKeys(oThis.gridsCells[x]), ret = 100 / countKeys;
