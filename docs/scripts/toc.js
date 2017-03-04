@@ -29,7 +29,7 @@ $.fn.toc = function(options) {
       clearTimeout(timeout);
     }
     timeout = setTimeout(function() {
-      var top = $(window).scrollTop()+120,
+      var top = $(window).scrollTop(),
         highlighted;
       for (var i = 0, c = headingOffsets.length; i < c; i++) {
         if (headingOffsets[i] >= top) {
