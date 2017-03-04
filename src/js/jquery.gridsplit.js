@@ -1126,13 +1126,13 @@
                                     newBottom = $(this).offset().top,
                                     newHeight = oThis.gridsCells[x][(y - 1)].outerHeight() + moved; // correct the height on the element being altered
                                 // get the real % height using the newHeight against the gridHeight
-                                var rHeight = oThis.perOfHeight(newHeight);
+                                var rHeight = oThis.perOfHeight(oThis.gridsColumns[x], newHeight);
                                 // set the new height to the elememt
                                 oThis.resizeCell(x, (y - 1), rHeight);
                                 oThis.gridsCells[x][(y - 1)].css('height', rHeight);
                                 // then do similar (newHeight - moved) to the box above the rail, all others should go un-altertered
                                 newHeight = oThis.gridsCells[x][y].outerHeight() - moved;
-                                rHeight = oThis.perOfHeight(newHeight);
+                                rHeight = oThis.perOfHeight(oThis.gridsColumns[x], newHeight);
                                 oThis.resizeCell(x, y, rHeight);
                                 oThis.gridsCells[x][y].css('height', rHeight);
                                 // put the rail back to auto default position
@@ -1253,7 +1253,7 @@
          * @memberOf gridSplit
          */
         grid.perOfWidth = function(pixels) {
-            var per = ((100 / (this.$el.width())) * pixels);
+            var per = ((100 / (this.$el.outerWidth())) * pixels);
             return per + '%';
         }
         /**
@@ -1283,12 +1283,13 @@
          * this.perOfHeight()<br/><br/> returns the percentage that pixels represents of the elHeight.outerHeight()
          *
          * @function gridSplit.perOfHeight
+         * @param {object} col column in which the measured cell resides
          * @param {int} pixels elements height
          * @return {string} per
          * @memberOf gridSplit
          */
-        grid.perOfHeight = function(pixels) {
-            var per = ((100 / this.$el.outerHeight()) * pixels);
+        grid.perOfHeight = function(col, pixels) {
+            var per = ((100 / col.outerHeight()) * pixels);
             return per + '%';
         }
         /**
@@ -1406,7 +1407,7 @@
             return arr;
         }
         /**
-         * this.forcePerWidth()<br/><br/> create percentage widths for all columns in grid
+         * this.forcePerWidth()<br/><br/> create percentage widths for all columns in grid based on their pixel coverage or based on average spread
          *
          * @function gridSplit.forcePerWidth
          * @param {bool} equal should each columns width be equal values
@@ -1418,7 +1419,7 @@
             var oThis = this;
             if(typeof equal == "undefined" || equal == false) {
                 $.each(this.gridsColumns, function(key, col) {
-                    var width = parseFloat(oThis.perOfWidth($(col).width()));
+                    var width = Math.round((100/oThis.$el.outerWidth())*$(col).outerWidth()*10).toFixed(10)/10;
                     wids.push(width);
                 });
             } else {
@@ -1438,7 +1439,7 @@
             return oThis;
         }
         /**
-         * this.forcePerHeight()<br/><br/> create percentage heights for all cells in column
+         * this.forcePerHeight()<br/><br/> create percentage heights for all cells in column based on their pixel coverage or based on average spread
          *
          * @function gridSplit.forcePerHeight
          * @param {int} x column being altered
@@ -1453,7 +1454,7 @@
             if (typeof col !== 'undefined') {
                 if(typeof equal == "undefined" || equal == false) {
                     $.each(oThis.gridsCells[x], function(y, cell) {
-                        var height = Math.round(parseFloat(oThis.perOfHeight($(cell).outerHeight())));
+                        var height = Math.round((100/col.outerHeight())*$(cell).outerHeight()*10).toFixed(10)/10;
                         heights.push(height);
                     });
                 } else {
