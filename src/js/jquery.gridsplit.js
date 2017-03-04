@@ -1,4 +1,4 @@
-/*! 
+/*!
  * Script: jquery.gridSplit.min.js - v.0.0.1
  * Copyright: (c) 2015 Graham Dixon (assetinfo(MML))
  * Licensed: MIT
@@ -202,11 +202,19 @@
                 // add grid data and set meta
                 this.buildGrid(this.settings.data);
                 this.reattachContent(this.settings.backupCells);
+                // ensure the columns widths have been calculated proportionately
+                this.forcePerWidth();
+                // iterating collection to find cells
+                $.each(this.settings.data, function(x, column) {
+                    if (!isNaN(x)) {
+                        // ensure the cells heights have been calculated proportionately
+                        oThis.forcePerHeight(x);
+                    }
+                });
             }
-            if (this.settings.useContent === true && this.missingWHs === true) {
-                this.evenAll();
-            }
+            // ensure the inner element is showing (if not already visible)
             this.elInner.show();
+
             return this;
         }
 
@@ -222,6 +230,8 @@
         grid.buildGrid = function(data, undefined) {
             // use data to build grid
             var oThis = this;
+            // show inner before build to correctly place widths/heights
+            oThis.elInner.show();
             // each column
             oThis.buildingGrid = true;
             // traverse the object and build the structure
@@ -543,7 +553,7 @@
          * @memberOf gridSplit
          */
         grid.splitAt = function(x, y, vert) {
-            // split the column([x] - vertically)[ .splitAt(0)] 
+            // split the column([x] - vertically)[ .splitAt(0)]
             // split the cell ([x][y] - horizontally)[ .splitAt(0,0)]
             // split the cell ([x][y] - vertically)[ .splitAt(0,0,true)]
             var oThis = this;
@@ -1054,7 +1064,7 @@
                                 var rWidth = oThis.perOfWidth(pixels);
                                 // set the widths;
                                 oThis.gridsColumns[$(this).data('x') - 1].css('width', rWidth);
-                                // take (pixels / no.of nextAll columns) away from nextAll total columns .width(), and convert to % 
+                                // take (pixels / no.of nextAll columns) away from nextAll total columns .width(), and convert to %
                                 var rem = oThis.gridsColumns.length - ($(this).data('x'));
                                 var takePer = (pixels - rRail.origWidth) / rem;
                                 if (rem > 0) {
@@ -1165,7 +1175,7 @@
          * @memberOf gridSplit
          */
         grid.addControls = function(x, y) {
-            // add a control set.   
+            // add a control set.
             var oThis = this;
             var to = (typeof y !== "undefined" ? oThis.gridsCells[x][y] : oThis.gridsColumns[x]);
             // est type - add rails if resizable && add click to cell
@@ -1253,7 +1263,7 @@
          * @memberOf gridSplit
          */
         grid.perOfWidthEls = function() {
-            // grid is a gridSplit instance 
+            // grid is a gridSplit instance
             // find all columns in grid
             var oThis = this,
                 no = oThis.gridsColumns.length,
@@ -1390,7 +1400,7 @@
             }
             // each arr[x] needs to be a real percent
             for (x = 0; x < arr.length; x++) {
-                arr[x] = (target / total) * arr[x];
+                arr[x] = parseFloat((target / total) * arr[x]);
             }
             return arr;
         }
@@ -1398,16 +1408,25 @@
          * this.forcePerWidth()<br/><br/> create percentage widths for all columns in grid
          *
          * @function gridSplit.forcePerWidth
+         * @param {bool} equal should each columns width be equal values
          * @return {object} oThis grid instance
          * @memberOf gridSplit
          */
-        grid.forcePerWidth = function() {
+        grid.forcePerWidth = function(equal) {
             var wids = [];
             var oThis = this;
-            $.each(this.gridsColumns, function(key, col) {
-                var width = parseFloat(oThis.perOfWidth($(col).width()));
-                wids.push(width);
-            });
+            if(typeof equal == "undefined" || equal == false) {
+                $.each(this.gridsColumns, function(key, col) {
+                    var width = parseFloat(oThis.perOfWidth($(col).width()));
+                    wids.push(width);
+                });
+            } else {
+                var countColumns = oThis.countKeys(this.gridCells);
+                var ret = parseFloat(100 / countColumns) + '%';
+                $.each(this.gridCells, function(key, col) {
+                    wids.push(ret);
+                });
+            }
             var wids = oThis.equalPers(wids, 0);
             $.each(this.gridsColumns, function(key, col) {
                 $(col).css({
@@ -1418,22 +1437,31 @@
             return oThis;
         }
         /**
-         * this.forcePerHeight()<br/><br/> create percentage heights for all cells in column 
+         * this.forcePerHeight()<br/><br/> create percentage heights for all cells in column
          *
          * @function gridSplit.forcePerHeight
          * @param {int} x column being altered
+         * @param {bool} equal should each cells height be equal values
          * @return {object} oThis grid instance
          * @memberOf gridSplit
          */
-        grid.forcePerHeight = function(x) {
+        grid.forcePerHeight = function(x, equal) {
             var heights = [];
             var oThis = this;
             var col = this.gridsColumns[x];
             if (typeof col !== 'undefined') {
-                $.each(oThis.gridsCells[x], function(y, cell) {
-                    var height = parseFloat(oThis.perOfHeight($(cell).outerHeight()));
-                    heights.push(height);
-                });
+                if(typeof equal == "undefined" || equal == false) {
+                    $.each(oThis.gridsCells[x], function(y, cell) {
+                        var height = Math.round(parseFloat(oThis.perOfHeight($(cell).outerHeight())));
+                        heights.push(height);
+                    });
+                } else {
+                    var countKeys = oThis.countKeys(oThis.gridsCells[x]);
+                    var ret = 100 / countKeys
+                    $.each(oThis.gridsCells[x], function(y, cell) {
+                        heights.push(ret);
+                    });
+                }
                 var heights = oThis.equalPers(heights, 1);
                 $.each(oThis.gridsCells[x], function(y, cell) {
                     $(cell).css({
@@ -1652,7 +1680,7 @@
          * @memberOf gridSplit
          */
         grid.returnLongXY = function(x, y) {
-            // start on cell and work outwards 
+            // start on cell and work outwards
             // string is built in reverse order - so needs to be reversed
             return this.returnLXY(x, y).split('').reverse().join('').replace(/(^[-\s]+)|([-\s]+$)/g, '');
         }
