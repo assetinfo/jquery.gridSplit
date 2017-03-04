@@ -206,6 +206,7 @@
                 this.forcePerWidth();
                 // iterating collection to find cells
                 $.each(this.settings.data, function(x, column) {
+                    // only want deal with actual columns
                     if (!isNaN(x)) {
                         // ensure the cells heights have been calculated proportionately
                         oThis.forcePerHeight(x);
