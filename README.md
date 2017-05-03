@@ -3,21 +3,11 @@
    >A jQuery grid system designed so that each cell can be "split" either horizontally or vertically. Useful for creating interactive/dynamic grids from static HTML, JSON objects or user interaction.
 
 --------
-<br/>
+
 ## Demo
-
 * We only have the one example but its fairly comprehensive, see [github.io](https://assetinfo.github.io/jquery.gridSplit) or [jsfiddle](http://jsfiddle.net/graydixon/jo42v1q9/). For more details check our [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) and [jasmine test's](https://github.com/assetinfo/jquery.gridSplit/tree/master/spec).
-<br/>
-<br/>
-<br/>
-
 ## Documentation
-
 * [jQuery.gridSplit's documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) has been generated using [jsDocs 3.2.2](https://github.com/jsdoc3/jsdoc)
-<br/>
-<br/>
-<br/>
-
 ## Installing, building and testing
 1. [Download](https://github.com/assetinfo/jquery.gridSplit/archive/master.zip) or clone this repo...
    ```
@@ -85,7 +75,6 @@
        }
    });
    ```
-<br/>
 
 ## Initialising a grid
 
@@ -137,7 +126,6 @@
     ```
 * for more options see the [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/$.fn.gridSplit.html).
     
-<br/>
 ## Manipulating a grid
 
 
@@ -195,22 +183,17 @@
   grid3 = grid3.destroy(); // this will not remove the element, but will empty it
   ```
 
-<br/>
 ## License
   * [Licensed](https://github.com/assetinfo/jquery.gridSplit/blob/master/LICENSE) under the MIT License (MIT).
-<br/>
-<br/>
 <br/>
 
 ## Acknowledgements 
 * [Hoxton-one - Golden-layout](https://github.com/hoxton-one/golden-layout) - "The ultimate Javascript layout manager."
   * This library has similar functionality, but it's more fleshed out than jquery.gridSplit. We didn't see golden-layout until we had just about finished gridSplit, we think we have the edge on simplicity, but having not done a thorough comparison: we wouldn't want to discourage you from trying it. [Examples](https://golden-layout.com/examples) can be found on their [homepage](https://golden-layout.com/).
 <br/>
-<br/>
-<br/>
 
 ## Contact us
 * [Contact us](mailto:gdixon@assetinfo.co.uk?Subject=jQuery.gridSplit%20Enquiry...) if you need any further information or guidance (email: gdixon@assetinfo.co.uk).
 <br/>
-<br/>
-<br/>
+---
+---
