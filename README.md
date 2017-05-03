@@ -5,10 +5,15 @@
 --------
 
 ## Demo
+
 * We only have the one example but its fairly comprehensive, see [github.io](https://assetinfo.github.io/jquery.gridSplit) or [jsfiddle](http://jsfiddle.net/graydixon/jo42v1q9/). For more details check our [documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) and [jasmine test's](https://github.com/assetinfo/jquery.gridSplit/tree/master/spec).
+
 ## Documentation
+
 * [jQuery.gridSplit's documentation](https://assetinfo.github.io/jquery.gridSplit/docs/) has been generated using [jsDocs 3.2.2](https://github.com/jsdoc3/jsdoc)
+
 ## Installing, building and testing
+
 1. [Download](https://github.com/assetinfo/jquery.gridSplit/archive/master.zip) or clone this repo...
    ```
    $ git clone git@github.com:assetinfo/jquery.gridSplit.git
@@ -48,7 +53,7 @@
    <script src="./bower_components/jquery-ui/jquery-ui.js"></script>
    <script src="./dist/jquery.gridsplit.min.js"></script>
    ```
-   
+ 
    * or include the optimised versions from ./dist/:
 
    ```html
@@ -110,7 +115,6 @@
     ```
   
 * You can also set other options and events at initialisation...
-<br/>
 
     * disable 'resizable' functionality...
     ```javascript
@@ -128,48 +132,40 @@
     
 ## Manipulating a grid
 
-
 * A grid can be split with x/y co-ordinates, where x=column and y=cell. 
   * Adding a column splits the focus column vertically (into 2 columns). 
   * Adding a cell splits the focus cell horizontally (adding 2 cells).
-<br/>
 
   ```javascript
   grid.splitAt(0).splitAt(1,0).splitAt(0).addColumn(1).addCell(0,0).splitAt(1,0);
   ```
 * Cells can also be deleted using x/y co-ordinates:
-<br/>
 
   ```javascript
   grid.delCell(1,0).delAt(0,0).delColumn(1).delAt(0);
   ``` 
 * Cells can be split into two columns by providing true as the 3rd param. This effectivaly adds a new grid with two columns into the cell, returning the new grid as the current grids context.
-<br/>
 
   ```javascript
   var grid2 = grid.splitAt(1,0,true);
   ``` 
 * Nearly all functions which manipulate the grid will return 'this' (the current grids context), so in order to chain commands without breaking, use this.parent() to move the context to the grids parent grid (the top grids.parent() will === grids):
-<br/>
 
   ```javascript
   var grid = grid.splitAt(1,0,true).parent().splitAt(1,0).splitAt(1,1,true).parent(); // grid is still #grids gridSplit instance
   ``` 
 * Grids can be rebuilt using JSON, the structure for which can be returned by calling:
-<br/>
 
   ```javascript
   var meta = grid.returnMeta(); // "{"0":{"c":{"w":"19%"}},"1":{"0":{"0":{"c":{"w":"50%"}},"1":{"c":{"w":"50%"}},"h":"50%"},"1":{"h":"50%"},"c":{"w":"81%"}}}"
   ``` 
 * The grid can be cloned by initialising a new grid with the parsed meta object being passed in as 'data':
-  <br/>
 
   ```javascript
   var grid3 = $('#grid-clone').gridSplit({data:JSON.parse(meta)});
   ``` 
 
 * The grids $elements can be accessed using grids.gridsCells:
-<br/>
 
   ```javascript
   var $el00 = grid3.gridsCells[0][0];
@@ -177,22 +173,22 @@
   ```
 
 * To destroy the grid and any reference it adds:
-<br/>
 
   ```javascript
   grid3 = grid3.destroy(); // this will not remove the element, but will empty it
   ```
 
 ## License
+
   * [Licensed](https://github.com/assetinfo/jquery.gridSplit/blob/master/LICENSE) under the MIT License (MIT).
-<br/>
 
 ## Acknowledgements 
+
 * [Hoxton-one - Golden-layout](https://github.com/hoxton-one/golden-layout) - "The ultimate Javascript layout manager."
   * This library has similar functionality, but it's more fleshed out than jquery.gridSplit. We didn't see golden-layout until we had just about finished gridSplit, we think we have the edge on simplicity, but having not done a thorough comparison: we wouldn't want to discourage you from trying it. [Examples](https://golden-layout.com/examples) can be found on their [homepage](https://golden-layout.com/).
-<br/>
 
 ## Contact us
+
 * [Contact us](mailto:gdixon@assetinfo.co.uk?Subject=jQuery.gridSplit%20Enquiry...) if you need any further information or guidance (email: gdixon@assetinfo.co.uk).
 <br/>
 ---
