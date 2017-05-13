@@ -133,7 +133,7 @@
 ## Manipulating a grid
 
 * A grid can be split with x/y co-ordinates, where x=column and y=cell. 
-  * Adding a column splits the focus column vertically (into 2 columns). 
+  * Adding a column splits the focus cell vertically (into 2 columns). 
   * Adding a cell splits the focus cell horizontally (adding 2 cells).
 
   ```javascript
