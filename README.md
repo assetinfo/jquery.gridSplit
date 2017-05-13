@@ -157,7 +157,7 @@
 * Grids can be rebuilt using JSON, the structure for which can be returned by calling:
 
   ```javascript
-  var meta = grid.returnMeta(); // "{"0":{"c":{"w":"19%"}},"1":{"0":{"0":{"c":{"w":"50%"}},"1":{"c":{"w":"50%"}},"h":"50%"},"1":{"h":"50%"},"c":{"w":"81%"}}}"
+  var meta = grid.returnMeta(); // "{"0":{"c":{"w":"20%"}},"1":{"0":{"0":{"c":{"w":"50%"}},"1":{"c":{"w":"50%"}},"h":"50%"},"1":{"h":"50%"},"c":{"w":"80%"}}}"
   ``` 
 * The grid can be cloned by initialising a new grid with the parsed meta object being passed in as 'data':
 
